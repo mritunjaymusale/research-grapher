@@ -1,2 +1,3 @@
+`The project is still under development`
 # research-grapher
-Generates a graph of connected research papers based on the citations and references present in the paper.
+The goal here is to provide references and citations in an arXiv paper in a GUI friendly node network for easier access as compared to manually going through each reference and searching it through the arXiv webpage.
