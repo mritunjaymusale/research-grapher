@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { MyGraph } from "./Graph";
+import { MyGraph } from "./MyGraph";
 export default class App extends Component {
   constructor(props) {
     super(props);
