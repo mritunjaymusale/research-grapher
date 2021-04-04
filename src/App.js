@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import { MyGraph } from "./MyGraph";
+import CustomNodeChart from "./CustomNodeChart";
+import "materialize-css/dist/css/materialize.css";
+import * as M from "materialize-css";
 export default class App extends Component {
-  componentDidMount() {}
+
+  componentDidMount() {
+    M.AutoInit()
+  }
   render() {
     return (
       <div>
-        <MyGraph />
+        <CustomNodeChart />
       </div>
     );
   }
