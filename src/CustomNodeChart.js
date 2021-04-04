@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import OrganizationChart from "@dabeng/react-orgchart";
-import MyNode from "./my-node";
+import MyNode from "./MyNode";
 
 export default class CustomNodeChart extends Component {
   constructor(props) {
