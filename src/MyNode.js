@@ -4,7 +4,7 @@ import { Button, CardPanel, Modal } from "react-materialize";
 export const MyNode = ({ nodeData }) => {
   const modalOptions = {
     dismissible: true,
-    endingTop: "10%",
+
     inDuration: 250,
     onCloseEnd: null,
     onCloseStart: null,
@@ -27,7 +27,6 @@ export const MyNode = ({ nodeData }) => {
   ];
   // TODO: mount API calls to modal buttons (collapse other nodes on the same level to avoid huge unnecessary graphs)
   // TODO: citationVelocity: 591,influentialCitationCount: 498 <--check these tags accordingly the card should have a diffrent color to avoid huge citation generation
-  // TODO: add semanticscholar url for links without arxivID or doi
   return (
     <Modal
       actions={modalActionButtons}
@@ -49,6 +48,18 @@ export const MyNode = ({ nodeData }) => {
 
 export const PaperDetails = (props) => {
   const nodeData = props.nodeData;
+  const showSemanticScholarLink =
+    !nodeData.doi && !nodeData.arxivId ? (
+      <a href={nodeData.url}>{nodeData.url}</a>
+    ) : (
+      "Unknown"
+    );
+  const showDOILink = nodeData.doi ? (
+    <a href={"https://doi.org/" + nodeData.doi}>{nodeData.doi}</a>
+  ) : (
+    "Unknown"
+  );
+
   return (
     <p>
       Authors : {nodeData.authors ? showAuthorNames(nodeData) : "Unknown"}
@@ -59,21 +70,9 @@ export const PaperDetails = (props) => {
       Venue : {nodeData.venue ? nodeData.venue : "Unknown"}
       <br />
       <h6>Links:</h6>
-      arXiv :{" "}
-      {nodeData.arxivId ? (
-        <a href={"https://arxiv.org/abs/" + nodeData.arxivId}>
-          {nodeData.arxivId}
-        </a>
-      ) : (
-        "Unknown"
-      )}
-      <br />
-      doi :{" "}
-      {nodeData.doi ? (
-        <a href={"https://doi.org/" + nodeData.doi}>{nodeData.doi}</a>
-      ) : (
-        "Unknown"
-      )}
+      <ShowArXivLink arxivId={nodeData.arxivId} />
+      <ShowDOILink doi={nodeData.doi} />
+      <ShowSemanticScholarLink url={nodeData.url} />
       {/* FOR DEBUGGING */}
       {/* <br/>
         {JSON.stringify(nodeData)} */}
@@ -81,6 +80,34 @@ export const PaperDetails = (props) => {
   );
 };
 
+function ShowArXivLink(props) {
+  if (props.arxivId) {
+    return (
+      <div>
+        arXiv :
+        <a href={"https://arxiv.org/abs/" + props.arxivId}>{props.arxivId}</a>
+      </div>
+    );
+  } else return null;
+}
+function ShowDOILink(props) {
+  if (props.doi) {
+    return (
+      <div>
+        doi :<a href={"https://doi.org/" + props.doi}>{props.doi}</a>
+      </div>
+    );
+  } else return null;
+}
+function ShowSemanticScholarLink(props) {
+  if (props.url) {
+    return (
+      <div>
+        Semanticscholar : <a href={props.url}>{props.url}</a>
+      </div>
+    );
+  } else return null;
+}
 function ShowAbstract(props) {
   if (props.abstract) return <div> Abstract : {props.abstract} </div>;
   else return null;
