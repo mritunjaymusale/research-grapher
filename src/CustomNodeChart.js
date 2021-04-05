@@ -1,54 +1,84 @@
 import React, { Component } from "react";
 import OrganizationChart from "@dabeng/react-orgchart";
 import MyNode from "./MyNode";
+import * as tree_util from "tree-util";
 
 export default class CustomNodeChart extends Component {
   constructor(props) {
-      super(props);
-      this.state = {
-          apiDataForDebug:false,
-      }
+    super(props);
+    this.state = {
+      apiDataForDebug: false,
+    };
   }
   componentDidMount() {
-    // TODO: make this URL more Dynamic
-    fetch(
-      "https://api.semanticscholar.org/v1/paper/arXiv:2103.03230?include_unknown_references=true"
-    )
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          let json = JSON.parse(
-            JSON.stringify(result)
-              .split('"title":')
-              .join('"name":')
-              .split('"references":')
-              .join('"children":')
-          );
-          this.setState({
-            apiDataForDebug: json,
-          });
-        },
-        // fetch error
-        (error) => {}
-      )
-    //   .then(() => this.forceUpdate());
+    // TODO: mount ID to buttons of references and citations
+    let arXivID = "2103.03230";
+    fetchPaperDetailsFromAPI(arXivID).then((result) => {
+      this.convertDataToTree(result);
+    });
   }
+  convertDataToTree(result) {
+    let parsedResult = JSON.parse(
+      JSON.stringify(result)
+        .split('"title":')
+        .join('"name":')
+        .split('"references":')
+        .join('"children":')
+    );
+
+    var referenceArray = modifiedArray(parsedResult);
+    parsedResult.children = referenceArray;
+
+    this.setState({
+      apiDataForDebug: parsedResult,
+    });
+
+    let { children, ...parsedResultNoChild } = parsedResult;
+
+    referenceArray.push(parsedResultNoChild);
+
+    var standardConfig = { id: "name", parentid: "referredBy" };
+    var trees = tree_util.buildTrees(referenceArray, standardConfig);
+
+    let tree = trees[0];
+
+    // tree.rootNode.addParent(["asdf"]);
+    console.log(tree);
+  }
+
   render() {
     if (this.state.apiDataForDebug) {
-        const ds = this.state.apiDataForDebug;
-        return (
-            <OrganizationChart
-              datasource={ds}
-              chartClass="myChart"
-                NodeTemplate={MyNode}
-                pan={true} zoom={true}
-            />
-          );
+      const ds = this.state.apiDataForDebug;
+      return (
+        <OrganizationChart
+          datasource={ds}
+          chartClass="myChart"
+          NodeTemplate={MyNode}
+          pan={true}
+          zoom={true}
+        />
+      );
     }
-    return <div></div>
+    return <div></div>;
   }
 }
+function fetchPaperDetailsFromAPI(arXivID) {
+  return fetch(
+    "https://api.semanticscholar.org/v1/paper/arXiv:" +
+      arXivID +
+      "?include_unknown_references=true"
+  ).then(
+    (res) => res.json(),
+    // fetch error
+    (error) => {}
+  );
+}
 
+function modifiedArray(parsedResult) {
+  return parsedResult.children.map((child) => {
+    return { ...child, referredBy: parsedResult.name };
+  });
+}
 const ds = {
   id: "n1",
   name: "Lao Lao",

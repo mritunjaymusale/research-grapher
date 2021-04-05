@@ -10,6 +10,8 @@ const MyNode = ({ nodeData }) => {
   // TODO: Find a Tree DS library to store more and more complex trees as more and more citations show up
   // TODO: check if modal has clickable buttons so that api calls can be fired from the modal itself, also organize the modal output
   // TODO: incase if references or Citations is clicked use state info to collapse rest of the elements in that level and then fetch from the API
+  // TODO: citationVelocity: 591,influentialCitationCount: 498 <--check these tags accordingly the card should have a diffrent color to avoid huge citation generation
+  // TODO: clickable link to redirect user to that paper's page
   return (
     <Modal
       actions={[
