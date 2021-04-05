@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import OrganizationChart from "@dabeng/react-orgchart";
-import MyNode from "./MyNode";
+import {MyNode} from "./MyNode";
 import * as tree_util from "tree-util";
 
 export default class CustomNodeChart extends Component {
@@ -26,24 +26,21 @@ export default class CustomNodeChart extends Component {
         .join('"children":')
     );
 
-    var referenceArray = modifiedArray(parsedResult);
+    var referenceArray = addCitingPaperToChild(parsedResult);
+    // replace existing children with cited children
     parsedResult.children = referenceArray;
 
     this.setState({
       apiDataForDebug: parsedResult,
     });
 
-    let { children, ...parsedResultNoChild } = parsedResult;
-
-    referenceArray.push(parsedResultNoChild);
-
-    var standardConfig = { id: "name", parentid: "referredBy" };
-    var trees = tree_util.buildTrees(referenceArray, standardConfig);
-
-    let tree = trees[0];
-
+    // TODO: use the following when tree library is ready for root node updates
+    // let { children, ...parsedResultNoChild } = parsedResult;
+    // referenceArray.push(parsedResultNoChild);
+    // var standardConfig = { id: "name", parentid: "referredBy" };
+    // var trees = tree_util.buildTrees(referenceArray, standardConfig);
+    // let tree = trees[0];
     // tree.rootNode.addParent(["asdf"]);
-    console.log(tree);
   }
 
   render() {
@@ -74,7 +71,7 @@ function fetchPaperDetailsFromAPI(arXivID) {
   );
 }
 
-function modifiedArray(parsedResult) {
+function addCitingPaperToChild(parsedResult) {
   return parsedResult.children.map((child) => {
     return { ...child, referredBy: parsedResult.name };
   });

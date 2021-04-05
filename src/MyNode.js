@@ -1,72 +1,85 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Button, CardPanel, Modal } from "react-materialize";
 
-const propTypes = {
-  nodeData: PropTypes.object.isRequired,
-};
-
-const MyNode = ({ nodeData }) => {
-  // TODO: Find a Tree DS library to store more and more complex trees as more and more citations show up
-  // TODO: check if modal has clickable buttons so that api calls can be fired from the modal itself, also organize the modal output
-  // TODO: incase if references or Citations is clicked use state info to collapse rest of the elements in that level and then fetch from the API
+export const MyNode = ({ nodeData }) => {
+  const modalOptions = {
+    dismissible: true,
+    endingTop: "10%",
+    inDuration: 250,
+    onCloseEnd: null,
+    onCloseStart: null,
+    onOpenEnd: null,
+    onOpenStart: null,
+    opacity: 0.5,
+    outDuration: 250,
+    preventScrolling: true,
+  };
+  const modalActionButtons = [
+    <Button flat waves="grey">
+      References
+    </Button>,
+    <Button flat waves="grey">
+      Citations
+    </Button>,
+    <Button flat modal="close" node="button" waves="grey">
+      Close
+    </Button>,
+  ];
+  // TODO: mount API calls to modal buttons (collapse other nodes on the same level to avoid huge unnecessary graphs)
   // TODO: citationVelocity: 591,influentialCitationCount: 498 <--check these tags accordingly the card should have a diffrent color to avoid huge citation generation
-  // TODO: clickable link to redirect user to that paper's page
+  // TODO: add semanticscholar url for links without arxivID or doi
   return (
     <Modal
-      actions={[
-        <Button flat waves="grey">
-          References
-        </Button>,
-        <Button flat waves="grey">
-          Citations
-        </Button>,
-        <Button flat modal="close" node="button" waves="grey">
-          Close
-        </Button>,
-      ]}
+      actions={modalActionButtons}
       bottomSheet={false}
       fixedFooter={false}
       header={nodeData.name}
       id="Modal-0"
       open={false}
-      options={{
-        dismissible: true,
-        endingTop: "10%",
-        inDuration: 250,
-        onCloseEnd: null,
-        onCloseStart: null,
-        onOpenEnd: null,
-        onOpenStart: null,
-        opacity: 0.5,
-        outDuration: 250,
-        preventScrolling: true,
-        // startingTop: "50%",
-      }}
+      options={modalOptions}
       trigger={
         <CardPanel className="blue accent-2">
           <span className="white-text">{nodeData.name}</span>
         </CardPanel>
       }>
-      <p>
-        Authors : {nodeData.authors ? showAuthorNames(nodeData) : "Unknown"}
-        <br />
-        Year : {nodeData.year ? nodeData.year : "Unknown"}
-        <br />
-        <ShowAbstract abstract={nodeData.abstract} />
-        Venue : {nodeData.venue ? nodeData.venue : "Unknown"}
-        <br />
-        doi : {nodeData.doi ? nodeData.doi : "Unknown"}
-        {/* FOR DEBUGGING */}
-        {/* {JSON.stringify(nodeData)} */}
-      </p>
+      <PaperDetails nodeData={nodeData} />
     </Modal>
   );
 };
 
-MyNode.propTypes = propTypes;
-
-export default MyNode;
+export const PaperDetails = (props) => {
+  const nodeData = props.nodeData;
+  return (
+    <p>
+      Authors : {nodeData.authors ? showAuthorNames(nodeData) : "Unknown"}
+      <br />
+      Year : {nodeData.year ? nodeData.year : "Unknown"}
+      <br />
+      <ShowAbstract abstract={nodeData.abstract} />
+      Venue : {nodeData.venue ? nodeData.venue : "Unknown"}
+      <br />
+      <h6>Links:</h6>
+      arXiv :{" "}
+      {nodeData.arxivId ? (
+        <a href={"https://arxiv.org/abs/" + nodeData.arxivId}>
+          {nodeData.arxivId}
+        </a>
+      ) : (
+        "Unknown"
+      )}
+      <br />
+      doi :{" "}
+      {nodeData.doi ? (
+        <a href={"https://doi.org/" + nodeData.doi}>{nodeData.doi}</a>
+      ) : (
+        "Unknown"
+      )}
+      {/* FOR DEBUGGING */}
+      {/* <br/>
+        {JSON.stringify(nodeData)} */}
+    </p>
+  );
+};
 
 function ShowAbstract(props) {
   if (props.abstract) return <div> Abstract : {props.abstract} </div>;
