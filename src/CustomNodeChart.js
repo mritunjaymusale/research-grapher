@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import OrganizationChart from "@dabeng/react-orgchart";
 import { MyNode } from "./MyNode";
 import * as tree_util from "tree-util";
-
+import * as GraphLib from "@dagrejs/graphlib";
+import { Card } from "react-materialize";
 export default class CustomNodeChart extends Component {
   constructor(props) {
     super(props);
@@ -30,9 +31,9 @@ export default class CustomNodeChart extends Component {
     // replace existing children with cited children
     parsedResult.children = referenceArray;
 
-    this.setState({
-      apiDataForDebug: parsedResult,
-    });
+    // this.setState({
+    //   apiDataForDebug: parsedResult,
+    // });
 
     // TODO: use the following when tree library is ready for root node updates
     // let { children, ...parsedResultNoChild } = parsedResult;
@@ -41,6 +42,16 @@ export default class CustomNodeChart extends Component {
     // var trees = tree_util.buildTrees(referenceArray, standardConfig);
     // let tree = trees[0];
     // tree.rootNode.addParent(["asdf"]);
+
+    var graph = new GraphLib.Graph({ compound: true });
+    referenceArray.map((paper) => {
+      // console.log(paper);
+      graph.setNode(paper.name, paper);
+      graph.setEdge(paper.name, paper.referredBy);
+    });
+
+    // console.log(graph.edges());
+    console.log(GraphLib.json.write(graph));
   }
 
   render() {
@@ -58,7 +69,11 @@ export default class CustomNodeChart extends Component {
         </div>
       );
     }
-    return <div></div>;
+    return (
+      <div>
+     nothing
+      </div>
+    );
   }
 }
 function fetchPaperDetailsFromAPI(arXivID) {
