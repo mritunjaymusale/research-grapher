@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import OrganizationChart from "@dabeng/react-orgchart";
-import {MyNode} from "./MyNode";
+import { MyNode } from "./MyNode";
 import * as tree_util from "tree-util";
 
 export default class CustomNodeChart extends Component {
@@ -12,7 +12,7 @@ export default class CustomNodeChart extends Component {
   }
   componentDidMount() {
     // TODO: mount ID to buttons of references and citations
-    let arXivID = "2103.03230";
+    let arXivID = "1710.09829";
     fetchPaperDetailsFromAPI(arXivID).then((result) => {
       this.convertDataToTree(result);
     });
@@ -46,14 +46,16 @@ export default class CustomNodeChart extends Component {
   render() {
     if (this.state.apiDataForDebug) {
       const ds = this.state.apiDataForDebug;
+      console.log(ds.children);
       return (
-        <OrganizationChart
-          datasource={ds}
-          chartClass="myChart"
-          NodeTemplate={MyNode}
-          pan={true}
-          zoom={true}
-        />
+        <div className="container">
+          <OrganizationChart
+            datasource={ds}
+            NodeTemplate={MyNode}
+            pan={true}
+            zoom={true}
+          />
+        </div>
       );
     }
     return <div></div>;
