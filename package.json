@@ -4,17 +4,16 @@
   "private": true,
   "dependencies": {
     "@dabeng/react-orgchart": "^1.0.0",
-    "@dagrejs/graphlib": "^2.1.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "json-digger": "^1.1.5",
     "material-icons": "^0.6.0",
     "materialize-css": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-materialize": "^3.9.8",
     "react-scripts": "4.0.3",
-    "tree-util": "^1.0.5",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
