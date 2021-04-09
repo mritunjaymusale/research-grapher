@@ -1,35 +1,16 @@
-import React from "react";
-import { Button, CardPanel, Icon, Modal } from "react-materialize";
+import React, { Component } from "react";
+import {
+  Button,
+  CardPanel,
+  Collection,
+  CollectionItem,
+  Icon,
+  Modal,
+} from "react-materialize";
 import { PaperDetails } from "./Components/PaperDetails";
 
-export const MyNode = ({ nodeData }) => {
-  const modalConfig = {
-    actions: modalActionButtons,
-    bottomSheet: false,
-    fixedFooter: true,
-    header: nodeData.name,
-    open: false,
-    options: modalOptions,
-    trigger: showTitleOnTreeNode(nodeData),
-  };
-
-  return (
-    <Modal {...modalConfig} bottomSheet>
-      <PaperDetails nodeData={nodeData} />
-    </Modal>
-  );
-};
-function showTitleOnTreeNode(nodeData) {
-  return (
-    <CardPanel className="blue accent-2">
-      <span className="white-text">
-        {nodeData.name}
-        {nodeData.isInfluential ? (
-          <Icon className="material-icons">star</Icon>
-        ) : null}
-      </span>
-    </CardPanel>
-  );
+function showTitleOnTreeNode(props) {
+  return <CollectionItem href>{props.title}</CollectionItem>;
 }
 const modalOptions = {
   dismissible: true,
@@ -42,6 +23,10 @@ const modalOptions = {
 };
 
 const modalActionButtons = [
+  // TODO: somehow connect this to the api call and the whole page should react to it 
+  <Button flat waves="grey">
+    Load Paper
+  </Button>,
   <Button flat waves="grey">
     References
   </Button>,
@@ -52,3 +37,54 @@ const modalActionButtons = [
     Close
   </Button>,
 ];
+
+const modalConfig = (data) => {
+  return {
+    actions: modalActionButtons,
+    bottomSheet: false,
+    fixedFooter: true,
+    header: data.title,
+    open: false,
+    options: modalOptions,
+    // cant turn this into a react component for some reason idk why
+    trigger: showTitleOnTreeNode(data),
+  };
+};
+export class CollectionNode extends Component {
+  // TODO: refactor this 
+  render() {
+    return (
+      <div>
+        <Collection
+          header="References"
+          style={{
+            overflow: "scroll",
+            maxHeight: "700px",
+          }}>
+          {this.props.nodeData.references.map((reference) => {
+            return (
+              <Modal {...modalConfig(reference)} bottomSheet>
+                <PaperDetails nodeData={reference} />
+              </Modal>
+            );
+          })}
+        </Collection>
+
+        <Collection
+          header="Citations"
+          style={{
+            overflow: "scroll",
+            maxHeight: "700px",
+          }}>
+          {this.props.nodeData.citations.map((citation) => {
+            return (
+              <Modal {...modalConfig(citation)} bottomSheet>
+                <PaperDetails nodeData={citation} />
+              </Modal>
+            );
+          })}
+        </Collection>
+      </div>
+    );
+  }
+}
