@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Col, Collection, CollectionItem, Row } from "react-materialize";
+import { Col, Row } from "react-materialize";
+import { ArxivIdProvider } from "./Components/Context";
 import { DocumentViewer } from "./DocumentViewer";
 import { CollectionNode } from "./MyNode";
 
@@ -23,18 +24,18 @@ export default class CustomChart extends Component {
   render() {
     if (this.state.apiResults) {
       var pdfURL = null;
-      if (this.state.apiResults.arxivId) {
-        pdfURL = `https://arxiv.org/pdf/${this.state.apiResults.arxivId}.pdf`;
-      }
+
       return (
         <Row>
-          <Col s={6}>
-            <DocumentViewer pdfURL={pdfURL} />
-          </Col>
-          <Col s={6}>
-            {/* TODO: whole data is being dumped later only pass references and citations*/}
-            <CollectionNode nodeData={this.state.apiResults} />
-          </Col>
+          <ArxivIdProvider>
+            <Col s={6}>
+              <DocumentViewer />
+            </Col>
+            <Col s={6}>
+              {/* TODO: whole data is being dumped later only pass references and citations*/}
+              <CollectionNode nodeData={this.state.apiResults} />
+            </Col>
+          </ArxivIdProvider>
         </Row>
       );
     }
@@ -52,4 +53,3 @@ function fetchPaperDetailsFromAPI(arXivID) {
     (error) => {}
   );
 }
-

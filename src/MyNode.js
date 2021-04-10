@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import {
   Button,
+  Card,
   CardPanel,
   Collection,
   CollectionItem,
   Icon,
   Modal,
 } from "react-materialize";
+import { ArxivIdContext } from "./Components/Context";
 import { PaperDetails } from "./Components/PaperDetails";
 
-function showTitleOnTreeNode(props) {
+
+function showTitleOnCollection(props) {
   return <CollectionItem href>{props.title}</CollectionItem>;
 }
 const modalOptions = {
@@ -22,36 +25,52 @@ const modalOptions = {
   preventScrolling: true,
 };
 
-const modalActionButtons = [
-  // TODO: somehow connect this to the api call and the whole page should react to it 
-  <Button flat waves="grey">
-    Load Paper
-  </Button>,
-  <Button flat waves="grey">
-    References
-  </Button>,
-  <Button flat waves="grey">
-    Citations
-  </Button>,
-  <Button flat modal="close" node="button" waves="grey">
-    Close
-  </Button>,
-];
+class ModalActionButtons extends Component {
+  static contextType = ArxivIdContext;
+  render() {
+    return (
+      <div>
+        {this.props.data.arxivId ? (
+          <Button
+            flat
+            waves="grey"
+            onClick={(event) => {
+              this.context.updateArxivId(this.props.data.arxivId);
+            }}>
+            Load Paper
+          </Button>
+        ) : null}
+
+        <Button flat waves="grey">
+          References
+        </Button>
+
+        <Button flat waves="grey">
+          Citations
+        </Button>
+
+        <Button flat modal="close" node="button" waves="grey">
+          Close
+        </Button>
+      </div>
+    );
+  }
+}
 
 const modalConfig = (data) => {
   return {
-    actions: modalActionButtons,
+    actions: <ModalActionButtons data={data} />,
     bottomSheet: false,
     fixedFooter: true,
     header: data.title,
     open: false,
     options: modalOptions,
     // cant turn this into a react component for some reason idk why
-    trigger: showTitleOnTreeNode(data),
+    trigger: showTitleOnCollection(data),
   };
 };
 export class CollectionNode extends Component {
-  // TODO: refactor this 
+  // TODO: refactor this
   render() {
     return (
       <div>
@@ -69,13 +88,17 @@ export class CollectionNode extends Component {
             );
           })}
         </Collection>
-
+        <Card title="Citations">
+          
+          
         <Collection
-          header="Citations"
+          // header="Citations"
           style={{
             overflow: "scroll",
             maxHeight: "700px",
-          }}>
+            }}
+            
+          >
           {this.props.nodeData.citations.map((citation) => {
             return (
               <Modal {...modalConfig(citation)} bottomSheet>
@@ -83,7 +106,8 @@ export class CollectionNode extends Component {
               </Modal>
             );
           })}
-        </Collection>
+          </Collection>
+          </Card>
       </div>
     );
   }
