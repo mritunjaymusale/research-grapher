@@ -6,11 +6,9 @@ The goal here is to provide references and citations in an arXiv paper in a GUI 
 
 ## TODO:
 
-mount API calls to modal buttons (collapse other nodes on the same level to avoid huge unnecessary graphs)
+add a serachbar at the top to insert paper code or arxiv link
 
-citationVelocity: 591,influentialCitationCount: 498 <--check these tags accordingly the card should have a diffrent color to avoid huge citation generation
-
-mark paper usefull or not and change color baed on that ( store this info in the tree ds)
+mark paper usefull or not and change color baed on that ( store this info in the context)
 
 ## BUG
 

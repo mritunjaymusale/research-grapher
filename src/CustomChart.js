@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, Row } from "react-materialize";
+import { Col, Navbar, ProgressBar, Row } from "react-materialize";
 import { ArxivIdProvider } from "./Components/Context";
 import { DocumentViewer } from "./DocumentViewer";
 import { CollectionNode } from "./MyNode";
@@ -22,24 +22,36 @@ export default class CustomChart extends Component {
   }
 
   render() {
-    if (this.state.apiResults) {
-      var pdfURL = null;
-
-      return (
-        <Row>
-          <ArxivIdProvider>
-            <Col s={6}>
-              <DocumentViewer />
-            </Col>
-            <Col s={6}>
-              {/* TODO: whole data is being dumped later only pass references and citations*/}
-              <CollectionNode nodeData={this.state.apiResults} />
-            </Col>
-          </ArxivIdProvider>
-        </Row>
-      );
-    }
-    return <div>nothing</div>;
+    return (
+      <React.Fragment>
+        <div className="navbar-fixed ">
+          <Navbar
+            className="black"
+            brand={
+              <a className="brand-logo" href="#">
+                {this.state.apiResults.title || "Loading..."}
+              </a>
+            }
+            // TODO:add search button to the right for searching papers and connect it to the context
+          />
+        </div>
+        {this.state.apiResults ? (
+          <Row>
+            <ArxivIdProvider>
+              <Col s={6}>
+                <DocumentViewer />
+              </Col>
+              <Col s={6}>
+                {/* TODO: whole data is being dumped later only pass references and citations*/}
+                <CollectionNode nodeData={this.state.apiResults} />
+              </Col>
+            </ArxivIdProvider>
+          </Row>
+        ) : (
+          <ProgressBar />
+        )}
+      </React.Fragment>
+    );
   }
 }
 function fetchPaperDetailsFromAPI(arXivID) {

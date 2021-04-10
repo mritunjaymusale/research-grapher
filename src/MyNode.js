@@ -33,23 +33,28 @@ class ModalActionButtons extends Component {
         {this.props.data.arxivId ? (
           <Button
             flat
-            waves="grey"
+            waves="light"
             onClick={(event) => {
               this.context.updateArxivId(this.props.data.arxivId);
-            }}>
+            }}
+            tooltip='Preview the paper in the PDF Window'
+            tooltipOptions={{
+              position: 'top'
+            }}
+          >
             Load Paper
           </Button>
         ) : null}
 
-        <Button flat waves="grey">
+        <Button flat waves="light">
           References
         </Button>
 
-        <Button flat waves="grey">
+        <Button flat waves="light">
           Citations
         </Button>
 
-        <Button flat modal="close" node="button" waves="grey">
+        <Button flat modal="close" node="button" waves="light">
           Close
         </Button>
       </div>

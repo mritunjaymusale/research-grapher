@@ -4,14 +4,9 @@ import { ArxivIdContext } from "./Components/Context";
 
 export class DocumentViewer extends Component {
   static contextType = ArxivIdContext;
-  constructor(props) {
-    super(props);
-    this.state = {
-      showPDF: false,
-    };
-  }
+  state = { showPDF: false };
 
-  hideSpinner() {
+  hideProgessBar() {
     this.setState({
       showPDF: true,
     });
@@ -21,13 +16,12 @@ export class DocumentViewer extends Component {
 
     const pdfURL = `https://arxiv.org/pdf/${this.context.id}.pdf`;
     return (
-      <div className="video-container" >
+      <div className="video-container">
         {this.state.showPDF ? null : <ProgressBar />}
         <iframe
-        
           src={pdfURL}
           frameBorder="0"
-          onLoad={(event) => this.hideSpinner()}
+          onLoad={(event) => this.hideProgessBar()}
           allowFullScreen
         />
       </div>
