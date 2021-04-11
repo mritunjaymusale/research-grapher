@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Button, Modal, NavItem } from "react-materialize";
+import { Button, Icon, Modal, NavItem } from "react-materialize";
 import { ArxivIdContext } from "./Context";
 import * as M from "materialize-css";
-import { resetModals } from "../utils";
 
 export class NavbarSearchButton extends Component {
   static contextType = ArxivIdContext;
@@ -15,8 +14,12 @@ export class NavbarSearchButton extends Component {
 
   _handleKeyDown(e) {
     if (e.key === "Enter") {
-      if (this.state.value != "") {
-        resetModals();
+      if (this.state.value !== "") {
+        var elems = document.getElementById("searchbuttonmodal");
+
+        var instance = M.Modal.getInstance(elems);
+
+        instance.close();
 
         this.context.updateArxivId(this.state.value);
       }
@@ -26,15 +29,16 @@ export class NavbarSearchButton extends Component {
     return (
       <NavItem>
         <Modal
+          id="searchbuttonmodal"
           actions={[
             <Button flat modal="close" node="button" waves="green">
               Close
             </Button>,
           ]}
           trigger={
-            <a>
+            <Icon>
               <i class="material-icons left">search</i>
-            </a>
+            </Icon>
           }>
           <span>Enter the arXiv Id of the paper you are looking for</span>
           <input

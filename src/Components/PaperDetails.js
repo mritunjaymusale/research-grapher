@@ -32,9 +32,6 @@ export const PaperDetails = (props) => {
       {nodeData.arxivId ? <LinkTemplate {...arxivLinkConfig} /> : null}
       {nodeData.doi ? <LinkTemplate {...doiLinkConfig} /> : null}
       {nodeData.url ? <LinkTemplate {...SemanticScholarLinkConfig} /> : null}
-      {/* FOR DEBUGGING */}
-      {/* <br/>
-          {JSON.stringify(nodeData)} */}
     </div>
   );
 };

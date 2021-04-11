@@ -1,27 +1,18 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import {
   Button,
-  Card,
   Collection,
   CollectionItem,
   Modal,
+  ProgressBar,
 } from "react-materialize";
 import { ArxivIdContext } from "./Components/Context";
 import { PaperDetails } from "./Components/PaperDetails";
-import { resetModals } from "./utils";
 
 function showTitleOnCollection(props) {
   return <CollectionItem href>{props.title}</CollectionItem>;
 }
-const modalOptions = {
-  dismissible: true,
-  onCloseEnd: null,
-  onCloseStart: null,
-  onOpenEnd: null,
-  onOpenStart: null,
-  opacity: 0.7,
-  preventScrolling: true,
-};
+
 
 class ModalActionButtons extends Component {
   static contextType = ArxivIdContext;
@@ -31,9 +22,10 @@ class ModalActionButtons extends Component {
         {this.props.data.arxivId ? (
           <Button
             flat
+            modal="close"
+            node="button"
             waves="light"
             onClick={(event) => {
-              resetModals();
               this.context.updateArxivId(this.props.data.arxivId);
             }}
             tooltip="Preview the paper in the PDF Window"
@@ -43,14 +35,6 @@ class ModalActionButtons extends Component {
             Load Paper
           </Button>
         ) : null}
-
-        <Button flat waves="light">
-          References
-        </Button>
-
-        <Button flat waves="light">
-          Citations
-        </Button>
 
         <Button flat modal="close" node="button" waves="light">
           Close
@@ -67,46 +51,52 @@ const modalConfig = (data) => {
     fixedFooter: true,
     header: data.title,
     open: false,
-    options: modalOptions,
     // cant turn this into a react component for some reason idk why
     trigger: showTitleOnCollection(data),
   };
 };
-export class CollectionNode extends Component {
-  // TODO: refactor this
-  render() {
-    return (
-      <div>
-        <Collection
-          header="References"
-          style={{
-            overflow: "scroll",
-            maxHeight: "700px",
-          }}>
-          {this.props.nodeData.references.map((reference) => {
-            return (
-              <Modal {...modalConfig(reference)} bottomSheet>
-                <PaperDetails nodeData={reference} />
-              </Modal>
-            );
-          })}
-        </Collection>
 
-        <Collection
-          header="Citations"
-          style={{
-            overflow: "scroll",
-            maxHeight: "700px",
-          }}>
-          {this.props.nodeData.citations.map((citation) => {
-            return (
-              <Modal {...modalConfig(citation)} bottomSheet>
-                <PaperDetails nodeData={citation} />
-              </Modal>
-            );
-          })}
-        </Collection>
-      </div>
-    );
-  }
-}
+export const References = () => {
+  const context = useContext(ArxivIdContext);
+  if (context.paperDetails.references.length > 0)
+    return context.paperDetails.references.map((reference) => {
+      return (
+        <Modal {...modalConfig(reference)} bottomSheet>
+          <PaperDetails nodeData={reference} />
+        </Modal>
+      );
+    });
+  else return <CollectionItem>No references yet</CollectionItem>;
+};
+export const Citations = () => {
+  const context = useContext(ArxivIdContext);
+  if (context.paperDetails.citations.length > 0)
+    return context.paperDetails.citations.map((citation) => {
+      return (
+        <Modal {...modalConfig(citation)} bottomSheet>
+          <PaperDetails nodeData={citation} />
+        </Modal>
+      );
+    });
+  else return <CollectionItem>No citations yet</CollectionItem>;
+};
+
+const collectionStyle = {
+  overflow: "scroll",
+  maxHeight: "700px",
+};
+
+export const CitationsAndReferencesList = () => {
+  const context = useContext(ArxivIdContext);
+  return (
+    <React.Fragment>
+      <Collection header="References" style={collectionStyle}>
+        {!context.isLoading ? <References /> : <ProgressBar />}
+      </Collection>
+
+      <Collection header="Citations" style={collectionStyle}>
+        {!context.isLoading ? <Citations /> : <ProgressBar />}
+      </Collection>
+    </React.Fragment>
+  );
+};
