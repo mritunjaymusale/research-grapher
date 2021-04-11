@@ -2,15 +2,13 @@ import React, { Component } from "react";
 import {
   Button,
   Card,
-  CardPanel,
   Collection,
   CollectionItem,
-  Icon,
   Modal,
 } from "react-materialize";
 import { ArxivIdContext } from "./Components/Context";
 import { PaperDetails } from "./Components/PaperDetails";
-
+import { resetModals } from "./utils";
 
 function showTitleOnCollection(props) {
   return <CollectionItem href>{props.title}</CollectionItem>;
@@ -35,13 +33,13 @@ class ModalActionButtons extends Component {
             flat
             waves="light"
             onClick={(event) => {
+              resetModals();
               this.context.updateArxivId(this.props.data.arxivId);
             }}
-            tooltip='Preview the paper in the PDF Window'
+            tooltip="Preview the paper in the PDF Window"
             tooltipOptions={{
-              position: 'top'
-            }}
-          >
+              position: "top",
+            }}>
             Load Paper
           </Button>
         ) : null}
@@ -93,17 +91,13 @@ export class CollectionNode extends Component {
             );
           })}
         </Collection>
-        <Card title="Citations">
-          
-          
+
         <Collection
-          // header="Citations"
+          header="Citations"
           style={{
             overflow: "scroll",
             maxHeight: "700px",
-            }}
-            
-          >
+          }}>
           {this.props.nodeData.citations.map((citation) => {
             return (
               <Modal {...modalConfig(citation)} bottomSheet>
@@ -111,8 +105,7 @@ export class CollectionNode extends Component {
               </Modal>
             );
           })}
-          </Collection>
-          </Card>
+        </Collection>
       </div>
     );
   }

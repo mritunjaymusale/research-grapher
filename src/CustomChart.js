@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Col, Navbar, ProgressBar, Row } from "react-materialize";
 import { ArxivIdProvider } from "./Components/Context";
+import { NavbarSearchButton } from "./Components/NavbarSearchButton";
 import { DocumentViewer } from "./DocumentViewer";
-import { CollectionNode } from "./MyNode";
+import { CollectionNode } from "./CollectionNode";
 
 export default class CustomChart extends Component {
   constructor(props) {
@@ -23,37 +24,42 @@ export default class CustomChart extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <ArxivIdProvider>
         <div className="navbar-fixed ">
           <Navbar
             className="black"
+            alignLinks="right"
             brand={
-              <a className="brand-logo" href="#">
+              <a className="brand-logo">
                 {this.state.apiResults.title || "Loading..."}
               </a>
             }
+
             // TODO:add search button to the right for searching papers and connect it to the context
-          />
+          >
+            <NavbarSearchButton />
+          </Navbar>
         </div>
-        {this.state.apiResults ? (
-          <Row>
-            <ArxivIdProvider>
-              <Col s={6}>
-                <DocumentViewer />
-              </Col>
-              <Col s={6}>
-                {/* TODO: whole data is being dumped later only pass references and citations*/}
-                <CollectionNode nodeData={this.state.apiResults} />
-              </Col>
-            </ArxivIdProvider>
-          </Row>
-        ) : (
-          <ProgressBar />
-        )}
-      </React.Fragment>
+        {this.state.apiResults ? this.showPaperInfo() : <ProgressBar />}
+      </ArxivIdProvider>
+    );
+  }
+
+  showPaperInfo() {
+    return (
+      <Row>
+        <Col s={6}>
+          <DocumentViewer />
+        </Col>
+        <Col s={6}>
+          {/* TODO: whole data is being dumped later only pass references and citations*/}
+          <CollectionNode nodeData={this.state.apiResults} />
+        </Col>
+      </Row>
     );
   }
 }
+
 function fetchPaperDetailsFromAPI(arXivID) {
   return fetch(
     "https://api.semanticscholar.org/v1/paper/arXiv:" +
