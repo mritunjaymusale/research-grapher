@@ -15,16 +15,31 @@ export class NavbarSearchButton extends Component {
   _handleKeyDown(e) {
     if (e.key === "Enter") {
       if (this.state.value !== "") {
-        var elems = document.getElementById("searchbuttonmodal");
-
-        var instance = M.Modal.getInstance(elems);
-
-        instance.close();
-
-        this.context.updateArxivId(this.state.value);
+        // Check if the input is arXiv id or not
+        var arxivIdRegex = new RegExp("^[0-9]{4}.[0-9]{5}$");
+        if (arxivIdRegex.test(this.state.value)) {
+          closeModal();
+          this.context.updateArxivId(this.state.value);
+        } else M.toast({ html: "Given Id is not an arXivId" });
       }
     }
   }
+  getUserInputForArxivId = (params) => {
+    return (
+      <React.Fragment>
+        <span>Enter the arXiv Id of the paper you are looking for</span>
+        <input
+          placeholder="Enter arXiv Id "
+          onChange={(event) => {
+            this.handleOnChange(event);
+          }}
+          onKeyDown={(e) => {
+            this._handleKeyDown(e);
+          }}
+        />
+      </React.Fragment>
+    );
+  };
   render() {
     return (
       <NavItem>
@@ -40,18 +55,13 @@ export class NavbarSearchButton extends Component {
               <i class="material-icons left">search</i>
             </Icon>
           }>
-          <span>Enter the arXiv Id of the paper you are looking for</span>
-          <input
-            placeholder="Enter arXiv Id "
-            onChange={(event) => {
-              this.handleOnChange(event);
-            }}
-            onKeyDown={(e) => {
-              this._handleKeyDown(e);
-            }}
-          />
+     {this.getUserInputForArxivId()}
         </Modal>
       </NavItem>
     );
   }
+}
+function closeModal() {
+  var elem = document.getElementById("searchbuttonmodal");
+  M.Modal.getInstance(elem).close();
 }

@@ -6,9 +6,10 @@ The goal here is to provide references and citations in an arXiv paper in a GUI 
 
 ## TODO:
 
-add a serachbar at the top to insert paper code or arxiv link
 
 mark paper usefull or not and change color baed on that ( store this info in the context)
+
+Handle api reponse errors
 
 ## BUG
 

@@ -13,7 +13,6 @@ function showTitleOnCollection(props) {
   return <CollectionItem href>{props.title}</CollectionItem>;
 }
 
-
 class ModalActionButtons extends Component {
   static contextType = ArxivIdContext;
   render() {
