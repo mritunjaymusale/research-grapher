@@ -18,7 +18,7 @@ export class NavbarSearchButton extends Component {
         // Check if the input is arXiv id or not
         var arxivIdRegex = new RegExp("^[0-9]{4}.[0-9]{5}$");
         if (arxivIdRegex.test(this.state.value)) {
-          closeModal();
+          this.closeModal();
           this.context.updateArxivId(this.state.value);
         } else M.toast({ html: "Given Id is not an arXivId" });
       }
@@ -36,10 +36,18 @@ export class NavbarSearchButton extends Component {
           onKeyDown={(e) => {
             this._handleKeyDown(e);
           }}
+          autoFocus={true}
+          id="text-input"
         />
       </React.Fragment>
     );
   };
+  componentDidMount() {
+    this.setState({
+      modalElement: document.getElementById("searchbuttonmodal"),
+      textInput: document.getElementById("text-input"),
+    });
+  }
   render() {
     return (
       <NavItem>
@@ -54,14 +62,27 @@ export class NavbarSearchButton extends Component {
             <Icon>
               <i class="material-icons left">search</i>
             </Icon>
-          }>
-     {this.getUserInputForArxivId()}
+          }
+        >
+          {this.getUserInputForArxivId()}
         </Modal>
+        {this.openModalFirstTimePrompt()}
       </NavItem>
     );
   }
-}
-function closeModal() {
-  var elem = document.getElementById("searchbuttonmodal");
-  M.Modal.getInstance(elem).close();
+  openModalFirstTimePrompt() {
+    return this.state.modalElement &&
+      this.context.id === "" &&
+      this.context.isLoading
+      ? this.openModal()
+      : null;
+  }
+
+  openModal() {
+    M.Modal.getInstance(this.state.modalElement).open();
+    this.state.textInput.focus();
+  }
+  closeModal() {
+    M.Modal.getInstance(this.state.modalElement).close();
+  }
 }
