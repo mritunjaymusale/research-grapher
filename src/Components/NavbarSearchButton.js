@@ -42,12 +42,6 @@ export class NavbarSearchButton extends Component {
       </React.Fragment>
     );
   };
-  componentDidMount() {
-    this.setState({
-      modalElement: document.getElementById("searchbuttonmodal"),
-      textInput: document.getElementById("text-input"),
-    });
-  }
   render() {
     return (
       <NavItem>
@@ -62,27 +56,14 @@ export class NavbarSearchButton extends Component {
             <Icon>
               <i class="material-icons left">search</i>
             </Icon>
-          }
-        >
+          }>
           {this.getUserInputForArxivId()}
         </Modal>
-        {this.openModalFirstTimePrompt()}
       </NavItem>
     );
   }
-  openModalFirstTimePrompt() {
-    return this.state.modalElement &&
-      this.context.id === "" &&
-      this.context.isLoading
-      ? this.openModal()
-      : null;
-  }
 
-  openModal() {
-    M.Modal.getInstance(this.state.modalElement).open();
-    this.state.textInput.focus();
-  }
   closeModal() {
-    M.Modal.getInstance(this.state.modalElement).close();
+    M.Modal.getInstance(document.getElementById("searchbuttonmodal")).close();
   }
 }
