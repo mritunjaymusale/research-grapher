@@ -9,7 +9,7 @@ The goal here is to provide references and citations in an arXiv paper in a GUI 
 
 mark paper usefull or not and change color baed on that ( store this info in the context)
 
-Handle api reponse errors
+Handle api reponse errors (api has a response for errors just need to mount it to materialize)
 
 ## BUG
 
