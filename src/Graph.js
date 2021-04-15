@@ -1,73 +1,17 @@
 import React, { Component } from "react";
 import { ArxivIdContext } from "./Components/Context";
-import { DirectedGraph } from "graphology";
 import { Graph as D3Graph } from "react-d3-graph";
-import { PaperNode } from "./Components/PaperNode";
+import { GraphProcessor } from "./GraphProcessor";
 
 export class Graph extends Component {
   static contextType = ArxivIdContext;
 
-  convertToD3Graph(graph) {
-    console.log("Graph JSON");
-    graph = JSON.parse(
-      JSON.stringify(graph.toJSON())
-        .split('"edges":')
-        .join('"links":')
-        .split('"key":')
-        .join('"id":')
-    );
-
-    // moves attribute property a level up so that it can be rendered in d3
-    graph.links = graph.links.map((link) => {
-      return {
-        source: link.source,
-        target: link.target,
-        label: link.attributes.type,
-      };
-    });
-    console.log(graph);
-    this.graph = graph;
-  }
-
-  addCitationsWithEdgesToGraph(citations, graph, data) {
-    citations.forEach((citation) => {
-      graph.mergeNode(citation.title, { ...citation, isCitation: true });
-    });
-    citations.forEach((citation) => {
-      graph.mergeDirectedEdge(citation.title, data.title, {
-        type: "cites",
-      });
-    });
-  }
-
-  addReferencesWithEdgesToGraph(references, graph, data) {
-    references.forEach((reference) => {
-      graph.mergeNode(reference.title, { ...reference, isReference: true });
-    });
-    references.forEach((reference) => {
-      graph.mergeDirectedEdge(data.title, reference.title, {
-        type: "refers",
-      });
-    });
-  }
-  fetchAndLoadGraph(json) {
-    const { citations, references, ...data } = json;
-    var graph = new DirectedGraph();
-    // Add the base paper to the graph
-    graph.mergeNode(data.title, data);
-    // Add the references paper to the graph
-    this.addReferencesWithEdgesToGraph(references, graph, data);
-    this.addCitationsWithEdgesToGraph(citations, graph, data);
-
-    // Here on out it converts graph into D3 compatible graph
-    this.convertToD3Graph(graph);
-  }
   render() {
     if (!this.context.isLoading) {
       var json = this.context.paperDetails;
 
-      this.fetchAndLoadGraph(json);
-      const { attributes, options, ...data } = this.graph;
+      var graph = GraphProcessor.processGraph(json);
+      const { attributes, options, ...data } = graph;
       return (
         <div className="container">
           <D3Graph
@@ -83,7 +27,6 @@ export class Graph extends Component {
   }
 }
 
-
 const myConfig = {
   staticGraph: false,
   linkHighlightBehavior: true,
@@ -92,26 +35,26 @@ const myConfig = {
   highlightOpacity: 0.2,
   directed: true,
   focusAnimationDuration: 0,
+  focusedNodeId: "nodeIdToTriggerZoomAnimation",
   d3: {
     linkLength: 350,
-    gravity: -200,
+    gravity: -250,
+    linkStrength: 1,
   },
   node: {
     color: "lightgreen",
-    // size: 300,
-    highlightColor: "red",
+    highlightColor: "SAME",
     highlightFontSize: 12,
     highlightFontWeight: "bold",
     highlightStrokeColor: "SAME",
     highlightStrokeWidth: 1.5,
-    // "renderLabel": false,
-    viewGenerator: (node) => <PaperNode node={node} />,
   },
   link: {
     highlightColor: "blue",
-    highlightFontSize: 8,
+    highlightFontSize: 15,
     highlightFontWeight: "bold",
     renderLabel: true,
+    semanticStrokeWidth: true,
   },
 };
 const HardCodedData = {
