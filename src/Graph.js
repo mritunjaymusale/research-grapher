@@ -2,26 +2,10 @@ import React, { Component } from "react";
 import { ArxivIdContext } from "./Components/Context";
 import { DirectedGraph } from "graphology";
 import { Graph as D3Graph } from "react-d3-graph";
+import { PaperNode } from "./Components/PaperNode";
 
 export class Graph extends Component {
   static contextType = ArxivIdContext;
-  constructor(props) {
-    super(props);
-    var json = HardCodedData;
-    const { citations, references, ...data } = json;
-    var graph = new DirectedGraph();
-    // Add the base paper to the graph
-    graph.mergeNode(data.title, data);
-    // Add the references paper to the graph
-    this.addReferencesWithEdgesToGraph(references, graph, data);
-    this.addCitationsWithEdgesToGraph(citations, graph, data);
-
-    console.log("Graph");
-    console.log(graph.inspect());
-
-    // Here on out it converts graph into D3 compatible graph
-    graph = this.convertToD3Graph(graph);
-  }
 
   convertToD3Graph(graph) {
     console.log("Graph JSON");
@@ -43,15 +27,14 @@ export class Graph extends Component {
     });
     console.log(graph);
     this.graph = graph;
-    return graph;
   }
 
   addCitationsWithEdgesToGraph(citations, graph, data) {
     citations.forEach((citation) => {
-      graph.mergeNode(citation.title, citation);
+      graph.mergeNode(citation.title, { ...citation, isCitation: true });
     });
     citations.forEach((citation) => {
-      graph.addDirectedEdge(citation.title, data.title, {
+      graph.mergeDirectedEdge(citation.title, data.title, {
         type: "cites",
       });
     });
@@ -59,99 +42,78 @@ export class Graph extends Component {
 
   addReferencesWithEdgesToGraph(references, graph, data) {
     references.forEach((reference) => {
-      graph.mergeNode(reference.title, reference);
+      graph.mergeNode(reference.title, { ...reference, isReference: true });
     });
     references.forEach((reference) => {
-      graph.addDirectedEdge(data.title, reference.title, {
+      graph.mergeDirectedEdge(data.title, reference.title, {
         type: "refers",
       });
     });
   }
+  fetchAndLoadGraph(json) {
+    const { citations, references, ...data } = json;
+    var graph = new DirectedGraph();
+    // Add the base paper to the graph
+    graph.mergeNode(data.title, data);
+    // Add the references paper to the graph
+    this.addReferencesWithEdgesToGraph(references, graph, data);
+    this.addCitationsWithEdgesToGraph(citations, graph, data);
 
+    // Here on out it converts graph into D3 compatible graph
+    this.convertToD3Graph(graph);
+  }
   render() {
-    // graph payload (with minimalist structure)
-    // const { data, myConfig } = defaltD3ValuesForTesting();
+    if (!this.context.isLoading) {
+      var json = this.context.paperDetails;
 
-
-    const { attributes, options, ...data } = this.graph;
-
-  
-    const myConfig = {
-      automaticRearrangeAfterDropNode: false,
-      collapsible: false,
-      directed: true,
-      focusAnimationDuration: 0.75,
-      focusZoom: 1,
-      freezeAllDragEvents: false,
-      height: 400,
-      highlightDegree: 1,
-      highlightOpacity: 1,
-      linkHighlightBehavior: false,
-      maxZoom: 8,
-      minZoom: 0.1,
-      nodeHighlightBehavior: false,
-      panAndZoom: false,
-      staticGraph: false,
-      staticGraphWithDragAndDrop: false,
-      width: 800,
-      d3: {
-        alphaTarget: 0.05,
-        gravity: -100,
-        linkLength: 500,
-        linkStrength: 1,
-        disableLinkForce: false,
-      },
-      node: {
-        color: "#d3d3d3",
-        fontColor: "black",
-        fontSize: 8,
-        fontWeight: "normal",
-        highlightColor: "SAME",
-        highlightFontSize: 8,
-        highlightFontWeight: "normal",
-        highlightStrokeColor: "SAME",
-        highlightStrokeWidth: "SAME",
-        labelProperty: "id",
-        mouseCursor: "pointer",
-        opacity: 1,
-        renderLabel: true,
-        size: 200,
-        strokeColor: "none",
-        strokeWidth: 1.5,
-        svg: "",
-        symbolType: "circle",
-      },
-      link: {
-        color: "#d3d3d3",
-        fontColor: "black",
-        fontSize: 8,
-        fontWeight: "normal",
-        highlightColor: "SAME",
-        highlightFontSize: 8,
-        highlightFontWeight: "normal",
-        labelProperty: "label",
-        mouseCursor: "pointer",
-        opacity: 1,
-        renderLabel: true,
-        semanticStrokeWidth: false,
-        strokeWidth: 1.5,
-        markerHeight: 6,
-        markerWidth: 6,
-        strokeDasharray: 0,
-        strokeDashoffset: 0,
-        strokeLinecap: "butt",
-      },
-    };
-    return (
-      <D3Graph
-        id="graph-id" // id is mandatory
-        data={data}
-        config={myConfig}
-      />
-    );
+      this.fetchAndLoadGraph(json);
+      const { attributes, options, ...data } = this.graph;
+      return (
+        <div className="container">
+          <D3Graph
+            id="graph-id2" // id is mandatory
+            data={data}
+            config={myConfig}
+          />
+        </div>
+      );
+    } else {
+      return <div></div>;
+    }
   }
 }
 
+
+const myConfig = {
+  staticGraph: false,
+  linkHighlightBehavior: true,
+  nodeHighlightBehavior: true,
+  highlightDegree: 1,
+  highlightOpacity: 0.2,
+  directed: true,
+  focusAnimationDuration: 0,
+  d3: {
+    linkLength: 350,
+    gravity: -200,
+  },
+  node: {
+    color: "lightgreen",
+    // size: 300,
+    highlightColor: "red",
+    highlightFontSize: 12,
+    highlightFontWeight: "bold",
+    highlightStrokeColor: "SAME",
+    highlightStrokeWidth: 1.5,
+    // "renderLabel": false,
+    viewGenerator: (node) => <PaperNode node={node} />,
+  },
+  link: {
+    highlightColor: "blue",
+    highlightFontSize: 8,
+    highlightFontWeight: "bold",
+    renderLabel: true,
+  },
+};
 const HardCodedData = {
   abstract:
     "We propose an unsupervised capsule architecture for 3D point clouds. We compute capsule decompositions of objects through permutation-equivariant attention, and self-supervise the process by training with pairs of randomly rotated objects. Our key idea is to aggregate the attention masks into semantic keypoints, and use these to supervise a decomposition that satisfies the capsule invariance/equivariance properties. This not only enables the training of a semantically consistent decomposition, but also allows us to learn a canonicalization operation that enables object-centric reasoning. In doing so, we require neither classification labels nor manually-aligned training datasets to train. Yet, by learning an object-centric representation in an unsupervised manner, our method outperforms the state-of-the-art on 3D point cloud reconstruction, registration, and unsupervised classification. We will release the code and dataset to reproduce our results as soon as the paper is published.",
@@ -1371,28 +1333,3 @@ const HardCodedData = {
   venue: "ArXiv",
   year: 2020,
 };
-
-
-function defaltD3ValuesForTesting() {
-  const data = {
-    nodes: [{ id: "Harry" }, { id: "Sally" }, { id: "Alice" }],
-    links: [
-      { source: "Harry", target: "Sally" },
-      { source: "Harry", target: "Alice" },
-    ],
-  };
-  const myConfig = {
-    nodeHighlightBehavior: true,
-    freezeAllDragEvents: false,
-    node: {
-      color: "lightgreen",
-      size: 120,
-      highlightStrokeColor: "blue",
-    },
-    link: {
-      highlightColor: "lightblue",
-    },
-  };
-  return { data, myConfig };
-}
-

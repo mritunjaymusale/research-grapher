@@ -7,7 +7,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "d3": "^6.6.2",
+    "d3": "5.5.0",
     "graphology": "^0.19.3",
     "json-digger": "^1.1.5",
     "material-icons": "^0.6.0",

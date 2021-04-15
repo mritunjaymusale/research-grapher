@@ -13,14 +13,13 @@ export default class CustomChart extends Component {
     return (
       <React.Fragment>
         <NavBar />
-        {/* TODO: move this with closer to showpaperinfo so that it renders when there's info in state*/}
-        <ShowGraphComponent />
         {this.context.id === "" && this.context.isLoading ? (
           <CardPanel>
             <h5> Please enter arXiv ID of the paper to begin </h5>
           </CardPanel>
         ) : (
           <React.Fragment>
+            <ShowGraphComponent />
             <ShowPaperInfo />
           </React.Fragment>
         )}
@@ -44,8 +43,8 @@ export const ShowPaperInfo = () => {
 
 export const ShowGraphComponent = () => {
   return (
-    <Row>
+    
       <Graph />
-    </Row>
+    
   );
 };
