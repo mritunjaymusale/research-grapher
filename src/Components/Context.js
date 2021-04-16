@@ -19,8 +19,7 @@ export class ArxivIdProvider extends Component {
   };
   render() {
     const { id, paperDetails, isLoading } = this.state;
-    // const id = this.state.id;
-    // const paperDetails = this.state.paperDetails;
+
     const { updateArxivId } = this;
     return (
       <ArxivIdContext.Provider
@@ -38,12 +37,18 @@ export class ArxivIdProvider extends Component {
 
 export function fetchPaperDetailsFromAPI(arXivID) {
   return fetch(
-    "https://api.semanticscholar.org/v1/paper/arXiv:" +
-      arXivID +
-      "?include_unknown_references=true"
+    "https://api.semanticscholar.org/v1/paper/arXiv:" + arXivID
   ).then(
     (res) => res.json(),
     // fetch error
     (error) => {}
   );
+}
+
+export const GraphContext = React.createContext();
+
+export class GraphProvider extends Component {
+  render() {
+    return <GraphContext.Provider>{this.props.children}</GraphContext.Provider>;
+  }
 }
