@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ProgressBar } from "react-materialize";
 import { ArxivIdContext } from "./Components/Context";
 
-export class DocumentViewer extends Component {
+export class PDFViewer extends Component {
   static contextType = ArxivIdContext;
   state = { showPDF: false };
 

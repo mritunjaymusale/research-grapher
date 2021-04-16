@@ -24,6 +24,7 @@ export class GraphProcessor {
       } else {
         node.symbolType = "diamond";
       }
+      return node;
     });
 
     return graph;

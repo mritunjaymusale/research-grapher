@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { CardPanel, Col, Row } from "react-materialize";
 import { ArxivIdContext } from "./Components/Context";
-import { DocumentViewer } from "./DocumentViewer";
+import { PDFViewer } from "./PDFViewer";
 import { CitationsAndReferencesList } from "./CollectionNode";
 import { NavBar } from "./Components/NavBar";
-import {Graph} from "./Graph";
+import { Graph } from "./Graph";
 
-export default class CustomChart extends Component {
+export default class ResearchGrapher extends Component {
   static contextType = ArxivIdContext;
 
   render() {
@@ -32,7 +32,7 @@ export const ShowPaperInfo = () => {
   return (
     <Row>
       <Col s={6}>
-        <DocumentViewer />
+        <PDFViewer />
       </Col>
       <Col s={6}>
         <CitationsAndReferencesList />
@@ -42,9 +42,5 @@ export const ShowPaperInfo = () => {
 };
 
 export const ShowGraphComponent = () => {
-  return (
-    
-      <Graph />
-    
-  );
+  return <Graph />;
 };
