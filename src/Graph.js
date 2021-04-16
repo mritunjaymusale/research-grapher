@@ -2,28 +2,31 @@ import React, { Component } from "react";
 import { ArxivIdContext } from "./Components/Context";
 import { Graph as D3Graph } from "react-d3-graph";
 import { GraphProcessor } from "./GraphProcessor";
-import { Card, Col, Container, Modal, Row } from "react-materialize";
+import { Col, Row } from "react-materialize";
 import * as M from "materialize-css";
+import { CustomModal } from "./Components/CustomModal";
 
 export class Graph extends Component {
   static contextType = ArxivIdContext;
-  state = {
-    selectedPaper: { paperTitle: "", abstract: "" },
-  };
-  componentDidMount() {
-    // TODO: mount this to graph nodes instead of context
+  state = { modal: null };
+
+  onClickNode(nodeId, node) {
+    var modalOptions = {
+      bottomSheet: true,
+      id: "graphpapermodal",
+    };
     this.setState({
-      selectedPaper: this.context.paperDetails,
+      modal: <CustomModal modalOptions={modalOptions} node={node.attributes} />,
     });
+
+    M.Modal.getInstance(document.getElementById("graphpapermodal")).open();
   }
   render() {
     if (!this.context.isLoading) {
       var json = this.context.paperDetails;
 
       var graph = GraphProcessor.processGraph(json);
-      const onClickNode = function (nodeId, node) {
-        M.Modal.getInstance(document.getElementById("graphpapermodal")).open();
-      };
+
       const onDoubleClickNode = function (nodeId, node) {
         window.alert(
           "Double clicked node ${nodeId} in position (${node.x}, ${node.y})"
@@ -38,12 +41,14 @@ export class Graph extends Component {
               id="graph-id2" // id is mandatory
               data={data}
               config={myConfig}
-              onClickNode={onClickNode}
+              onClickNode={(nodeId, node) => {
+                this.onClickNode(nodeId, node);
+              }}
               onDoubleClickNode={onDoubleClickNode}
             />
           </Col>
           {/* TODO: Root tag in modal options can be used to directly mount it to divs use that with on click of graph  */}
-          <Modal id="graphpapermodal"></Modal>
+          {this.state.modal}
         </Row>
       );
     } else {
