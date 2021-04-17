@@ -46,25 +46,3 @@ export function fetchPaperDetailsFromAPI(arXivID) {
   );
 }
 
-export const GraphContext = React.createContext();
-
-export class GraphDataProvider extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      graph: new DirectedGraph(),
-      updateGraph: (json) => {
-        this.setState({
-          graph: JSONGraphProcessor.convertJSONToGraph(json, this.state.graph),
-        });
-      },
-    };
-  }
-  render() {
-    return (
-      <GraphContext.Provider value={this.state}>
-        {this.props.children}
-      </GraphContext.Provider>
-    );
-  }
-}

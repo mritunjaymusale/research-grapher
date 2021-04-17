@@ -1,32 +1,18 @@
 import { Graph as D3Graph } from "react-d3-graph";
 import React, { Component } from "react";
-import { GraphContext } from "./Components/Context";
-
-import {
-  D3GraphProcessor,
-  
-} from "./Components/GraphProcessor";
+import { D3GraphProcessor } from "./Components/GraphProcessor";
+import { store } from "./store";
 
 export default class GraphRenderer extends Component {
-  static contextType = GraphContext;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      d3Graph: null,
-    };
-  }
+  state = { graph: null };
   componentDidMount() {
-    this.context.updateGraph(this.props.json);
-    console.log(this.context.graph);
+    var store_state = store.getState();
+    var graph = D3GraphProcessor.convertToD3Graph(store_state.graph);
+    this.setState({ graph: graph });
   }
   render() {
-    if (true) {
-      var graph;
-
-      graph = D3GraphProcessor.convertToD3Graph(this.context.graph);
-
-      const { attributes, options, ...data } = graph;
+    if (this.state.graph) {
+      const { attributes, options, ...data } = this.state.graph;
       return (
         <div>
           <D3Graph
