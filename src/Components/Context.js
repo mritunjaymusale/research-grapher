@@ -1,4 +1,6 @@
+import { DirectedGraph } from "graphology";
 import React, { Component } from "react";
+import { JSONGraphProcessor } from "./GraphProcessor";
 
 export const ArxivIdContext = React.createContext();
 
@@ -19,7 +21,6 @@ export class ArxivIdProvider extends Component {
   };
   render() {
     const { id, paperDetails, isLoading } = this.state;
-
     const { updateArxivId } = this;
     return (
       <ArxivIdContext.Provider
@@ -47,8 +48,23 @@ export function fetchPaperDetailsFromAPI(arXivID) {
 
 export const GraphContext = React.createContext();
 
-export class GraphProvider extends Component {
+export class GraphDataProvider extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      graph: new DirectedGraph(),
+      updateGraph: (json) => {
+        this.setState({
+          graph: JSONGraphProcessor.convertJSONToGraph(json, this.state.graph),
+        });
+      },
+    };
+  }
   render() {
-    return <GraphContext.Provider>{this.props.children}</GraphContext.Provider>;
+    return (
+      <GraphContext.Provider value={this.state}>
+        {this.props.children}
+      </GraphContext.Provider>
+    );
   }
 }

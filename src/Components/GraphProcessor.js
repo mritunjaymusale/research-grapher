@@ -7,7 +7,7 @@ export class JSONGraphProcessor {
       });
     });
 
-    return graph;
+    // return graph;
   }
 
   static addReferencesWithEdgesToGraph(references, graph, data) {
@@ -17,7 +17,7 @@ export class JSONGraphProcessor {
         type: "refers",
       });
     });
-    return graph;
+    // return graph;
   }
   static convertJSONToGraph(json, graph) {
     const { citations, references, ...data } = json;
@@ -25,10 +25,10 @@ export class JSONGraphProcessor {
     // Add the base paper to the graph
     graph.mergeNode(data.title, data);
     // Add the references paper to the graph
-    graph = this.addReferencesWithEdgesToGraph(references, graph, data);
-    graph = this.addCitationsWithEdgesToGraph(citations, graph, data);
+     this.addReferencesWithEdgesToGraph(references, graph, data);
+     this.addCitationsWithEdgesToGraph(citations, graph, data);
 
-    // Here on out it converts graph into D3 compatible graph
+    //updated graph
     return graph;
   }
 }

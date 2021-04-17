@@ -1,9 +1,7 @@
-import React, { Component, useContext } from "react";
+import React, { useContext } from "react";
 import {
-  Button,
   Collection,
   CollectionItem,
-  Modal,
   ProgressBar,
 } from "react-materialize";
 import { ArxivIdContext } from "./Components/Context";
