@@ -1,4 +1,4 @@
-import { createStore } from "redux";
-import { graphReducer } from "./Reducer";
+import { createStore,combineReducers } from "redux";
+import { graphReducer } from "./Reducers";
 
-export const store = createStore(graphReducer);
+export const store = createStore(combineReducers({graphReducer}));

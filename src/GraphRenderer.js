@@ -7,7 +7,9 @@ export default class GraphRenderer extends Component {
   state = { graph: null };
   componentDidMount() {
     var store_state = store.getState();
-    var graph = D3GraphProcessor.convertToD3Graph(store_state.graph);
+    var graph = D3GraphProcessor.convertToD3Graph(
+      store_state.graphReducer.graph
+    );
     this.setState({ graph: graph });
   }
   render() {

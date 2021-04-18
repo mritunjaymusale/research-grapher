@@ -9,8 +9,7 @@ import { JSONGraphProcessor } from "./Components/GraphProcessor";
 
 export class Graph extends Component {
   static contextType = ArxivIdContext;
-
-  state = { modal: null, graph: null };
+  state = { modal: null };
   onClickNode(nodeId, node) {
     var modalOptions = {
       bottomSheet: true,
@@ -27,24 +26,17 @@ export class Graph extends Component {
       `Double clicked node ${nodeId} in position (${node.x}, ${node.y})`
     );
   };
+
   render() {
     if (!this.context.isLoading) {
       var json = this.context.paperDetails;
-      var store_state = store.getState();
-      var graph = JSONGraphProcessor.convertJSONToGraph(
-        json,
-        store_state.graph
-      );
-      store.dispatch({
-        type: "updateGraph",
-        payload: graph,
-      });
+      const { citations, references, ...data } = json;
+      JSONGraphProcessor.updateStoreGraph(data, citations, references);
 
       return (
         <Row>
           <Col s={6} l={6}>
             <GraphRenderer
-              json={json}
               onClickNode={(nodeId, node) => {
                 this.onClickNode(nodeId, node);
               }}

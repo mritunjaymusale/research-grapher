@@ -1,3 +1,5 @@
+import { store } from "../store";
+
 export class JSONGraphProcessor {
   static addCitationsWithEdgesToGraph(citations, graph, data) {
     citations.forEach((citation) => {
@@ -6,8 +8,6 @@ export class JSONGraphProcessor {
         type: "cites",
       });
     });
-
-    // return graph;
   }
 
   static addReferencesWithEdgesToGraph(references, graph, data) {
@@ -17,19 +17,22 @@ export class JSONGraphProcessor {
         type: "refers",
       });
     });
-    // return graph;
   }
-  static convertJSONToGraph(json, graph) {
-    const { citations, references, ...data } = json;
+
+  static updateStoreGraph(data, citations, references) {
+    var graph = store.getState().graphReducer.graph;
 
     // Add the base paper to the graph
     graph.mergeNode(data.title, data);
     // Add the references paper to the graph
-     this.addReferencesWithEdgesToGraph(references, graph, data);
-     this.addCitationsWithEdgesToGraph(citations, graph, data);
+    this.addReferencesWithEdgesToGraph(references, graph, data);
+    this.addCitationsWithEdgesToGraph(citations, graph, data);
 
     //updated graph
-    return graph;
+    store.dispatch({
+      type: "UPDATE_GRAPH",
+      graph: graph,
+    });
   }
 }
 
