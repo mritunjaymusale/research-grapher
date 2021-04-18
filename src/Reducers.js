@@ -15,16 +15,20 @@ export function graphReducer(state = { graph: new DirectedGraph() }, action) {
 export function arxivReducer(
   state = {
     id: "",
-    isLoading: true,
-    paperDetails: false,
+    paper: false,
   },
   action
 ) {
   switch (action.type) {
-    case "updateId":
+    case "UPDATE_ARXIV_ID":
       return {
         ...state,
-        id: action.arxivId,
+        id: action.newId,
+      };
+    case "UPDATE_ARXIV_PAPER":
+      return {
+        ...state,
+        paper: action.paper,
       };
 
     default:
@@ -32,20 +36,3 @@ export function arxivReducer(
   }
 }
 
-export const dataFetchReducer = (state = { isLoading: false }, action) => {
-  switch (action.type) {
-    case "finishedLoading":
-      return {
-        ...state,
-        isloading: false,
-      };
-    case "startLoading":
-      return {
-        ...state,
-        isloading: true,
-      };
-
-    default:
-      return state;
-  }
-};

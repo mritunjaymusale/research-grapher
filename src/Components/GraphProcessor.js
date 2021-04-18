@@ -41,23 +41,25 @@ export class D3GraphProcessor {
     graph = this.convertGraphologyToD3Graph(graph);
     graph = this.convertToD3StyleLabeledLinks(graph);
 
-    // TODO: refactor this
-    graph.nodes.map((node) => {
-      // coloring for links
-      D3GraphProcessor.colorCodeNodes(node);
-
-      //   shapes based on reference or citation
-      if (node.attributes.isReference) {
-        node.symbolType = "circle";
-      } else if (node.attributes.isCitation) {
-        node.symbolType = "triangle";
-      } else {
-        node.symbolType = "diamond";
-      }
-      return node;
-    });
+    graph.nodes.map((node) => this.decorateNodes(node));
 
     return graph;
+  }
+  static decorateNodes(node) {
+    // coloring for links
+    D3GraphProcessor.colorCodeNodes(node);
+    //   shapes based on reference or citation
+    D3GraphProcessor.reshapeBasedOnCitations(node);
+    return node;
+  }
+  static reshapeBasedOnCitations(node) {
+    if (node.attributes.isReference) {
+      node.symbolType = "circle";
+    } else if (node.attributes.isCitation) {
+      node.symbolType = "triangle";
+    } else {
+      node.symbolType = "diamond";
+    }
   }
 
   static colorCodeNodes(node) {
