@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ArxivIdContext } from "./Components/Context";
 import * as M from "materialize-css";
 import { CustomModal } from "./Components/CustomModal";
-import { CardPanel, Row } from "react-materialize";
+import { CardPanel, Container, Row } from "react-materialize";
 import GraphRenderer from "./GraphRenderer";
 
 export class Graph extends Component {

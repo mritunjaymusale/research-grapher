@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { CardPanel, Col, Row } from "react-materialize";
+import { CardPanel,  Row } from "react-materialize";
 import { ArxivIdContext } from "./Components/Context";
 import { PDFViewer } from "./PDFViewer";
-import { CitationsAndReferencesList } from "./CollectionNode";
 import { NavBar } from "./Components/NavBar";
 import { Graph } from "./Graph";
 
@@ -31,12 +30,10 @@ export default class ResearchGrapher extends Component {
 export const ShowPaperInfo = () => {
   return (
     <Row>
-      <Col s={6}>
+     
         <PDFViewer />
-      </Col>
-      <Col s={6}>
-        <CitationsAndReferencesList />
-      </Col>
+     
+
     </Row>
   );
 };
