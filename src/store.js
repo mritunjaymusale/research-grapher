@@ -3,9 +3,11 @@ import watch from "redux-watch";
 import { fetchPaperDetailsFromAPI } from "./Components/Context";
 import { JSONGraphProcessor } from "./Components/GraphProcessor";
 import { graphReducer, arxivReducer } from "./Reducers";
-
+import { composeWithDevTools } from "redux-devtools-extension";
 export const store = createStore(
-  combineReducers({ graphReducer, arxivReducer })
+  combineReducers({ graphReducer, arxivReducer }),
+  // remove this in prod build
+  composeWithDevTools()
 );
 
 let id_watcher = watch(store.getState, "arxivReducer.id");
