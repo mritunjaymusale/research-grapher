@@ -1,37 +1,51 @@
-import { Graph as D3Graph } from "react-d3-graph";
-import React, { Component } from "react";
-import { D3GraphProcessor } from "./Components/GraphProcessor";
-import { store } from "./store";
 
-export default class GraphRenderer extends Component {
-  state = { graph: null };
-  componentDidMount() {
-    var store_state = store.getState();
-    var graph = D3GraphProcessor.convertToD3Graph(
-      store_state.graphReducer.graph
-    );
-    this.setState({ graph: graph });
-  }
-  render() {
-    if (this.state.graph) {
-      const { attributes, options, ...data } = this.state.graph;
-      return (
-        <div>
-          <D3Graph
-            id="graph-id" // id is mandatory
-            data={data}
-            config={myConfig}
-            onClickNode={(nodeId, node) => {
-              this.props.onClickNode(nodeId, node);
-            }}
-            onDoubleClickNode={(nodeId, node) => {
-              this.props.onDoubleClickNode(nodeId, node);
-            }}
-          />
-        </div>
-      );
-    } else return <div></div>;
-  }
+import SpriteText from "three-spritetext";
+import React, { useEffect, useRef } from "react";
+import { D3GraphProcessor } from "./Components/GraphProcessor";
+import { ForceGraph3D } from "react-force-graph";
+
+import { useSelector } from "react-redux";
+
+
+
+export const GraphRenderer = (props) => {
+  const graphInstance = useSelector((state) => state.graphReducer.graph);
+  var graph = D3GraphProcessor.convertToD3Graph(graphInstance);
+  const { attributes, options, ...data } = graph;
+
+  const fgRef = useRef();
+
+  useEffect(() => {
+    const fg = fgRef.current;
+
+    fg.d3Force("link").distance((link) => 500);
+    // fg.d3Force("gravity", -250)
+  }, []);
+
+  return (
+    <div>
+      <ForceGraph3D
+
+        ref={fgRef}
+        graphData={data}
+        nodeAutoColorBy="group"
+        nodeThreeObject={(node) => {
+          var truncated_id = truncate(node.id, 25);
+          const sprite = new SpriteText(truncated_id);
+          sprite.color = node.color;
+          sprite.textHeight = 18;
+          return sprite;
+        }}
+        onNodeClick={(node, event) => {
+          props.onClickNode(node);
+        }}
+      />
+    </div>
+  );
+};
+
+function truncate(str, n) {
+  return str.length > n ? str.substr(0, n - 1) + "..." : str;
 }
 
 const myConfig = {

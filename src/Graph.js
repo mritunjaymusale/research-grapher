@@ -1,15 +1,27 @@
 import React, { Component } from "react";
-import { ArxivIdContext } from "./Components/Context";
 import * as M from "materialize-css";
 import { CustomModal } from "./Components/CustomModal";
-import { CardPanel, Container, Row } from "react-materialize";
-import GraphRenderer from "./GraphRenderer";
+import { CardPanel, Row } from "react-materialize";
+import { GraphRenderer } from "./GraphRenderer";
+import watch from "redux-watch";
+import { store } from "./store";
 
 export class Graph extends Component {
-  static contextType = ArxivIdContext;
   state = { modal: null };
+  constructor(props) {
+    super(props);
+    let paper_watcher = watch(store.getState, "arxivReducer.paper");
+    store.subscribe(
+      paper_watcher((newVal, oldVal, objectPath) => {
+        if (newVal !== oldVal) {
+          // this.setState({ paper: newVal });
+          this.forceUpdate();
+        }
+      })
+    );
+  }
 
-  onClickNode(nodeId, node) {
+  onClickNode(node) {
     var modalOptions = {
       bottomSheet: true,
       id: "graphpapermodal",
@@ -17,35 +29,24 @@ export class Graph extends Component {
     this.setState({
       modal: <CustomModal modalOptions={modalOptions} node={node.attributes} />,
     });
-
-    M.Modal.getInstance(document.getElementById("graphpapermodal")).open();
+    setTimeout(() => {
+      M.Modal.getInstance(document.getElementById("graphpapermodal")).open();
+    }, 70);
   }
-  onDoubleClickNode = function (nodeId, node) {
-    window.alert(
-      `Double clicked node ${nodeId} in position (${node.x}, ${node.y})`
-    );
-  };
 
   render() {
-    if (!this.context.isLoading) {
-      return (
-        <Row>
-          <CardPanel>
-            <GraphRenderer
-              onClickNode={(nodeId, node) => {
-                this.onClickNode(nodeId, node);
-              }}
-              onDoubleClickNode={(nodeId, node) => {
-                this.onDoubleClickNode(nodeId, node);
-              }}
-            />
-          </CardPanel>
+    return (
+      <Row>
+        <CardPanel>
+          <GraphRenderer
+            onClickNode={(node) => {
+              this.onClickNode(node);
+            }}
+          />
+        </CardPanel>
 
-          {this.state.modal}
-        </Row>
-      );
-    } else {
-      return <div></div>;
-    }
+        {this.state.modal}
+      </Row>
+    );
   }
 }
