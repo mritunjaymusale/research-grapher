@@ -15,6 +15,7 @@ export class ModalActionButtons extends Component {
             node="button"
             waves="light"
             onClick={(event) => {
+              // TODO: need to add new case in reducer for calling api and then updating all the other fields of state then only we can get rid of this
               this.context.updateArxivId(this.props.data.arxivId);
             }}
             tooltip="Preview the paper in the PDF Window"

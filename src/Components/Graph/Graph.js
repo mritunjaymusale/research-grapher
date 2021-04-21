@@ -50,3 +50,11 @@ export class Graph extends Component {
     );
   }
 }
+
+export default function PaperInfo() {
+  return (
+    <div>
+      
+    </div>
+  )
+}

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { Button, Icon, Modal, NavItem } from "react-materialize";
-import { ArxivIdContext } from "./Context";
 import * as M from "materialize-css";
+import { store } from "../store";
 
 export class NavbarSearchButton extends Component {
-  static contextType = ArxivIdContext;
   state = {
     value: "",
   };
@@ -19,7 +18,11 @@ export class NavbarSearchButton extends Component {
         var arxivIdRegex = new RegExp("^[0-9]{4}.[0-9]{5}$");
         if (arxivIdRegex.test(this.state.value)) {
           this.closeModal();
-          this.context.updateArxivId(this.state.value);
+
+          store.dispatch({
+            type: "UPDATE_ARXIV_ID",
+            newId: this.state.value,
+          });
         } else M.toast({ html: "Given Id is not an arXivId" });
       }
     }

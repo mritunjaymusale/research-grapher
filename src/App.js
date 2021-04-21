@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ResearchGrapher from "./ResearchGrapher";
+import {ResearchGrapher} from "./ResearchGrapher";
 import "materialize-css/dist/css/materialize.css";
 import "material-icons/iconfont/material-icons.css";
 import * as M from "materialize-css";

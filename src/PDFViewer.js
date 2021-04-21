@@ -1,32 +1,27 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, ProgressBar } from "react-materialize";
-import { ArxivIdContext } from "./Components/Context";
+import { useSelector } from "react-redux";
 
-export class PDFViewer extends Component {
-  static contextType = ArxivIdContext;
-  state = { showPDF: false };
+// TODO: fix pdfjs css for fitting the page veritically
 
-  hideProgessBar() {
-    this.setState({
-      showPDF: true,
-    });
-  }
-  render() {
-    // TODO: fix pdfjs css for fitting the page veritically
+export const PDFViewer = (props) => {
+  const [paperId, setPaperId] = useState("");
 
-    const pdfURL = `https://arxiv.org/pdf/${this.context.id}.pdf`;
-    return (
-      <Card title="Preview">
-        <div className="video-container">
-          {this.state.showPDF ? null : <ProgressBar />}
-          <iframe
-            src={pdfURL}
-            frameBorder="0"
-            onLoad={(event) => this.hideProgessBar()}
-            allowFullScreen
-          />
-        </div>
-      </Card>
-    );
-  }
-}
+  const [progressBar, setProgressBar] = useState(true);
+  var id = useSelector((state) => state.arxivReducer.id);
+  useEffect(() => (id ? setPaperId(id) : null));
+
+  return (
+    <Card title="Preview">
+      <div className="video-container">
+        {progressBar ? <ProgressBar /> : null}
+        <iframe
+          src={`https://arxiv.org/pdf/${paperId}.pdf`}
+          frameBorder="0"
+          onLoad={(event) => setProgressBar(false)}
+          allowFullScreen
+        />
+      </div>
+    </Card>
+  );
+};
