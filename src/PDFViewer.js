@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ProgressBar } from "react-materialize";
+import { Card, ProgressBar } from "react-materialize";
 import { ArxivIdContext } from "./Components/Context";
 
 export class PDFViewer extends Component {
@@ -16,15 +16,17 @@ export class PDFViewer extends Component {
 
     const pdfURL = `https://arxiv.org/pdf/${this.context.id}.pdf`;
     return (
-      <div className="video-container">
-        {this.state.showPDF ? null : <ProgressBar />}
-        <iframe
-          src={pdfURL}
-          frameBorder="0"
-          onLoad={(event) => this.hideProgessBar()}
-          allowFullScreen
-        />
-      </div>
+      <Card title="Preview">
+        <div className="video-container">
+          {this.state.showPDF ? null : <ProgressBar />}
+          <iframe
+            src={pdfURL}
+            frameBorder="0"
+            onLoad={(event) => this.hideProgessBar()}
+            allowFullScreen
+          />
+        </div>
+      </Card>
     );
   }
 }

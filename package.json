@@ -18,7 +18,6 @@
     "react-materialize": "^3.9.8",
     "react-redux": "^7.2.3",
     "react-scripts": "4.0.3",
-    "react-sizeme": "^3.0.1",
     "redux": "^4.0.5",
     "redux-watch": "^1.2.0",
     "three-spritetext": "^1.6.1",

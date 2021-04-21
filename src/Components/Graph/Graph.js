@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import * as M from "materialize-css";
-import { CustomModal } from "./Components/CustomModal";
-import { CardPanel, Row } from "react-materialize";
+import { CustomModal } from "../CustomModal";
+import { Card, CardPanel, Row } from "react-materialize";
 import { GraphRenderer } from "./GraphRenderer";
 import watch from "redux-watch";
-import { store } from "./store";
+import { store } from "../../store";
 
 export class Graph extends Component {
   state = { modal: null };
@@ -36,17 +36,17 @@ export class Graph extends Component {
 
   render() {
     return (
-      <Row>
-        <CardPanel>
+      <React.Fragment>
+        <Card title="Citation Graph">
           <GraphRenderer
             onClickNode={(node) => {
               this.onClickNode(node);
             }}
           />
-        </CardPanel>
+        </Card>
 
         {this.state.modal}
-      </Row>
+      </React.Fragment>
     );
   }
 }

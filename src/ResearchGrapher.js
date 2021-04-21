@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { CardPanel,  Row } from "react-materialize";
+import { CardPanel, Col, Row } from "react-materialize";
 import { ArxivIdContext } from "./Components/Context";
 import { PDFViewer } from "./PDFViewer";
 import { NavBar } from "./Components/NavBar";
-import { Graph } from "./Graph";
+import { Graph } from "./Components/Graph/Graph";
 
 export default class ResearchGrapher extends Component {
   static contextType = ArxivIdContext;
@@ -18,8 +18,14 @@ export default class ResearchGrapher extends Component {
           </CardPanel>
         ) : (
           <React.Fragment>
-            <ShowGraphComponent />
-            <ShowPaperInfo />
+            <Row>
+              <Col l={6}>
+                <ShowGraphComponent />
+              </Col>
+              <Col l={6}>
+                <ShowPaperInfo />
+              </Col>
+            </Row>
           </React.Fragment>
         )}
       </React.Fragment>
@@ -28,14 +34,7 @@ export default class ResearchGrapher extends Component {
 }
 
 export const ShowPaperInfo = () => {
-  return (
-    <Row>
-     
-        <PDFViewer />
-     
-
-    </Row>
-  );
+  return <PDFViewer />;
 };
 
 export const ShowGraphComponent = () => {
