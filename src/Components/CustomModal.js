@@ -1,45 +1,46 @@
-import React, { Component } from "react";
+import React from "react";
 import { Button, Modal } from "react-materialize";
 import { PaperDetails } from "./PaperDetails";
-import { store } from "../store";
+import { useDispatch } from "react-redux";
 
-export class ModalActionButtons extends Component {
-  render() {
-    return (
-      <div>
-        {this.props.data.arxivId ? (
-          <Button
-            flat
-            modal="close"
-            node="button"
-            waves="light"
-            onClick={(event) => {
-              // TODO: need to add new case in reducer for calling api and then updating all the other fields of state then only we can get rid of this
+export const ModalActionButtons = (props) => {
+  const dispatch = useDispatch();
 
-              store.dispatch({
-                type: "UPDATE_ARXIV_ID",
-                newId: this.props.data.arxivId,
-              });
-            }}
-            tooltip="Preview the paper in the PDF Window"
-            tooltipOptions={{
-              position: "top",
-            }}>
-            Load Paper
-          </Button>
-        ) : null}
+  const showLoadPaperButton = (
+    <Button
+      {...defaultButtonConfig}
+      onClick={(event) => {
+        dispatch({
+          type: "UPDATE_ARXIV_ID",
+          newId: props.paper.arxivId,
+        });
+      }}
+      tooltip="Preview the paper in the PDF Window"
+      tooltipOptions={{
+        position: "top",
+      }}>
+      Load Paper
+    </Button>
+  );
+  return (
+    <div>
+      {props.paper.arxivId ? showLoadPaperButton : null}
 
-        <Button flat modal="close" node="button" waves="light">
-          Close
-        </Button>
-      </div>
-    );
-  }
-}
+      <Button {...defaultButtonConfig}>Close</Button>
+    </div>
+  );
+};
+
+const defaultButtonConfig = {
+  flat: true,
+  modal: "close",
+  node: "button",
+  waves: "light",
+};
 
 export const defaultModalConfig = (data) => {
   return {
-    actions: <ModalActionButtons data={data} />,
+    actions: <ModalActionButtons paper={data} />,
     bottomSheet: false,
     fixedFooter: true,
     header: data.title,

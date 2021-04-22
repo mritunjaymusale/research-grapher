@@ -4,6 +4,7 @@ import { fetchPaperDetailsFromAPI } from "./Components/APIHandler";
 import { JSONGraphProcessor } from "./Components/GraphProcessor";
 import { graphReducer, arxivReducer } from "./Reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
+
 export const store = createStore(
   combineReducers({ graphReducer, arxivReducer }),
   // remove this in prod build
