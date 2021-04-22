@@ -1,11 +1,19 @@
 import { DirectedGraph } from "graphology";
 
-export function graphReducer(state = { graph: new DirectedGraph() }, action) {
+export function graphReducer(
+  state = { graph: new DirectedGraph(), currently_selected_node: null },
+  action
+) {
   switch (action.type) {
     case "UPDATE_GRAPH":
       return {
         ...state,
         graph: action.graph,
+      };
+    case "UPDATE_CURRENTLY_SELECTED_NODE":
+      return {
+        ...state,
+        currently_selected_node: action.node,
       };
     default:
       return state;
@@ -35,4 +43,3 @@ export function arxivReducer(
       return state;
   }
 }
-

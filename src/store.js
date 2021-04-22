@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from "redux";
 import watch from "redux-watch";
 import { fetchPaperDetailsFromAPI } from "./Components/APIHandler";
-import { JSONGraphProcessor } from "./Components/GraphProcessor";
+import { JSONGraphProcessor } from "./Components/Graph/GraphDataProcessor";
 import { graphReducer, arxivReducer } from "./Reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 
