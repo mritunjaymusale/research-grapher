@@ -1,10 +1,9 @@
-import { ArxivIdContext } from "./Context";
 import React, { Component } from "react";
 import { Button, Modal } from "react-materialize";
 import { PaperDetails } from "./PaperDetails";
+import { store } from "../store";
 
 export class ModalActionButtons extends Component {
-  static contextType = ArxivIdContext;
   render() {
     return (
       <div>
@@ -16,7 +15,11 @@ export class ModalActionButtons extends Component {
             waves="light"
             onClick={(event) => {
               // TODO: need to add new case in reducer for calling api and then updating all the other fields of state then only we can get rid of this
-              this.context.updateArxivId(this.props.data.arxivId);
+
+              store.dispatch({
+                type: "UPDATE_ARXIV_ID",
+                newId: this.props.data.arxivId,
+              });
             }}
             tooltip="Preview the paper in the PDF Window"
             tooltipOptions={{

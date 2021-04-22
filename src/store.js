@@ -1,6 +1,6 @@
 import { createStore, combineReducers } from "redux";
 import watch from "redux-watch";
-import { fetchPaperDetailsFromAPI } from "./Components/Context";
+import { fetchPaperDetailsFromAPI } from "./Components/APIHandler";
 import { JSONGraphProcessor } from "./Components/GraphProcessor";
 import { graphReducer, arxivReducer } from "./Reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -10,6 +10,7 @@ export const store = createStore(
   composeWithDevTools()
 );
 
+// after id is changed update the paper
 let id_watcher = watch(store.getState, "arxivReducer.id");
 store.subscribe(
   id_watcher((newVal, oldVal, objectPath) => {
@@ -24,6 +25,7 @@ store.subscribe(
   })
 );
 
+// after paper is updated, update graph to include data of papers
 let paper_watcher = watch(store.getState, "arxivReducer.paper");
 store.subscribe(
   paper_watcher((newVal, oldVal, objectPath) => {
