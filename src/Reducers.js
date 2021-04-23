@@ -1,14 +1,28 @@
 import { DirectedGraph } from "graphology";
 
 export function graphReducer(
-  state = { graph: new DirectedGraph(), currently_selected_node: null },
+  state = {
+    graph: new DirectedGraph(),
+    currently_selected_node: null,
+    isUpdating: false,
+  },
   action
 ) {
   switch (action.type) {
+    case "GRAPH_UPDATE_STARTED":
+      return {
+        ...state,
+        isUpdating: true,
+      };
     case "UPDATE_GRAPH":
       return {
         ...state,
         graph: action.graph,
+      };
+    case "GRAPH_UPDATE_FINISHED":
+      return {
+        ...state,
+        isUpdating: false,
       };
     case "UPDATE_CURRENTLY_SELECTED_NODE":
       return {

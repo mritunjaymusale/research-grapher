@@ -28,11 +28,14 @@ export class JSONGraphProcessor {
     this.addReferencesWithEdgesToGraph(references, graph, data);
     this.addCitationsWithEdgesToGraph(citations, graph, data);
 
+    store.dispatch({ type: "GRAPH_UPDATE_STARTED" });
     //updated graph
     store.dispatch({
       type: "UPDATE_GRAPH",
       graph: graph,
     });
+
+    store.dispatch({ type: "GRAPH_UPDATE_FINISHED" });
   }
 }
 

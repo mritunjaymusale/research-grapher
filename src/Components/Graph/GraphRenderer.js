@@ -3,27 +3,37 @@ import React, { Component } from "react";
 import { D3GraphProcessor } from "./GraphDataProcessor";
 import { ForceGraph3D } from "react-force-graph";
 import { store } from "../../store";
+import watch from "redux-watch";
 
 function truncate(str, n) {
   return str.length > n ? str.substr(0, n - 1) + "..." : str;
 }
 
 export class GraphRenderer extends Component {
-  state = {
-    graph: store.getState().graphReducer.graph,
-  };
   constructor(props) {
     super(props);
     this.myRef = React.createRef();
+    this.state = {
+      graph: store.getState().graphReducer.graph,
+    };
+    this.updateGraphIfStoreUpdate();
   }
+  updateGraphIfStoreUpdate() {
+    let w = watch(store.getState, "graphReducer.isUpdating");
+    store.subscribe(
+      w((newVal, oldVal, objectPath) => {
+        if (newVal === false) {
+          this.setState({
+            graph: store.getState().graphReducer.graph,
+          });
+        }
+      })
+    );
+  }
+
   componentDidMount() {
     const fg = this.myRef.current;
-
     fg.d3Force("link").distance((link) => 500);
-
-    store.getState().graphReducer.graph.on("nodeAdded", ({ key }) => {
-      this.forceUpdate();
-    });
   }
   render() {
     var graph = this.state.graph;

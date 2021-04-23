@@ -17,14 +17,7 @@ export class Graph extends Component {
     return (
       <React.Fragment>
         <Card title="Citation Graph">
-          <GraphRenderer
-            onClickNode={(node) => {
-              store.dispatch({
-                type: "UPDATE_CURRENTLY_SELECTED_NODE",
-                node: node,
-              });
-            }}
-          />
+          <GraphRenderer />
         </Card>
 
         <PaperInfo />
