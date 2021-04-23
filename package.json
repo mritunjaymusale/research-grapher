@@ -8,6 +8,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "d3": "5.5.0",
+    "deep-equal": "^2.0.5",
     "graphology": "^0.19.3",
     "material-icons": "^0.6.0",
     "materialize-css": "^1.0.0",
