@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { CardPanel, Col, Row } from "react-materialize";
+import { CardPanel, Col, Container, Row } from "react-materialize";
 import { PDFViewer } from "./PDFViewer";
 import { NavBar } from "./Components/NavBar";
 import { Graph } from "./Components/Graph/Graph";
 import watch from "redux-watch";
 import { store } from "./store";
+import { UserInput } from "./Components/UserInput";
 
 export const ResearchGrapher = () => {
   const [showPaper, setShowPaper] = useState(false);
@@ -22,27 +23,34 @@ export const ResearchGrapher = () => {
       {showPaper ? (
         <React.Fragment>
           <Row>
-            <Col l={6}>
-              <ShowGraphComponent />
-            </Col>
-            <Col l={6}>
-              <ShowPaperInfo />
-            </Col>
+            <ShowGraphComponent />
+
+            <ShowPaperInfo />
           </Row>
         </React.Fragment>
       ) : (
-        <CardPanel>
-          <h5> Please enter arXiv ID of the paper to begin </h5>
-        </CardPanel>
+        <Container>
+          <CardPanel className="large">
+            <UserInput />
+          </CardPanel>
+        </Container>
       )}
     </React.Fragment>
   );
 };
 
 export const ShowPaperInfo = () => {
-  return <PDFViewer />;
+  return (
+    <Col l={6}>
+      <PDFViewer />
+    </Col>
+  );
 };
 
 export const ShowGraphComponent = () => {
-  return <Graph />;
+  return (
+    <Col l={6}>
+      <Graph />
+    </Col>
+  );
 };

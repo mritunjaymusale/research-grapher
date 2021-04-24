@@ -16,9 +16,9 @@ export class GraphRenderer extends Component {
     this.state = {
       graph: store.getState().graphReducer.graph,
     };
-    this.updateGraphIfStoreUpdate();
+    this.storeListener();
   }
-  updateGraphIfStoreUpdate() {
+  storeListener() {
     let w = watch(store.getState, "graphReducer.isUpdating");
     store.subscribe(
       w((newVal, oldVal, objectPath) => {
