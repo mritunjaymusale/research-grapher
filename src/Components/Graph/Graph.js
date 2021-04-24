@@ -1,11 +1,10 @@
 import React, { Component, useEffect, useState } from "react";
 import * as M from "materialize-css";
 import { CustomModal } from "../CustomModal";
-import { Card, CardPanel, Row } from "react-materialize";
+import { Card } from "react-materialize";
 import { GraphRenderer } from "./GraphRenderer";
 import watch from "redux-watch";
 import { store } from "../../store";
-import { useSelector } from "react-redux";
 
 export class Graph extends Component {
   state = { modal: null };
@@ -35,12 +34,12 @@ export default function PaperInfo(props) {
   };
 
   // after paper is updated, update graph to include data of papers
-  let currently_node_watcher = watch(
+  let currently_selected_node_watcher = watch(
     store.getState,
     "graphReducer.currently_selected_node"
   );
   store.subscribe(
-    currently_node_watcher((newVal, oldVal, objectPath) => {
+    currently_selected_node_watcher((newVal, oldVal, objectPath) => {
       if (newVal !== oldVal) {
         setModal(
           <CustomModal modalOptions={modalOptions} node={newVal.attributes} />

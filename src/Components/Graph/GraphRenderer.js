@@ -4,6 +4,7 @@ import { D3GraphProcessor } from "./GraphDataProcessor";
 import { ForceGraph3D } from "react-force-graph";
 import { store } from "../../store";
 import watch from "redux-watch";
+import { Group, Mesh, MeshBasicMaterial } from "three";
 
 function truncate(str, n) {
   return str.length > n ? str.substr(0, n - 1) + "..." : str;
@@ -49,10 +50,13 @@ export class GraphRenderer extends Component {
         nodeAutoColorBy="group"
         nodeThreeObject={(node) => {
           var truncated_id = truncate(node.id, 25);
-          const sprite = new SpriteText(truncated_id);
-          sprite.color = node.color;
-          sprite.textHeight = 18;
-          return sprite;
+          const sprite = generateSpriteText(truncated_id, node);
+
+          const mesh = generateNodeGeometry(node);
+
+          var group = new Group();
+          group.add(sprite, mesh);
+          return group;
         }}
         onNodeClick={(node, event) => {
           store.dispatch({
@@ -63,7 +67,25 @@ export class GraphRenderer extends Component {
         backgroundColor="#101020"
         linkColor={() => "rgba(255,255,255,0.2)"}
         nodeRelSize={1}
+        linkWidth={4}
       />
     );
   }
+}
+
+function generateNodeGeometry(node) {
+  const material = new MeshBasicMaterial({ color: node.color });
+
+  if (node.attributes.numCitedBy) {
+  }
+  const mesh = new Mesh(node.geometry, material);
+  return mesh;
+}
+
+function generateSpriteText(truncated_id, node) {
+  const sprite = new SpriteText(truncated_id);
+  sprite.color = node.color;
+  sprite.textHeight = 18;
+  sprite.position.y = 11;
+  return sprite;
 }

@@ -1,3 +1,4 @@
+import { BoxGeometry, ConeGeometry, SphereGeometry } from "three";
 import { store } from "../../store";
 
 export class JSONGraphProcessor {
@@ -57,11 +58,11 @@ export class D3GraphProcessor {
   }
   static reshapeBasedOnCitations(node) {
     if (node.attributes.isReference) {
-      node.symbolType = "circle";
+      node.geometry = new SphereGeometry(10, 10, 10);
     } else if (node.attributes.isCitation) {
-      node.symbolType = "triangle";
+      node.geometry = new ConeGeometry(10, 20, 10);
     } else {
-      node.symbolType = "diamond";
+      node.geometry = new BoxGeometry(10, 10, 10);
     }
   }
 
