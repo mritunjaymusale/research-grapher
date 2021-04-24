@@ -10,7 +10,7 @@ mark paper usefull or not and change color/icons baed on that ( store this info 
 
 Handle api reponse errors (api has a response for errors just need to mount it to materialize)
 
-Replace reference and citation components with paper info tab on the right side
+Show current paper/selected node paper info on the bottom left
 
 ## BUG
 

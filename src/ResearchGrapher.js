@@ -20,26 +20,12 @@ export const ResearchGrapher = () => {
   return (
     <React.Fragment>
       <NavBar />
-      {showPaper ? (
-        <React.Fragment>
-          <Row>
-            <ShowGraphComponent />
-
-            <ShowPaperInfo />
-          </Row>
-        </React.Fragment>
-      ) : (
-        <Container>
-          <CardPanel className="large">
-            <UserInput />
-          </CardPanel>
-        </Container>
-      )}
+      {showPaper ? <ShowGraphWithPdf /> : <ShowUserInputComponent />}
     </React.Fragment>
   );
 };
 
-export const ShowPaperInfo = () => {
+const ShowPaperPdf = () => {
   return (
     <Col l={6}>
       <PDFViewer />
@@ -47,10 +33,31 @@ export const ShowPaperInfo = () => {
   );
 };
 
-export const ShowGraphComponent = () => {
+const ShowGraphComponent = () => {
   return (
     <Col l={6}>
       <Graph />
     </Col>
+  );
+};
+
+const ShowUserInputComponent = () => {
+  return (
+    <Container>
+      <CardPanel className="large">
+        <UserInput />
+      </CardPanel>
+    </Container>
+  );
+};
+const ShowGraphWithPdf = () => {
+  return (
+    <React.Fragment>
+      <Row>
+        <ShowGraphComponent />
+
+        <ShowPaperPdf />
+      </Row>
+    </React.Fragment>
   );
 };

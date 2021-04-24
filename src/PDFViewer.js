@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Card, ProgressBar } from "react-materialize";
 import { useSelector } from "react-redux";
 
-// TODO: fix pdfjs css for fitting the page veritically
 
 export const PDFViewer = (props) => {
   const [paperId, setPaperId] = useState("");
