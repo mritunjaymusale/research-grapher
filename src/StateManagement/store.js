@@ -1,13 +1,18 @@
 import { createStore, combineReducers } from "redux";
-import { graphReducer, arxivReducer } from "./Reducers";
+import { graphReducer, arxivReducer, toastReducer } from "./Reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { startArxivIdWatcher, startPaperWatcher } from "./Watcher";
+import {
+  startArxivIdWatcher,
+  startPaperWatcher,
+  startToastWatcher,
+} from "./Watcher";
 
 export const store = createStore(
-  combineReducers({ graphReducer, arxivReducer }),
+  combineReducers({ graphReducer, arxivReducer, toastReducer }),
   // remove this in prod build
   composeWithDevTools()
 );
 
 startArxivIdWatcher();
 startPaperWatcher();
+startToastWatcher();

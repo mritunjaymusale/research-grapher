@@ -57,3 +57,10 @@ export function arxivReducer(
       return state;
   }
 }
+
+export function toastReducer(state = { toast: "" }, action) {
+  if (action.type === "SEND_TOAST") {
+    return { ...state, toast: action.toast };
+  }
+  return state;
+}
