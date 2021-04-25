@@ -1,30 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-materialize";
 import { PaperDetails } from "./PaperDetails";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { LoadPaperButton } from "./LoadPaperButton";
 
 export const ModalActionButtons = (props) => {
-  const dispatch = useDispatch();
-
-  const showLoadPaperButton = (
-    <Button
-      {...defaultButtonConfig}
-      onClick={(event) => {
-        dispatch({
-          type: "UPDATE_ARXIV_ID",
-          newId: props.paper.arxivId,
-        });
-      }}
-      tooltip="Preview the paper in the PDF Window"
-      tooltipOptions={{
-        position: "top",
-      }}>
-      Load Paper
-    </Button>
-  );
   return (
     <div>
-      {props.paper.arxivId ? showLoadPaperButton : null}
+      {props.paper.arxivId ? <LoadPaperButton /> : null}
 
       <Button {...defaultButtonConfig}>Close</Button>
     </div>
@@ -55,3 +38,4 @@ export const CustomModal = (props) => {
     </Modal>
   );
 };
+
