@@ -2,36 +2,36 @@ import React from "react";
 import { Icon } from "react-materialize";
 
 export const PaperDetails = (props) => {
-  const nodeData = props.nodeData;
+  const paper = props.paper;
   const arxivLinkConfig = {
-    URL: "https://arxiv.org/abs/" + nodeData.arxivId,
+    URL: "https://arxiv.org/abs/" + paper.arxivId,
     location_name: "arXiv",
-    paperId: nodeData.arxivId,
+    paperId: paper.arxivId,
   };
   const doiLinkConfig = {
-    URL: "https://doi.org/" + nodeData.doi,
+    URL: "https://doi.org/" + paper.doi,
     location_name: "doi",
-    paperId: nodeData.doi,
+    paperId: paper.doi,
   };
   const SemanticScholarLinkConfig = {
-    URL: nodeData.url,
+    URL: paper.url,
     location_name: "SemanticScholar",
-    paperId: nodeData.paperId,
+    paperId: paper.paperId,
   };
 
   return (
     <div>
-      Authors : {nodeData.authors ? showAuthorNames(nodeData) : "Unknown"}
+      Authors : {paper.authors ? showAuthorNames(paper) : "Unknown"}
       <br />
-      Year : {nodeData.year ? nodeData.year : "Unknown"}
+      Year : {paper.year ? paper.year : "Unknown"}
       <br />
-      <ShowAbstract abstract={nodeData.abstract} />
-      Venue : {nodeData.venue ? nodeData.venue : "Unknown"}
+      <ShowAbstract abstract={paper.abstract} />
+      Venue : {paper.venue ? paper.venue : "Unknown"}
       <br />
       <h6>Links:</h6>
-      {nodeData.arxivId ? <LinkTemplate {...arxivLinkConfig} /> : null}
-      {nodeData.doi ? <LinkTemplate {...doiLinkConfig} /> : null}
-      {nodeData.url ? <LinkTemplate {...SemanticScholarLinkConfig} /> : null}
+      {paper.arxivId ? <LinkTemplate {...arxivLinkConfig} /> : null}
+      {paper.doi ? <LinkTemplate {...doiLinkConfig} /> : null}
+      {paper.url ? <LinkTemplate {...SemanticScholarLinkConfig} /> : null}
     </div>
   );
 };
@@ -53,8 +53,8 @@ function ShowAbstract(props) {
   else return null;
 }
 
-function showAuthorNames(nodeData) {
-  return nodeData.authors
+function showAuthorNames(paper) {
+  return paper.authors
     .map((author) => {
       return author.name;
     })

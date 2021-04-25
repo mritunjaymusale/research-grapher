@@ -1,33 +1,41 @@
 import { BoxGeometry, ConeGeometry, SphereGeometry } from "three";
 import { store } from "../../store";
+import M from "materialize-css";
 
 export class JSONGraphProcessor {
-  static addCitationsWithEdgesToGraph(citations, graph, data) {
+  static addCitationsWithEdgesToGraph(citations, graph, paper) {
     citations.forEach((citation) => {
       graph.mergeNode(citation.title, { ...citation, isCitation: true });
-      graph.mergeDirectedEdge(citation.title, data.title, {
+      graph.mergeDirectedEdge(citation.title, paper.title, {
         type: "cites",
       });
     });
   }
 
-  static addReferencesWithEdgesToGraph(references, graph, data) {
+  static addReferencesWithEdgesToGraph(references, graph, paper) {
     references.forEach((reference) => {
       graph.mergeNode(reference.title, { ...reference, isReference: true });
-      graph.mergeDirectedEdge(data.title, reference.title, {
+      graph.mergeDirectedEdge(paper.title, reference.title, {
         type: "refers",
       });
     });
   }
 
-  static updateStoreGraph(data, citations, references) {
+  static updateStoreGraph(paper, citations, references) {
     var graph = store.getState().graphReducer.graph;
 
+    if (paper.numCitedBy > 50) {
+      M.toast({
+        html: "High Citation count detected! System may lag",
+        displayLength: 1000,
+      });
+    }
+
     // Add the base paper to the graph
-    graph.mergeNode(data.title, data);
+    graph.mergeNode(paper.title, paper);
     // Add the references paper to the graph
-    this.addReferencesWithEdgesToGraph(references, graph, data);
-    this.addCitationsWithEdgesToGraph(citations, graph, data);
+    this.addReferencesWithEdgesToGraph(references, graph, paper);
+    this.addCitationsWithEdgesToGraph(citations, graph, paper);
 
     store.dispatch({ type: "GRAPH_UPDATE_STARTED" });
     //updated graph

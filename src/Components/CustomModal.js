@@ -50,8 +50,8 @@ export const defaultModalConfig = (data) => {
 
 export const CustomModal = (props) => {
   return (
-    <Modal {...defaultModalConfig(props.node)} {...props.modalOptions}>
-      <PaperDetails nodeData={props.node} />
+    <Modal {...defaultModalConfig(props.paper)} {...props.modalOptions}>
+      <PaperDetails paper={props.paper} />
     </Modal>
   );
 };

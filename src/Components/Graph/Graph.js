@@ -42,7 +42,7 @@ export default function PaperInfo(props) {
     currently_selected_node_watcher((newVal, oldVal, objectPath) => {
       if (newVal !== oldVal) {
         setModal(
-          <CustomModal modalOptions={modalOptions} node={newVal.attributes} />
+          <CustomModal modalOptions={modalOptions} paper={newVal.attributes} />
         );
       }
     })
