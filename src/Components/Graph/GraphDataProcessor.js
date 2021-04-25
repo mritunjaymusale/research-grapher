@@ -25,9 +25,9 @@ export class JSONGraphProcessor {
     var graph = store.getState().graphReducer.graph;
 
     if (paper.numCitedBy > 50) {
-      M.toast({
-        html: "High Citation count detected! System may lag",
-        displayLength: 1000,
+      store.dispatch({
+        type: "SEND_TOAST",
+        toast: "Given Id is not an arXivId",
       });
     }
 

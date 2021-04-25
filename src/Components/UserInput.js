@@ -21,7 +21,11 @@ export const UserInput = () => {
             type: "UPDATE_ARXIV_ID",
             newId: inputValue,
           });
-        } else M.toast({ html: "Given Id is not an arXivId" });
+        } else
+          store.dispatch({
+            type: "SEND_TOAST",
+            toast: "Given Id is not an arXivId",
+          });
       }
     }
   };
