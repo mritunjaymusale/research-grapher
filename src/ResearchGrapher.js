@@ -4,7 +4,7 @@ import { PDFViewer } from "./PDFViewer";
 import { NavBar } from "./Components/NavBar";
 import { Graph } from "./Components/Graph/Graph";
 import watch from "redux-watch";
-import { store } from "./store";
+import { store } from "./StateManagement/store";
 import { UserInput } from "./Components/UserInput";
 
 export const ResearchGrapher = () => {

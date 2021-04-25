@@ -1,5 +1,5 @@
 import { BoxGeometry, ConeGeometry, SphereGeometry } from "three";
-import { store } from "../../store";
+import { store } from "../../StateManagement/store";
 import M from "materialize-css";
 
 export class JSONGraphProcessor {

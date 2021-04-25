@@ -2,7 +2,7 @@ import SpriteText from "three-spritetext";
 import React, { Component } from "react";
 import { D3GraphProcessor } from "./GraphDataProcessor";
 import { ForceGraph3D } from "react-force-graph";
-import { store } from "../../store";
+import { store } from "../../StateManagement/store";
 import watch from "redux-watch";
 import { Group, Mesh, MeshBasicMaterial } from "three";
 

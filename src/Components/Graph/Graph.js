@@ -4,7 +4,7 @@ import { CustomModal } from "../CustomModal";
 import { Card } from "react-materialize";
 import { GraphRenderer } from "./GraphRenderer";
 import watch from "redux-watch";
-import { store } from "../../store";
+import { store } from "../../StateManagement/store";
 
 export class Graph extends Component {
   state = { modal: null };

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { store } from "../store";
+import { store } from "../StateManagement/store";
 import * as M from "materialize-css";
 
 export const UserInput = () => {
