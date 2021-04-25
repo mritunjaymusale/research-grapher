@@ -29,6 +29,14 @@ export const ResearchGrapher = () => {
   );
 };
 
+const ShowPaperDetailsAndPdf = (props) => {
+  return (
+    <Col l={6}>
+      <ShowPaperDetails />
+      <ShowPaperPdf />
+    </Col>
+  );
+};
 export const ShowPaper = (props) => {
   return (
     <React.Fragment>
@@ -36,10 +44,7 @@ export const ShowPaper = (props) => {
         <Col l={6}>
           <ShowGraphWithCurrentNode />
         </Col>
-        <Col l={6}>
-          <ShowPaperDetails />
-          <ShowPaperPdf />
-        </Col>
+        <ShowPaperDetailsAndPdf />
       </Row>
     </React.Fragment>
   );
@@ -51,7 +56,8 @@ const ShowPaperDetails = (props) => {
   var arxivPaper = useSelector((state) => state.arxivReducer.paper);
   useEffect(() => setPaper(arxivPaper));
   return (
-    <Card>
+    <Card title="Recently loaded paper">
+      <span>Title : {paper.title}</span>
       <PaperDetails paper={paper} />
     </Card>
   );
@@ -87,8 +93,9 @@ const ShowCurrentNode = () => {
     <React.Fragment>
       {currently_selected_node && reducedPaperDetails && (
         <Card
-          title={reducedPaperDetails.title}
+          title="Selected Node"
           actions={reducedPaperDetails.arxivId ? <LoadPaperButton /> : null}>
+          <span>Title : {reducedPaperDetails.title}</span>
           <PaperDetails paper={reducedPaperDetails} />
         </Card>
       )}

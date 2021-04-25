@@ -1,59 +1,91 @@
-import React, { Component, useEffect, useState } from "react";
-import * as M from "materialize-css";
-import { CustomModal } from "../CustomModal";
-import { Card } from "react-materialize";
-import { GraphRenderer } from "./GraphRenderer";
-import watch from "redux-watch";
+import SpriteText from "three-spritetext";
+import React, { Component } from "react";
+import { D3GraphProcessor } from "./GraphDataProcessor";
+import { ForceGraph3D } from "react-force-graph";
 import { store } from "../../StateManagement/store";
+import watch from "redux-watch";
+import { Group, Mesh, MeshBasicMaterial } from "three";
+import { Card } from "react-materialize";
+import { truncate } from "../utils";
+
 
 export class Graph extends Component {
-  state = { modal: null };
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
+    this.state = {
+      graph: store.getState().graphReducer.graph,
+    };
+    this.storeListener();
+  }
+  storeListener() {
+    let w = watch(store.getState, "graphReducer.isUpdating");
+    store.subscribe(
+      w((newVal, oldVal, objectPath) => {
+        if (newVal === false) {
+          this.setState({
+            graph: store.getState().graphReducer.graph,
+          });
+        }
+      })
+    );
   }
 
+  componentDidMount() {
+    const fg = this.myRef.current;
+    fg.d3Force("link").distance((link) => 500);
+  }
   render() {
-    return (
-      <React.Fragment>
-        <Card title="Citation Graph">
-          <GraphRenderer />
-        </Card>
+    var graph = this.state.graph;
+    graph = D3GraphProcessor.convertToD3Graph(graph);
+    const { attributes, options, ...data } = graph;
 
-        <PaperInfo />
-      </React.Fragment>
+    return (
+      <Card title="Citation Graph">
+        <ForceGraph3D
+          width={window.innerWidth / 2.2}
+          height={window.innerHeight / 2}
+          ref={this.myRef}
+          graphData={data}
+          nodeAutoColorBy="group"
+          nodeThreeObject={(node) => {
+            var truncated_id = truncate(node.id, 25);
+            const sprite = generateSpriteText(truncated_id, node);
+
+            const mesh = generateNodeGeometry(node);
+
+            var group = new Group();
+            group.add(sprite, mesh);
+            return group;
+          }}
+          onNodeClick={(node, event) => {
+            store.dispatch({
+              type: "UPDATE_CURRENTLY_SELECTED_NODE",
+              node: node,
+            });
+          }}
+          backgroundColor="#101020"
+          linkColor={() => "rgba(255,255,255,0.2)"}
+          nodeRelSize={1}
+          linkWidth={4}
+        />
+      </Card>
     );
   }
 }
 
-export default function PaperInfo(props) {
-  const [modal, setModal] = useState(null);
+function generateNodeGeometry(node) {
+  const material = new MeshBasicMaterial({ color: node.color });
+  // TODO: papers marked useful should have glow effect on them
 
-  var modalOptions = {
-    bottomSheet: true,
-    id: "graphpapermodal",
-  };
+  const mesh = new Mesh(node.geometry, material);
+  return mesh;
+}
 
-  // after paper is updated, update graph to include data of papers
-  let currently_selected_node_watcher = watch(
-    store.getState,
-    "graphReducer.currently_selected_node"
-  );
-  store.subscribe(
-    currently_selected_node_watcher((newVal, oldVal, objectPath) => {
-      if (newVal !== oldVal) {
-        setModal(
-          <CustomModal modalOptions={modalOptions} paper={newVal.attributes} />
-        );
-      }
-    })
-  );
-
-  useEffect(() => {
-    if (modal) {
-      setTimeout(() => {
-        M.Modal.getInstance(document.getElementById("graphpapermodal")).open();
-      }, 70);
-    }
-  });
-  return <div>{modal}</div>;
+function generateSpriteText(truncated_id, node) {
+  const sprite = new SpriteText(truncated_id);
+  sprite.color = node.color;
+  sprite.textHeight = 18;
+  sprite.position.y = 11;
+  return sprite;
 }
