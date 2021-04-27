@@ -1,8 +1,8 @@
 import { store } from "../StateManagement/store";
 
-export function fetchPaperDetailsFromAPI(arXivID) {
+export function fetchPaperDetailsFromAPI(paperId) {
   return fetch(
-    "https://api.semanticscholar.org/v1/paper/arXiv:" + arXivID
+    "https://api.semanticscholar.org/v1/paper/" + paperId
   ).then(
     (res) => res.json(),
     // fetch error

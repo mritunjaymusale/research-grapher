@@ -6,29 +6,11 @@ import M from "materialize-css";
 
 export const startArxivIdWatcher = () => {
   // after id is changed update the paper
-  let id_watcher = watch(store.getState, "arxivReducer.id");
+  let id_watcher = watch(store.getState, "paperReducer.id");
   store.subscribe(
     id_watcher((newVal, oldVal, objectPath) => {
       if (newVal !== oldVal) {
-        fetchPaperDetailsFromAPI(newVal).then((result) => {
-          if (result === undefined) {
-          } else if (result.abstract) {
-            store.dispatch({
-              type: "SEND_TOAST",
-              toast: "Loading paper please wait",
-            });
-            store.dispatch({
-              // type: "UPDATE_ARXIV_PAPER",
-              type: "UPDATE_PAPER",
-              paper: result,
-            });
-          } else {
-            store.dispatch({
-              type: "SEND_TOAST",
-              toast: "The paper ID seems appreas to be wrong",
-            });
-          }
-        });
+        loadPaperFromApi(newVal);
       }
     })
   );
@@ -58,3 +40,30 @@ export const startToastWatcher = () => {
     })
   );
 };
+
+function loadPaperFromApi(paperId) {
+  fetchPaperDetailsFromAPI(paperId).then((result) => {
+    if (result === undefined) {
+    } else if (result.abstract) {
+      store.dispatch({
+        type: "SEND_TOAST",
+        toast: "Loading paper please wait",
+      });
+      store.dispatch({
+        type: "UPDATE_PAPER",
+        paper: result,
+      });
+    } else if (result.error) {
+      //  if the api doesn't have a paper with that id toss this prompt
+      store.dispatch({
+        type: "SEND_TOAST",
+        toast: result.error,
+      });
+    } else {
+      store.dispatch({
+        type: "SEND_TOAST",
+        toast: "The paper ID seems appreas to be wrong",
+      });
+    }
+  });
+}

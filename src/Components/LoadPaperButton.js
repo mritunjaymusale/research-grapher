@@ -18,17 +18,26 @@ export const LoadPaperButton = () => {
     <Button
       {...buttonConfig}
       onClick={(event) => {
+        // TODO: add other paper id methods aswell
+        var id;
+
+        if (reducedPaperDetails.arxivId) {
+          id = "arxiv:" + reducedPaperDetails.arxivId;
+        } else if (reducedPaperDetails.doi) {
+          id = reducedPaperDetails.doi;
+        } else if (reducedPaperDetails.paperId) {
+          id = reducedPaperDetails.paperId;
+        }
         dispatch({
-          type: "UPDATE_ARXIV_ID",
-          newId: reducedPaperDetails.arxivId,
+          type: "UPDATE_PAPER_ID",
+          id: id,
         });
       }}
       tooltip="Preview the paper in the PDF Window"
       tooltipOptions={{
         position: "top",
       }}
-    className="orange-text"
-    >
+      className="orange-text">
       Load Paper
     </Button>
   );

@@ -92,9 +92,7 @@ const ShowCurrentNode = () => {
   return (
     <React.Fragment>
       {currently_selected_node && reducedPaperDetails && (
-        <Card
-          title="Selected Node"
-          actions={reducedPaperDetails.arxivId ? <LoadPaperButton /> : null}>
+        <Card title="Selected Node" actions={<LoadPaperButton />}>
           <span>Title : {reducedPaperDetails.title}</span>
           <PaperDetails paper={reducedPaperDetails} />
         </Card>

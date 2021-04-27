@@ -34,43 +34,6 @@ export function graphReducer(
   }
 }
 
-export function arxivReducer(
-  state = {
-    id: "",
-    paper: false,
-  },
-  action
-) {
-  switch (action.type) {
-    case "UPDATE_ARXIV_ID":
-      return {
-        ...state,
-        id: action.newId,
-      };
-
-    default:
-      return state;
-  }
-}
-
-export function doiReducer(
-  state = {
-    doi: "",
-  },
-  action
-) {
-  switch (action.type) {
-    case "UPDATE_DOI":
-      return {
-        ...state,
-        doi: action.doi,
-      };
-
-    default:
-      return state;
-  }
-}
-
 export function toastReducer(state = { toast: "" }, action) {
   if (action.type === "SEND_TOAST") {
     return { ...state, toast: action.toast };
@@ -78,12 +41,18 @@ export function toastReducer(state = { toast: "" }, action) {
   return state;
 }
 
-export function paperReducer(state = { paper: "" }, action) {
+export function paperReducer(state = { paper: "", id: "" }, action) {
   switch (action.type) {
     case "UPDATE_PAPER":
       return {
         ...state,
         paper: action.paper,
+      };
+
+    case "UPDATE_PAPER_ID":
+      return {
+        ...state,
+        id: action.id,
       };
 
     default:

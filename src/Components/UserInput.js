@@ -3,56 +3,60 @@ import { store } from "../StateManagement/store";
 import * as M from "materialize-css";
 
 export const UserInput = () => {
-  const [inputValue, setInputValue] = useState("");
-
-  const handleOnChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      if (inputValue !== "") {
-        // Check if the input is arXiv id or not
-        var arxivIdRegex = new RegExp("^[0-9]{4}.[0-9]{4,5}$");
-        var doi_regex = new RegExp("10.\\d{4,9}/[-._;()/:a-z0-9A-Z]+");
-
-        if (arxivIdRegex.test(inputValue)) {
-          closeModal();
-
-          store.dispatch({
-            type: "UPDATE_ARXIV_ID",
-            newId: inputValue,
-          });
-        } else if (doi_regex.test(inputValue)) {
-          closeModal();
-
-          store.dispatch({
-            type: "UPDATE_DOI",
-            doi: inputValue,
-          });
-        } else
-          store.dispatch({
-            type: "SEND_TOAST",
-            toast: "Given Id is not a valid arXivId or doi",
-          });
-      }
-    }
-  };
-
   function closeModal() {
     M.Modal.getInstance(document.getElementById("searchbuttonmodal")).close();
   }
+  const onSubmit = (event) => {
+    event.preventDefault();
+    var text_input = document.getElementById("text-input").value;
+    var paperType = document.querySelector('input[name="paperType"]:checked')
+      .value;
+    closeModal();
+
+    if (paperType === "") {
+      store.dispatch({
+        type: "UPDATE_PAPER_ID",
+        id: text_input,
+      });
+    }
+    // TODO: add more papertype (ACM,etc.)
+    else
+      store.dispatch({
+        type: "UPDATE_PAPER_ID",
+        id: paperType + ":" + text_input,
+      });
+  };
 
   return (
     <div>
       <span>Enter the arXiv Id of the paper you are looking for</span>
-      <input
-        placeholder="Enter arXiv Id "
-        onChange={handleOnChange}
-        onKeyDown={handleKeyDown}
-        autoFocus={true}
-        id="text-input"
-      />
+
+      <form onSubmit={onSubmit}>
+        <input
+          placeholder="Enter paper Id "
+          autoFocus={true}
+          id="text-input"
+          name="paper-id-text"
+        />
+        <p>
+          <label>
+            <input name="paperType" type="radio" value="arxiv" />
+            <span>Arxiv</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="paperType" type="radio" value="" />
+            <span>DOI</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="paperType" type="radio" value="" />
+            <span>SemanticScholar Paper Id</span>
+          </label>
+        </p>
+      </form>
     </div>
   );
 };
