@@ -53,6 +53,24 @@ export function arxivReducer(
   }
 }
 
+export function doiReducer(
+  state = {
+    doi: "",
+  },
+  action
+) {
+  switch (action.type) {
+    case "UPDATE_DOI":
+      return {
+        ...state,
+        doi: action.doi,
+      };
+
+    default:
+      return state;
+  }
+}
+
 export function toastReducer(state = { toast: "" }, action) {
   if (action.type === "SEND_TOAST") {
     return { ...state, toast: action.toast };

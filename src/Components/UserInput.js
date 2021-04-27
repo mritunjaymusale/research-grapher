@@ -14,6 +14,8 @@ export const UserInput = () => {
       if (inputValue !== "") {
         // Check if the input is arXiv id or not
         var arxivIdRegex = new RegExp("^[0-9]{4}.[0-9]{4,5}$");
+        var doi_regex = new RegExp("10.\\d{4,9}/[-._;()/:a-z0-9A-Z]+");
+
         if (arxivIdRegex.test(inputValue)) {
           closeModal();
 
@@ -21,10 +23,17 @@ export const UserInput = () => {
             type: "UPDATE_ARXIV_ID",
             newId: inputValue,
           });
+        } else if (doi_regex.test(inputValue)) {
+          closeModal();
+
+          store.dispatch({
+            type: "UPDATE_DOI",
+            doi: inputValue,
+          });
         } else
           store.dispatch({
             type: "SEND_TOAST",
-            toast: "Given Id is not an arXivId",
+            toast: "Given Id is not a valid arXivId or doi",
           });
       }
     }

@@ -4,6 +4,7 @@ import {
   arxivReducer,
   toastReducer,
   paperReducer,
+  doiReducer,
 } from "./Reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
@@ -13,7 +14,13 @@ import {
 } from "./Watcher";
 
 export const store = createStore(
-  combineReducers({ graphReducer, arxivReducer, toastReducer, paperReducer }),
+  combineReducers({
+    graphReducer,
+    arxivReducer,
+    toastReducer,
+    paperReducer,
+    doiReducer,
+  }),
   // remove this in prod build
   composeWithDevTools()
 );
