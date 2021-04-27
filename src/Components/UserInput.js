@@ -13,7 +13,7 @@ export const UserInput = () => {
     if (event.key === "Enter") {
       if (inputValue !== "") {
         // Check if the input is arXiv id or not
-        var arxivIdRegex = new RegExp("^[0-9]{4}.[0-9]{5}$");
+        var arxivIdRegex = new RegExp("^[0-9]{4}.[0-9]{4,5}$");
         if (arxivIdRegex.test(inputValue)) {
           closeModal();
 

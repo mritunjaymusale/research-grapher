@@ -14,7 +14,7 @@ export const ResearchGrapher = () => {
   const [showPaper, setShowPaper] = useState(false);
 
   useEffect(() => {
-    let paper_watcher = watch(store.getState, "arxivReducer.paper");
+    let paper_watcher = watch(store.getState, "paperReducer.paper");
     store.subscribe(
       paper_watcher((newVal, oldVal, objectPath) => {
         if (newVal !== null && newVal !== false) setShowPaper(true);
@@ -51,9 +51,9 @@ export const ShowPaper = (props) => {
 };
 
 const ShowPaperDetails = (props) => {
-  const [paper, setPaper] = useState(store.getState().arxivReducer.paper);
+  const [paper, setPaper] = useState(store.getState().paperReducer.paper);
   // This can be generalised for other type of papers aswell
-  var arxivPaper = useSelector((state) => state.arxivReducer.paper);
+  var arxivPaper = useSelector((state) => state.paperReducer.paper);
   useEffect(() => setPaper(arxivPaper));
   return (
     <Card title="Recently loaded paper">

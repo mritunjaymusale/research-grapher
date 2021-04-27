@@ -27,7 +27,7 @@ export class JSONGraphProcessor {
     if (paper.numCitedBy > 50) {
       store.dispatch({
         type: "SEND_TOAST",
-        toast: "Given Id is not an arXivId",
+        toast: "High Citation Count detected system may lag",
       });
     }
 

@@ -1,5 +1,10 @@
 import { createStore, combineReducers } from "redux";
-import { graphReducer, arxivReducer, toastReducer } from "./Reducers";
+import {
+  graphReducer,
+  arxivReducer,
+  toastReducer,
+  paperReducer,
+} from "./Reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
   startArxivIdWatcher,
@@ -8,7 +13,7 @@ import {
 } from "./Watcher";
 
 export const store = createStore(
-  combineReducers({ graphReducer, arxivReducer, toastReducer }),
+  combineReducers({ graphReducer, arxivReducer, toastReducer, paperReducer }),
   // remove this in prod build
   composeWithDevTools()
 );

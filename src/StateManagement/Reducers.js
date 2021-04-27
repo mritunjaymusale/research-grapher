@@ -47,11 +47,6 @@ export function arxivReducer(
         ...state,
         id: action.newId,
       };
-    case "UPDATE_ARXIV_PAPER":
-      return {
-        ...state,
-        paper: action.paper,
-      };
 
     default:
       return state;
@@ -63,4 +58,17 @@ export function toastReducer(state = { toast: "" }, action) {
     return { ...state, toast: action.toast };
   }
   return state;
+}
+
+export function paperReducer(state = { paper: "" }, action) {
+  switch (action.type) {
+    case "UPDATE_PAPER":
+      return {
+        ...state,
+        paper: action.paper,
+      };
+
+    default:
+      return state;
+  }
 }

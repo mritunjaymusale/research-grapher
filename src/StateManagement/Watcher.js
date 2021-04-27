@@ -14,12 +14,13 @@ export const startArxivIdWatcher = () => {
           if (result === undefined) {
           } else if (result.abstract) {
             store.dispatch({
-              type: "UPDATE_ARXIV_PAPER",
-              paper: result,
-            });
-            store.dispatch({
               type: "SEND_TOAST",
               toast: "Loading paper please wait",
+            });
+            store.dispatch({
+              // type: "UPDATE_ARXIV_PAPER",
+              type: "UPDATE_PAPER",
+              paper: result,
             });
           } else {
             store.dispatch({
@@ -35,7 +36,7 @@ export const startArxivIdWatcher = () => {
 
 export const startPaperWatcher = () => {
   // after paper is updated, update graph to include data of papers
-  let paper_watcher = watch(store.getState, "arxivReducer.paper");
+  let paper_watcher = watch(store.getState, "paperReducer.paper");
   store.subscribe(
     paper_watcher((newVal, oldVal, objectPath) => {
       if (newVal !== oldVal) {
