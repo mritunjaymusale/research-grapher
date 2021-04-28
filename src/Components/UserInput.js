@@ -31,7 +31,7 @@ export const UserInput = () => {
     <div>
       <span>Enter the arXiv Id of the paper you are looking for</span>
 
-      <form onSubmit={onSubmit}>
+      <form name="paper-info" onSubmit={onSubmit}>
         <input
           placeholder="Enter paper Id "
           autoFocus={true}
@@ -56,6 +56,7 @@ export const UserInput = () => {
             <span>SemanticScholar Paper Id</span>
           </label>
         </p>
+        <input type="submit" value="Submit" className="btn black white-text" />
       </form>
     </div>
   );

@@ -44,7 +44,7 @@ export const startToastWatcher = () => {
 function loadPaperFromApi(paperId) {
   fetchPaperDetailsFromAPI(paperId).then((result) => {
     if (result === undefined) {
-    } else if (result.abstract) {
+    } else if (result.url) {
       store.dispatch({
         type: "SEND_TOAST",
         toast: "Loading paper please wait",
