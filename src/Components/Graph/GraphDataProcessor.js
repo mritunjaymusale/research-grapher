@@ -76,13 +76,13 @@ export class D3GraphProcessor {
 
   static colorCodeNodes(node) {
     if (node.attributes.arxivId) {
-      node.node_color = "white";
-      // TODO:look for alternative text color
-      node.text_color = "#3d5afe";
-    } else if (node.attributes.doi || node.attributes.url) {
       // pink and indigo (bladerunner 2049)
       node.node_color = "#d500f9";
       node.text_color = "#3d5afe";
+    } else if (node.attributes.doi || node.attributes.url) {
+      // TODO:look for alternative color combo
+      node.node_color = "#13EC40";
+      node.text_color = "#FEE13D";
     } else {
       node.color = "red";
     }

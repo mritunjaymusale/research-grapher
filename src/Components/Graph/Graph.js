@@ -34,9 +34,8 @@ export class Graph extends Component {
   componentDidMount() {
     const fg = this.myRef.current;
     fg.d3Force("link").distance((link) => 500);
-    // TODO: make this bloom conditional based on the node attributes
     const bloomPass = new UnrealBloomPass();
-    bloomPass.strength = 0.5;
+    bloomPass.strength = 0.3;
     bloomPass.radius = 0.2;
     bloomPass.exposure = 1.1;
     bloomPass.threshold = 0.1;
