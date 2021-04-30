@@ -37,7 +37,7 @@ export class Graph extends Component {
     // TODO: make this bloom conditional based on the node attributes
     const bloomPass = new UnrealBloomPass();
     bloomPass.strength = 0.5;
-    bloomPass.radius = 0.3;
+    bloomPass.radius = 0.2;
     bloomPass.exposure = 1.1;
     bloomPass.threshold = 0.1;
     fg.postProcessingComposer().addPass(bloomPass);
@@ -82,7 +82,7 @@ export class Graph extends Component {
 }
 
 function generateNodeGeometry(node) {
-  const material = new MeshBasicMaterial({ color: node.color });
+  const material = new MeshBasicMaterial({ color: node.node_color });
 
   const mesh = new Mesh(node.geometry, material);
   return mesh;
@@ -90,7 +90,7 @@ function generateNodeGeometry(node) {
 
 function generateSpriteText(truncated_id, node) {
   const sprite = new SpriteText(truncated_id);
-  sprite.color = node.color;
+  sprite.color = node.text_color;
   sprite.textHeight = 18;
   sprite.position.y = 11;
   return sprite;

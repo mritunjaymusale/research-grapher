@@ -56,5 +56,9 @@ function setURlBasedOnPaperAvailability(
     setUrl(`https://arxiv.org/pdf/${paper.arxivId}.pdf`);
     setShowPDF(true);
     setProgressBar(false);
+  } else {
+    // TODO: if other opensource pdf viewer is then update this section
+    setShowPDF(false);
+    setProgressBar(false);
   }
 }
