@@ -40,7 +40,7 @@ export const UserInput = () => {
         />
         <p>
           <label>
-            <input name="paperType" type="radio" value="arxiv" />
+            <input name="paperType" type="radio" value="arxiv" checked/>
             <span>Arxiv</span>
           </label>
         </p>

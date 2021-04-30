@@ -7,7 +7,7 @@ import watch from "redux-watch";
 import { Group, Mesh, MeshBasicMaterial } from "three";
 import { Card } from "react-materialize";
 import { truncate } from "../utils";
-
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 
 export class Graph extends Component {
   constructor(props) {
@@ -34,6 +34,13 @@ export class Graph extends Component {
   componentDidMount() {
     const fg = this.myRef.current;
     fg.d3Force("link").distance((link) => 500);
+    // TODO: make this bloom conditional based on the node attributes
+    const bloomPass = new UnrealBloomPass();
+    bloomPass.strength = 0.5;
+    bloomPass.radius = 0.3;
+    bloomPass.exposure = 1.1;
+    bloomPass.threshold = 0.1;
+    fg.postProcessingComposer().addPass(bloomPass);
   }
   render() {
     var graph = this.state.graph;
@@ -76,7 +83,6 @@ export class Graph extends Component {
 
 function generateNodeGeometry(node) {
   const material = new MeshBasicMaterial({ color: node.color });
-  // TODO: papers marked useful should have glow effect on them
 
   const mesh = new Mesh(node.geometry, material);
   return mesh;

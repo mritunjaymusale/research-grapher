@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Card, Icon, ProgressBar } from "react-materialize";
 import { useSelector } from "react-redux";
 
-
 export const PDFViewer = (props) => {
   const [showPDF, setShowPDF] = useState(false);
   var paper = useSelector((state) => state.paperReducer.paper);
   const [progressBar, setProgressBar] = useState(true);
-  const [url, setUrl] = useState();
-
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
     setURlBasedOnPaperAvailability(paper, setUrl, setShowPDF, setProgressBar);
@@ -42,7 +40,6 @@ export const PopUpUrlLink = (props) => {
   return null;
 };
 
-
 // Can this be push into Redux?
 function setURlBasedOnPaperAvailability(
   paper,
@@ -55,7 +52,7 @@ function setURlBasedOnPaperAvailability(
     setShowPDF(false);
     setProgressBar(false);
   }
-  if (paper.isOpenAccess && paper.arxivId) {
+  if (paper.arxivId) {
     setUrl(`https://arxiv.org/pdf/${paper.arxivId}.pdf`);
     setShowPDF(true);
     setProgressBar(false);
