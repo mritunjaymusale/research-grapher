@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Icon, ProgressBar } from "react-materialize";
 import { useSelector } from "react-redux";
+import { store } from "./StateManagement/store";
 
 export const PDFViewer = (props) => {
   const [showPDF, setShowPDF] = useState(false);
@@ -32,7 +33,7 @@ export const PopUpUrlLink = (props) => {
   if (props.paper && props.url) {
     return (
       <a href={props.url} target="_blank" rel="noopener noreferrer">
-        {props.paper.paperId}
+        {props.url}
         <Icon>open_in_new</Icon>
       </a>
     );
@@ -47,7 +48,8 @@ function setURlBasedOnPaperAvailability(
   setShowPDF,
   setProgressBar
 ) {
-  if (paper.isOpenAccess && !paper.arxivId) {
+  if (paper.isOpenAccess) {
+    // TODO: if other opensource pdf viewer is then update this section
     setUrl(paper.url);
     setShowPDF(false);
     setProgressBar(false);
@@ -56,9 +58,15 @@ function setURlBasedOnPaperAvailability(
     setUrl(`https://arxiv.org/pdf/${paper.arxivId}.pdf`);
     setShowPDF(true);
     setProgressBar(false);
-  } else {
-    // TODO: if other opensource pdf viewer is then update this section
+  }
+  if (!paper.isOpenAccess && !paper.arxivId) {
+    // TODO: remove the preview component if the paper is not available for public
+    store.dispatch({
+      type: "SEND_TOAST",
+      toast: "Loaded paper is not available for public access hence no preview",
+    });
+    setUrl("");
     setShowPDF(false);
-    setProgressBar(false);
+    setProgressBar(true);
   }
 }
