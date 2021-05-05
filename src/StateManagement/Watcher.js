@@ -34,9 +34,10 @@ export const startToastWatcher = () => {
   let toast_watcher = watch(store.getState, "toastReducer.toast");
   store.subscribe(
     toast_watcher((newVal, oldVal, objectPath) => {
-      if (newVal !== oldVal) {
+      if (newVal)
         M.toast({ html: newVal });
-      }
+      else
+      M.toast({ html: oldVal });
     })
   );
 };

@@ -13,14 +13,14 @@ export const UserInput = () => {
       .value;
     closeModal();
 
-    if (paperType === "") {
+    if (paperType === "doi" && paperType === "semanticscholar") {
       store.dispatch({
         type: "UPDATE_PAPER_ID",
         id: text_input,
       });
     }
     // TODO: add more papertype (ACM,etc.)
-    else
+    else if (paperType === "arxiv")
       store.dispatch({
         type: "UPDATE_PAPER_ID",
         id: paperType + ":" + text_input,
@@ -40,19 +40,19 @@ export const UserInput = () => {
         />
         <p>
           <label>
-            <input name="paperType" type="radio" value="arxiv" checked/>
+            <input name="paperType" type="radio" value="arxiv" checked />
             <span>Arxiv</span>
           </label>
         </p>
         <p>
           <label>
-            <input name="paperType" type="radio" value="" />
+            <input name="paperType" type="radio" value="doi" />
             <span>DOI</span>
           </label>
         </p>
         <p>
           <label>
-            <input name="paperType" type="radio" value="" />
+            <input name="paperType" type="radio" value="semanticscholar" />
             <span>SemanticScholar Paper Id</span>
           </label>
         </p>
