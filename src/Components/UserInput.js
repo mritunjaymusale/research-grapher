@@ -13,7 +13,7 @@ export const UserInput = () => {
       .value;
     closeModal();
 
-    if (paperType === "doi" && paperType === "semanticscholar") {
+    if (paperType === "doi" || paperType === "semanticscholar") {
       store.dispatch({
         type: "UPDATE_PAPER_ID",
         id: text_input,
