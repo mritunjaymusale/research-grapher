@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Card, CardPanel, Col, Container, Row } from "react-materialize";
-import { PDFViewer } from "./PDFViewer";
-import { NavBar } from "./Components/NavBar";
-import { Graph } from "./Components/Graph/Graph";
 import watch from "redux-watch";
+import { PDFViewer } from "./PDFViewer";
+import { useSelector } from "react-redux";
+import { NavBar } from "./Components/NavBar";
 import { store } from "./StateManagement/store";
+import { Graph } from "./Components/Graph/Graph";
+import React, { useEffect, useState } from "react";
 import { UserInput } from "./Components/UserInput";
 import { PaperDetails } from "./Components/PaperDetails";
-import { useSelector } from "react-redux";
 import { LoadPaperButton } from "./Components/LoadPaperButton";
+import { Card, CardPanel, Col, Container, Row } from "react-materialize";
 
 export const ResearchGrapher = () => {
   const [showPaper, setShowPaper] = useState(false);

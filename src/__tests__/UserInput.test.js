@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const { toMatchImageSnapshot } = require('jest-image-snapshot');
+const { openMainPage, submitForm } = require('./HelperFunctions');
 
 expect.extend({ toMatchImageSnapshot });
 
@@ -30,6 +31,7 @@ describe('UserInput.js ', () => {
             failureThreshold: '0.10',
             failureThresholdType: 'percent'
         });
+        await page.close();
     });
 
     it('should take user input', async () => {
@@ -37,6 +39,7 @@ describe('UserInput.js ', () => {
         await page.$eval('#text-input', el => el.value = 'Sample_Text');
         const text = await page.$eval('#text-input', el => el.value);
         expect(text).toEqual('Sample_Text');
+        await page.close();
     });
 
     it('has Arxiv as default paper source', async () => {
@@ -44,6 +47,7 @@ describe('UserInput.js ', () => {
         const element = await page.$("input[name='paperType']:checked");
         const text = await page.evaluate(element => element.value, element);
         expect(text).toBe('arxiv');
+        await page.close();
     });
 
     it('can set different paper source', async () => {
@@ -57,30 +61,16 @@ describe('UserInput.js ', () => {
             failureThreshold: '0.10',
             failureThresholdType: 'percent'
         });
+        await page.close();
     });
 
     it('should submit form', async () => {
         const page = await openMainPage(browser);
 
         // wait for component to render
-        await page.waitForSelector('#root > div.container > div > div > form ');
-
-        // set the input to some id 
-        await page.$eval('#text-input', el => el.value = '10.1177/0956797619831964');
-
-        // change the paper source
-        await page.$eval("#root > div.container > div > div > form > p:nth-child(3) > label > input[type=radio]", elem => { elem.click(); elem.click() });
-        // click the submit button
-        await page.click('#root > div.container > div > div > form > input.btn.black.white-text');
-
-        // wait for the component to disappear
-        await page.waitForSelector('#root > div.container > div > div > form ', { hidden: true });
-    })
+        await submitForm(page);
+        await page.close();
+    });
 
 })
 
-async function openMainPage(browser) {
-    const page = await browser.newPage();
-    await page.goto('http://localhost:3000');
-    return page;
-}
