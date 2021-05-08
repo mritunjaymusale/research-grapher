@@ -23,6 +23,7 @@ describe('System', () => {
         await page.goto('http://localhost:3000');
         const image = await page.screenshot();
         expect(image).toMatchImageSnapshot({
+            comparisonMethod: 'ssim',
             failureThreshold: '0.10',
             failureThresholdType: 'percent'
         });

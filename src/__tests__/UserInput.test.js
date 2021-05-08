@@ -28,6 +28,7 @@ describe('UserInput.js ', () => {
         const UserInputComponent = await page.$("#root > div.container > div");
         const image = await UserInputComponent.screenshot();
         expect(image).toMatchImageSnapshot({
+            comparisonMethod: 'ssim',
             failureThreshold: '0.10',
             failureThresholdType: 'percent'
         });
@@ -58,6 +59,7 @@ describe('UserInput.js ', () => {
         const UserInputComponent = await page.$("#root > div.container > div");
         const image = await UserInputComponent.screenshot();
         expect(image).toMatchImageSnapshot({
+            comparisonMethod: 'ssim',
             failureThreshold: '0.10',
             failureThresholdType: 'percent'
         });
