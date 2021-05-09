@@ -12,7 +12,8 @@ describe('ResearchGrapher Component ', () => {
             headless: true,
             args: [
                 '--window-size=1920,1080',
-            ], defaultViewport: null
+            ],
+            defaultViewport: null
         })
     });
 

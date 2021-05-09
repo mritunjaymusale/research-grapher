@@ -2,16 +2,6 @@
 
 # research-grapher
 
-The goal here is to provide references and citations in an arXiv paper in a GUI friendly node network for easier access as compared to manually going through each reference and searching it through the arXiv webpage.
+The goal here is to provide references and citations in a given paper in a GUI friendly node network for easier access as compared to manually going through each reference and searching for it's citations online. This should drop the unnecessary visits to mulitple publications by half(hopefully) since the [API](https://api.semanticscholar.org/) being accessed here will give a arxiv link if availabe.
 
-## TODO:
 
-mark paper usefull or not and change color/icons baed on that ( store this info in the context)
-
-Handle api reponse errors (api has a response for errors just need to mount it to materialize)
-
-Show current paper/selected node paper info on the bottom left
-
-## BUG
-
-The API data is dirty can't clean it on the fly
