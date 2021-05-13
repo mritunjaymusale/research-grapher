@@ -1,35 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
 import { store } from "../StateManagement/store";
 import * as M from "materialize-css";
 
 export const UserInput = () => {
-  function closeModal() {
-    M.Modal.getInstance(document.getElementById("searchbuttonmodal")).close();
-  }
+
   const onSubmit = (event) => {
     event.preventDefault();
     var text_input = document.getElementById("text-input").value;
-    var paperType = document.querySelector('input[name="paperType"]:checked')
-      .value;
-    closeModal();
 
-    if (paperType === "doi" || paperType === "semanticscholar") {
+    var paperType = document.querySelector('input[name="paperType"]:checked');
+
+    if (paperType === null)
       store.dispatch({
-        type: "UPDATE_PAPER_ID",
-        id: text_input,
+        type: "SEND_TOAST",
+        toast: "Please select a paper type"
       });
+
+
+    else {
+      paperType = paperType.value;
+
+      closeModal();
+
+      if (paperType === "doi" || paperType === "semanticscholar")
+        store.dispatch({
+          type: "UPDATE_PAPER_ID",
+          id: text_input,
+        });
+
+      else if (paperType === "arxiv")
+        store.dispatch({
+          type: "UPDATE_PAPER_ID",
+          id: paperType + ":" + text_input,
+        });
     }
-    // TODO: add more papertype (ACM,etc.)
-    else if (paperType === "arxiv")
-      store.dispatch({
-        type: "UPDATE_PAPER_ID",
-        id: paperType + ":" + text_input,
-      });
   };
 
   return (
     <div>
-      <span>Enter the arXiv Id of the paper you are looking for</span>
+      <span>Enter the ID of the paper you are looking for</span>
 
       <form name="paper-info" onSubmit={onSubmit}>
         <input
@@ -40,7 +49,7 @@ export const UserInput = () => {
         />
         <p>
           <label>
-            <input name="paperType" type="radio" value="arxiv" checked />
+            <input name="paperType" type="radio" value="arxiv" />
             <span>Arxiv</span>
           </label>
         </p>
@@ -61,3 +70,7 @@ export const UserInput = () => {
     </div>
   );
 };
+
+function closeModal() {
+  M.Modal.getInstance(document.getElementById("searchbuttonmodal")).close();
+}

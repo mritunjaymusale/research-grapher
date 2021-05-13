@@ -56,7 +56,5 @@
     "jest-image-snapshot": "^4.5.0",
     "redux-devtools-extension": "^2.13.9"
   },
-
-"homepage": "https://mritunjaymusale.github.io/research-grapher"
-
+  "homepage": "https://mritunjaymusale.github.io/research-grapher"
 }

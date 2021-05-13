@@ -1,6 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import { Navbar } from "react-materialize";
-import { NavbarSearchButton } from "./NavbarSearchButton";
+import { Button, Icon, Modal, NavItem } from "react-materialize";
+import { UserInput } from "./UserInput";
+
+
 
 export const NavBar = () => {
   return (
@@ -16,3 +19,34 @@ export const NavBar = () => {
     </React.Fragment>
   );
 };
+
+
+
+
+
+export class NavbarSearchButton extends Component {
+  render() {
+    return (
+      <NavItem>
+        <Modal
+          id="searchbuttonmodal"
+          actions={[
+            <Button flat modal="close" node="button" waves="green">
+              Close
+            </Button>,
+          ]}
+          trigger={
+
+
+            <Icon class="material-icons-outlined">
+              note_add
+              </Icon>
+
+
+          }>
+          <UserInput />
+        </Modal>
+      </NavItem>
+    );
+  }
+}

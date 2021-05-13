@@ -9,7 +9,6 @@ import { Card } from "react-materialize";
 import { truncate } from "../utils";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 
-
 export class Graph extends Component {
   constructor(props) {
     super(props);
@@ -57,23 +56,18 @@ export class Graph extends Component {
           height={window.innerHeight / 2}
           ref={this.myRef}
           graphData={data}
-          nodeAutoColorBy="group"
           nodeThreeObject={makeCustomNodes}
           onNodeClick={updateCurrentlySelectedNodeInStore}
           backgroundColor="#101020"
-          nodeRelSize={1}
           linkThreeObject={generateBrightLinks}
-
+         cooldownTime={Infinity}
         />
       </Card>
     );
   }
 }
 const generateBrightLinks = link => {
-  const linkColors = new Float32Array([
-    255, 255, 255,
-    255, 0, 0, 0.8 // target
-  ]);
+  const linkColors = new Float32Array([255, 255, 255]);
   const material = new LineBasicMaterial({ vertexColors: true, transparent: true });
   const geometry = new BufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(new Float32Array(2 * 3), 3));

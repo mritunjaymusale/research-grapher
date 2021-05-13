@@ -43,11 +43,10 @@ describe('UserInput.js ', () => {
         await page.close();
     });
 
-    it('has Arxiv as default paper source', async () => {
+    it('has null as default paper source', async () => {
         const page = await openMainPage(browser);
         const element = await page.$("input[name='paperType']:checked");
-        const text = await page.evaluate(element => element.value, element);
-        expect(text).toBe('arxiv');
+        expect(element).toBe(null);
         await page.close();
     });
 
