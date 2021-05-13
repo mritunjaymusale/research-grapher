@@ -4,7 +4,7 @@ import { D3GraphProcessor } from "./GraphDataProcessor";
 import { ForceGraph3D } from "react-force-graph";
 import { store } from "../../StateManagement/store";
 import watch from "redux-watch";
-import { Group, Mesh, MeshBasicMaterial, LineBasicMaterial, BufferGeometry, BufferAttribute, Line, Color } from "three";
+import { Group, Mesh, MeshBasicMaterial, LineBasicMaterial, BufferGeometry, BufferAttribute, Line } from "three";
 import { Card } from "react-materialize";
 import { truncate } from "../utils";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
@@ -60,7 +60,7 @@ export class Graph extends Component {
           onNodeClick={updateCurrentlySelectedNodeInStore}
           backgroundColor="#101020"
           linkThreeObject={generateBrightLinks}
-         cooldownTime={Infinity}
+          cooldownTime={Infinity}
         />
       </Card>
     );

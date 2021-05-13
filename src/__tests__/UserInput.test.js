@@ -53,7 +53,7 @@ describe('UserInput.js ', () => {
     it('can set different paper source', async () => {
         const page = await openMainPage(browser);
         await page.waitForSelector('#root > div.container > div > div > form ');
-        await page.$eval("#root > div.container > div > div > form > p:nth-child(4) > label > input[type=radio]", elem => { elem.click(); elem.click() });
+        await page.$eval("#root > div.container > div > div > form > p:nth-child(4) > label > input[type=radio]", elem => elem.click());
         await page.waitForTimeout(2000);
         const UserInputComponent = await page.$("#root > div.container > div");
         const image = await UserInputComponent.screenshot();
