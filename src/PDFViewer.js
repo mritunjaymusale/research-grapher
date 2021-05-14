@@ -11,14 +11,14 @@ export const PDFViewer = (props) => {
 
   useEffect(() => {
     setURlBasedOnPaperAvailability(paper, setUrl, setShowPDF, setProgressBar);
-  });
+  }, [paper]);
   return (
     <Card title="Preview">
       <PopUpUrlLink url={url} paper={paper} />
       <div className="video-container">
         {progressBar ? <ProgressBar /> : null}
         {showPDF ? (
-          <iframe
+          <iframe title='pdf_viewer'
             src={url}
             frameBorder="0"
             onLoad={(event) => setProgressBar(false)}
@@ -29,6 +29,10 @@ export const PDFViewer = (props) => {
     </Card>
   );
 };
+
+export default PDFViewer;
+
+
 export const PopUpUrlLink = (props) => {
   if (props.paper && props.url) {
     return (

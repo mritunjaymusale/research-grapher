@@ -5,7 +5,7 @@ import { ForceGraph3D } from "react-force-graph";
 import { store } from "../../StateManagement/store";
 import watch from "redux-watch";
 import { Group, Mesh, MeshBasicMaterial, LineBasicMaterial, BufferGeometry, BufferAttribute, Line } from "three";
-import { Card, Col, Divider, Icon, Row } from "react-materialize";
+import { Card, Col, Row } from "react-materialize";
 import { truncate } from "../utils";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 import circle_node from './circle_node.svg';
@@ -18,9 +18,9 @@ export class Graph extends Component {
     this.state = {
       graph: store.getState().graphReducer.graph,
     };
-    this.storeListener();
+    this.startStoreListener();
   }
-  storeListener() {
+  startStoreListener() {
     let w = watch(store.getState, "graphReducer.isUpdating");
     store.subscribe(
       w((newVal, oldVal, objectPath) => {
@@ -52,9 +52,7 @@ export class Graph extends Component {
 
     return (
       <Card title="Citation Graph"
-
-        actions={Legends}
-      >
+        actions={Legends}>
         <ForceGraph3D
           controlType='fly'
           width={window.innerWidth / 2.2}
@@ -67,33 +65,31 @@ export class Graph extends Component {
           linkThreeObject={generateBrightLinks}
           cooldownTime={Infinity}
         />
-
-
-
       </Card>
     );
   }
 }
 
+export default Graph;
+
 const Legends = [
   <Row>
     <Col>
-      <img src={circle_node} width='20px' /> - References
+      <img src={circle_node} width='20px' alt="" /> - References
     </Col>
     <Col>
-      <img src={cone_node} width='20px' /> - Citations
+      <img src={cone_node} width='20px' alt="" /> - Citations
     </Col>
   </Row>,
   <Row>
     <Col>
       <p>
-
-        <span className="yellow-text"> Yellow </span>and <span className="green-text">Green</span> denote <span className="red-text">private </span>access
+        <span className="yellow-text"> Yellow </span>and <span className="green-text">Green</span> denote <span className="red-text">private </span>access papers.
       </p>
     </Col>
     <Col>
       <p>
-        <span className="purple-text">Purple </span>and <span className="blue-text">Blue </span> denote <span className="orange-text">public </span> access
+        <span className="purple-text">Purple </span>and <span className="blue-text">Blue </span> denote <span className="orange-text">public </span> access papers.
       </p>
     </Col>
   </Row>

@@ -12,7 +12,7 @@ export const LoadPaperButton = () => {
   useEffect(() => {
     if (currently_selected_node)
       setReducedPaperDetails(currently_selected_node.attributes);
-  });
+  },[currently_selected_node]);
 
   return (
     <Button

@@ -1,14 +1,16 @@
+import React, { useEffect, useState, Suspense } from "react";
 import watch from "redux-watch";
-import { PDFViewer } from "./PDFViewer";
 import { useSelector } from "react-redux";
 import { NavBar } from "./Components/NavBar";
 import { store } from "./StateManagement/store";
-import { Graph } from "./Components/Graph/Graph";
-import React, { useEffect, useState } from "react";
 import { UserInput } from "./Components/UserInput";
 import { PaperDetails } from "./Components/PaperDetails";
 import { LoadPaperButton } from "./Components/LoadPaperButton";
-import { Card, CardPanel, Col, Container, Row } from "react-materialize";
+import { Card, CardPanel, Col, Container, ProgressBar, Row } from "react-materialize";
+
+
+const Graph = React.lazy(() => import("./Components/Graph/Graph"));
+const PDFViewer = React.lazy(() => import("./PDFViewer"));
 
 export const ResearchGrapher = () => {
   const [showPaper, setShowPaper] = useState(false);
@@ -16,11 +18,10 @@ export const ResearchGrapher = () => {
   useEffect(() => {
     let paper_watcher = watch(store.getState, "paperReducer.paper");
     store.subscribe(
-      paper_watcher((newVal, oldVal, objectPath) => {
-        if (newVal !== null && newVal !== false) setShowPaper(true);
-      })
+      paper_watcher((newVal, oldVal, objectPath) => (newVal !== null && newVal !== false) ? setShowPaper(true) : null)
     );
   });
+
   return (
     <React.Fragment>
       <NavBar />
@@ -28,6 +29,7 @@ export const ResearchGrapher = () => {
     </React.Fragment>
   );
 };
+
 
 const ShowPaperDetailsAndPdf = (props) => {
   return (
@@ -37,6 +39,8 @@ const ShowPaperDetailsAndPdf = (props) => {
     </Col>
   );
 };
+
+
 export const ShowPaper = (props) => {
   return (
     <React.Fragment>
@@ -50,11 +54,13 @@ export const ShowPaper = (props) => {
   );
 };
 
+
+
 const ShowPaperDetails = (props) => {
   const [paper, setPaper] = useState(store.getState().paperReducer.paper);
   // This can be generalised for other type of papers aswell
   var arxivPaper = useSelector((state) => state.paperReducer.paper);
-  useEffect(() => setPaper(arxivPaper));
+  useEffect(() => setPaper(arxivPaper), [arxivPaper]);
   return (
     <Card title="Recently loaded paper">
       <span>Title : {paper.title}</span>
@@ -62,13 +68,23 @@ const ShowPaperDetails = (props) => {
     </Card>
   );
 };
+
+
 const ShowPaperPdf = () => {
-  return <PDFViewer />;
+  return (
+    <Suspense fallback={<ProgressBar/>}>
+      <PDFViewer />
+    </Suspense>)
 };
 
+
 const ShowGraphComponent = () => {
-  return <Graph />;
+  return (
+    <Suspense fallback={<ProgressBar/>}>
+      <Graph />
+    </Suspense>)
 };
+
 
 const ShowUserInputComponent = () => {
   return (
@@ -79,16 +95,17 @@ const ShowUserInputComponent = () => {
     </Container>
   );
 };
+
+
 const ShowCurrentNode = () => {
   const [reducedPaperDetails, setReducedPaperDetails] = useState(null);
-  // This can be generalised for other type of papers aswell
   var currently_selected_node = useSelector(
     (state) => state.graphReducer.currently_selected_node
   );
   useEffect(() => {
     if (currently_selected_node)
       setReducedPaperDetails(currently_selected_node.attributes);
-  });
+  }, [currently_selected_node]);
   return (
     <React.Fragment>
       {currently_selected_node && reducedPaperDetails && (
@@ -100,6 +117,8 @@ const ShowCurrentNode = () => {
     </React.Fragment>
   );
 };
+
+
 const ShowGraphWithCurrentNode = () => {
   return (
     <React.Fragment>
