@@ -5,9 +5,11 @@ import { ForceGraph3D } from "react-force-graph";
 import { store } from "../../StateManagement/store";
 import watch from "redux-watch";
 import { Group, Mesh, MeshBasicMaterial, LineBasicMaterial, BufferGeometry, BufferAttribute, Line } from "three";
-import { Card } from "react-materialize";
+import { Card, Col, Divider, Icon, Row } from "react-materialize";
 import { truncate } from "../utils";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
+import circle_node from './circle_node.svg';
+import cone_node from './cone_node.svg';
 
 export class Graph extends Component {
   constructor(props) {
@@ -49,7 +51,10 @@ export class Graph extends Component {
     const { attributes, options, ...data } = graph;
 
     return (
-      <Card title="Citation Graph">
+      <Card title="Citation Graph"
+
+        actions={Legends}
+      >
         <ForceGraph3D
           controlType='fly'
           width={window.innerWidth / 2.2}
@@ -62,10 +67,40 @@ export class Graph extends Component {
           linkThreeObject={generateBrightLinks}
           cooldownTime={Infinity}
         />
+
+
+
       </Card>
     );
   }
 }
+
+const Legends = [
+  <Row>
+    <Col>
+      <img src={circle_node} width='20px' /> - References
+    </Col>
+    <Col>
+      <img src={cone_node} width='20px' /> - Citations
+    </Col>
+  </Row>,
+  <Row>
+    <Col>
+      <p>
+
+        <span className="yellow-text"> Yellow </span>and <span className="green-text">Green</span> denote <span className="red-text">private </span>access
+      </p>
+    </Col>
+    <Col>
+      <p>
+        <span className="purple-text">Purple </span>and <span className="blue-text">Blue </span> denote <span className="orange-text">public </span> access
+      </p>
+    </Col>
+  </Row>
+];
+
+
+
 const generateBrightLinks = link => {
   const linkColors = new Float32Array([255, 255, 255]);
   const material = new LineBasicMaterial({ vertexColors: true, transparent: true });
