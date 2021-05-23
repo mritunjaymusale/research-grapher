@@ -1,14 +1,19 @@
-import React, { Component } from "react";
-import { ResearchGrapher } from "./ResearchGrapher";
-import "materialize-css/dist/css/materialize.css";
-import "material-icons/iconfont/material-icons.css";
-import * as M from "materialize-css";
+import React, { Suspense } from 'react';
+import NavBar from './NavBar';
+import * as M from 'materialize-css'
+import { ProgressBar } from 'react-materialize';
 
-export default class App extends Component {
-  componentDidMount() {
-    M.AutoInit();
-  }
-  render() {
-    return <ResearchGrapher />;
-  }
+const PaperInput = React.lazy(() => import('./PaperInput'))
+
+function App() {
+  return (
+    <div >
+      <NavBar />
+      <Suspense fallback={<ProgressBar/>}>
+        <PaperInput />
+      </Suspense>
+    </div>
+  );
 }
+
+export default App;

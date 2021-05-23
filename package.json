@@ -1,5 +1,5 @@
 {
-  "name": "research-grapher",
+  "name": "temp",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,31 +7,32 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "d3": "5.5.0",
-    "graphology": "^0.19.3",
-    "material-icons": "^0.6.0",
     "materialize-css": "^1.0.0",
-    "puppeteer": "^9.1.0",
     "react": "^17.0.2",
-    "react-d3-graph": "^2.5.0",
     "react-dom": "^17.0.2",
-    "react-force-graph": "^1.40.5",
     "react-materialize": "^3.9.8",
-    "react-redux": "^7.2.3",
+    "react-redux": "^7.2.4",
     "react-scripts": "4.0.3",
-    "redux": "^4.0.5",
-    "redux-watch": "^1.2.0",
-    "three": "^0.128.0",
-    "three-spritetext": "^1.6.1",
-    "web-vitals": "^1.0.1"
+    "redux-state-change-listener": "^0.1.6",
+    "web-vitals": "^0.2.4",
+    "workbox-background-sync": "^5.1.3",
+    "workbox-broadcast-update": "^5.1.3",
+    "workbox-cacheable-response": "^5.1.3",
+    "workbox-core": "^5.1.3",
+    "workbox-expiration": "^5.1.3",
+    "workbox-google-analytics": "^5.1.3",
+    "workbox-navigation-preload": "^5.1.3",
+    "workbox-precaching": "^5.1.3",
+    "workbox-range-requests": "^5.1.3",
+    "workbox-routing": "^5.1.3",
+    "workbox-strategies": "^5.1.3",
+    "workbox-streams": "^5.1.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "react-scripts build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -50,11 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "gh-pages": "^3.1.0",
-    "jest-image-snapshot": "^4.5.0",
-    "redux-devtools-extension": "^2.13.9"
-  },
-  "homepage": "https://mritunjaymusale.github.io/research-grapher"
+  }
 }
