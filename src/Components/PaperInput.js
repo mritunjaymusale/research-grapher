@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react'
 import { ProgressBar, } from 'react-materialize'
-import { addPaper } from './store/paperInputSlice';
+import { addPaper } from '../store/paperInputSlice';
 import { useDispatch } from 'react-redux';
 
 const Container = React.lazy(() => import('react-materialize/lib/Container'))
@@ -30,24 +30,9 @@ const PaperInput = () => {
                         </div>
 
                         <div>
-                            <p>
-                                <label>
-                                    <input name="paperType" type="radio" onChange={(e) => setPaperType(e.target.value)} value="ArXiv" />
-                                    <span>ArXiv</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input name="paperType" type="radio" onChange={(e) => setPaperType(e.target.value)} value="DOI" />
-                                    <span>DOI</span>
-                                </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input name="paperType" type="radio" onChange={(e) => setPaperType(e.target.value)} value="SemanticScholar" />
-                                    <span>SemanticScholar</span>
-                                </label>
-                            </p>
+                            <InputRadioComponent value="ArXiv" setPaperType={setPaperType} />
+                            <InputRadioComponent value="DOI" setPaperType={setPaperType} />
+                            <InputRadioComponent value="SemanticScholar" setPaperType={setPaperType} />
                         </div>
 
                         <input type="submit" value="Generate graph" className="btn black" />
@@ -58,5 +43,17 @@ const PaperInput = () => {
         </Suspense>
     )
 }
+
+export const InputRadioComponent = ({ value, setPaperType }) => {
+    return (
+        <p>
+            <label>
+                <input name="paperType" type="radio" onChange={(e) => setPaperType(e.target.value)} value={value} />
+                <span>{value}</span>
+            </label>
+        </p>
+    )
+}
+
 
 export default PaperInput

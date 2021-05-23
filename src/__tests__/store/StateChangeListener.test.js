@@ -6,24 +6,23 @@ import { SampleData } from './SampleData'
 
 describe('StateChangeListener', () => {
     it('should load paper when PaperInput changes', async () => {
-        const paperId = '1705.10311';
         const paperType = 'arxiv';
-        store.dispatch(addPaper({ paperId: paperId, paperType: paperType }));
+        store.dispatch(addPaper({ paperId: SampleData.arxiv.arxivId, paperType: paperType }));
         // wait till the callbacks are fired  
         await new Promise((r) => setTimeout(r, 2000));
-        expect(store.getState().loadPaper.paper.abstract).toStrictEqual(SampleData.arxiv.abstract);
-        expect(store.getState().loadPaper.success).toBeTruthy();
-        expect(store.getState().loadPaper.isLoading).toBeFalsy();
+        expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(SampleData.arxiv.abstract);
+        expect(store.getState().loadedPaper.success).toBeTruthy();
+        expect(store.getState().loadedPaper.isLoading).toBeFalsy();
     });
 
     it('should pass on appropriate flags when error received', async () => {
-        const paperId = '1705.10311a';
         const paperType = 'arxiv';
-        store.dispatch(addPaper({ paperId: paperId, paperType: paperType }));
+        store.dispatch(addPaper({ paperId: SampleData.arxiv.arxivId + 'asdf', paperType: paperType }));
         // wait till the callbacks are fired  
         await new Promise((r) => setTimeout(r, 2000));
-        expect(store.getState().loadPaper.paper.abstract).toBeFalsy();
-        expect(store.getState().loadPaper.success).toBeFalsy();
-        expect(store.getState().loadPaper.isLoading).toBeFalsy();
+        expect(store.getState().loadedPaper.paper.abstract).toBeFalsy();
+        expect(store.getState().loadedPaper.success).toBeFalsy();
+        expect(store.getState().loadedPaper.isLoading).toBeFalsy();
+        expect(store.getState().loadedPaper.paper.error).toStrictEqual("Paper not found")
     });
 })

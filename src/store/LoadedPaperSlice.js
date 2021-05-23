@@ -10,11 +10,11 @@ export const initialState = {
 
 
 
-const LoadPaperSlice = createSlice({
-    name: 'loadPaper',
+const LoadedPaperSlice = createSlice({
+    name: 'LoadedPaper',
     initialState,
     reducers: {
-        loadPaper: (state, actions) => {
+        updatePaper: (state, actions) => {
 
             return {
                 ...state,
@@ -28,7 +28,7 @@ const LoadPaperSlice = createSlice({
 
 })
 
-export const { loadPaper } = LoadPaperSlice.actions
+export const { updatePaper } = LoadedPaperSlice.actions
 
 
-export default LoadPaperSlice.reducer
+export default LoadedPaperSlice.reducer

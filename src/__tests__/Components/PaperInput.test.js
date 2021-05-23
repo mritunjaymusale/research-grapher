@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen, waitFor, cleanup } from './test-utils';
-import PaperInput from '../PaperInput';
-import { initialState } from '../store/paperInputSlice'
-import store from '../store/store'
+import { render, screen, waitFor, cleanup } from '../test-utils';
+import PaperInput from '../../Components/PaperInput'
+import { initialState } from '../../store/paperInputSlice'
+import store from '../../store/store'
 import userEvent from '@testing-library/user-event';
 
 describe('PaperInput', () => {
