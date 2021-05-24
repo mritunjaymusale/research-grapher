@@ -13,10 +13,8 @@ describe('PaperInput', () => {
 
     // UI checks
     it('should have Card component', async () => {
-        const { container } = render(<PaperInput />);
-
         await waitFor(() => {
-            expect(container.querySelector('div.card')).toBeInTheDocument();
+            expect(document.querySelector('div.card')).toBeInTheDocument();
         })
     })
     it('should have "Enter the ID of the paper you are looking for" text', () => {

@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import 'materialize-css/dist/css/materialize.css';
 import { Provider } from 'react-redux'
 import store from './store/store'
+import 'materialize-css/dist/css/materialize.css';
 
 ReactDOM.render(
   <React.StrictMode>

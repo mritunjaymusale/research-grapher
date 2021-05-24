@@ -1,3 +1,4 @@
+import { cleanup } from '@testing-library/react'
 import { addPaper } from '../../store/paperInputSlice'
 import store from '../../store/store'
 import { SampleData } from './SampleData'
@@ -5,6 +6,7 @@ import { SampleData } from './SampleData'
 
 
 describe('StateChangeListener', () => {
+    afterEach(cleanup);
     it('should load paper when PaperInput changes', async () => {
         const paperType = 'arxiv';
         store.dispatch(addPaper({ paperId: SampleData.arxiv.arxivId, paperType: paperType }));
