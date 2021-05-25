@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import LoadedPaperSlice from './LoadedPaperSlice'
 import paperInputSliceReducer from './paperInputSlice'
-import { onPaperInputChange } from './StateListeners';
+import { onPaperInputChange } from './StateChangeListeners';
 
 
 const ReduxStateChangeListener = require('redux-state-change-listener');

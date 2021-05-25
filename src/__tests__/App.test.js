@@ -21,14 +21,18 @@ describe('App ', () => {
 
   });
 
-  it('should show PDF after loadedPaper is available', async () => {
+  it('should show Paper after loadedPaper is available', async () => {
     store.dispatch(updatePaper({ paper: SampleData.arxiv, success: true, isLoading: false }))
     // for PDFViewer
     await waitFor(() => screen.getAllByText('Preview'))
 
+    store.dispatch(updatePaper({ paper: SampleData.doi, success: true, isLoading: false }))
+    await waitFor(() => screen.getAllByText('Preview'))
 
-
+    store.dispatch(updatePaper({ paper: SampleData.SemanticScholar, success: true, isLoading: false }))
+    await waitFor(() => screen.getAllByText('Preview'))
   });
+  
 
 
 })

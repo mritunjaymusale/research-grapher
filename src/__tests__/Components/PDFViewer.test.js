@@ -14,6 +14,8 @@ describe('PDFViewer', () => {
 
     it('should render on null input', () => {
         render(<PDFViewer />, { store: store })
+        screen.getAllByText('Preview');
+
         screen.getAllByText('Unable to load the paper');
         // when no paper is loaded no need to show the preview
         expect(document.querySelector('iframe')).not.toBeInTheDocument();
@@ -29,6 +31,7 @@ describe('PDFViewer', () => {
 
     it('should render arxiv paper', () => {
         store.dispatch(updatePaper({ paper: SampleData.arxiv, success: true, isLoading: false }));
+        screen.getAllByText('Preview');
         screen.getByText(SampleData.arxiv.arxivId)
         screen.getByRole('link', { value: `https://arxiv.org/pdf/${SampleData.arxiv.arxivId}.pdf` })
         expect(document.querySelector('iframe').contentWindow.location.href).toEqual(`https://arxiv.org/pdf/${SampleData.arxiv.arxivId}.pdf`);
@@ -37,12 +40,18 @@ describe('PDFViewer', () => {
 
     it('should render doi paper', () => {
         store.dispatch(updatePaper({ paper: SampleData.doi, success: true, isLoading: false }));
+        screen.getAllByText('Preview');
         screen.getByText(SampleData.doi.doi)
         screen.getByRole('link', { value: `https://doi.org/${SampleData.doi.doi}` })
+        expect(document.querySelector('iframe')).not.toBeInTheDocument();
     });
 
     it('should render SemanticScholar paper', () => {
-        store.dispatch(updatePaper({ paper: SampleData.SemanticScholar, success: true, isLoading: false }));
-        // TODO: add this 
+        const { arxivId, doi, ...paper } = SampleData.SemanticScholar
+        store.dispatch(updatePaper({ paper: paper, success: true, isLoading: false }));
+        screen.getAllByText('Preview');
+        screen.getByText(SampleData.SemanticScholar.paperId)
+        screen.getByRole('link', { value: SampleData.SemanticScholar.url })
+        expect(document.querySelector('iframe')).not.toBeInTheDocument();
     });
 });

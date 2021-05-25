@@ -6,8 +6,8 @@ import { SampleData } from './SampleData'
 
 
 describe('StateChangeListener', () => {
-    afterEach(cleanup);
-    it('should load paper when PaperInput changes', async () => {
+    
+    it('should load arxiv paper', async () => {
         const paperType = 'arxiv';
         store.dispatch(addPaper({ paperId: SampleData.arxiv.arxivId, paperType: paperType }));
         // wait till the callbacks are fired  
@@ -16,6 +16,28 @@ describe('StateChangeListener', () => {
         expect(store.getState().loadedPaper.success).toBeTruthy();
         expect(store.getState().loadedPaper.isLoading).toBeFalsy();
     });
+
+    it('should load doi paper', async () => {
+        const paperType = 'doi';
+        store.dispatch(addPaper({ paperId: SampleData.doi.doi, paperType: paperType }));
+        // wait till the callbacks are fired  
+        await new Promise((r) => setTimeout(r, 2000));
+        expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(SampleData.doi.abstract);
+        expect(store.getState().loadedPaper.success).toBeTruthy();
+        expect(store.getState().loadedPaper.isLoading).toBeFalsy();
+    });
+
+
+    it('should load SemanticScholar paper', async () => {
+        const paperType = 'semanticscholar';
+        store.dispatch(addPaper({ paperId: SampleData.SemanticScholar.paperId, paperType: paperType }));
+        // wait till the callbacks are fired  
+        await new Promise((r) => setTimeout(r, 2000));
+        expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(SampleData.SemanticScholar.abstract);
+        expect(store.getState().loadedPaper.success).toBeTruthy();
+        expect(store.getState().loadedPaper.isLoading).toBeFalsy();
+    });
+
 
     it('should pass on appropriate flags when error received', async () => {
         const paperType = 'arxiv';
