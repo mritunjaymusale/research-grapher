@@ -43,4 +43,26 @@ describe("App ", () => {
     );
     await waitFor(() => screen.getAllByText("Preview"));
   });
+
+  it("should show Load Paper Details after loadedPaper is available", async () => {
+    store.dispatch(
+      updatePaper({ paper: SampleData.arxiv, success: true, isLoading: false })
+    );
+    // for PDFViewer
+    await waitFor(() => screen.getAllByText("Loaded Paper"));
+
+    store.dispatch(
+      updatePaper({ paper: SampleData.doi, success: true, isLoading: false })
+    );
+    await waitFor(() => screen.getAllByText("Loaded Paper"));
+
+    store.dispatch(
+      updatePaper({
+        paper: SampleData.SemanticScholar,
+        success: true,
+        isLoading: false,
+      })
+    );
+    await waitFor(() => screen.getAllByText("Loaded Paper"));
+  });
 });

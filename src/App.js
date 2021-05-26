@@ -1,9 +1,10 @@
 import React, { Suspense } from "react";
 import NavBar from "./NavBar";
 import * as M from "materialize-css";
-import { ProgressBar } from "react-materialize";
+import { Container, ProgressBar, Row } from "react-materialize";
 import { useSelector } from "react-redux";
 import PDFViewer from "./Components/PDFViewer";
+import LoadedPaper from "./Components/LoadedPaper";
 
 const PaperInput = React.lazy(() => import("./Components/PaperInput"));
 
@@ -14,7 +15,11 @@ function App() {
     <div>
       <NavBar />
       <Suspense fallback={<ProgressBar />}>
-        {isLoadedPaperReady ? <PDFViewer /> : <PaperInput />}
+        {!isLoadedPaperReady && <PaperInput />}
+        <Row>
+          {isLoadedPaperReady && <PDFViewer />}
+          {isLoadedPaperReady && <LoadedPaper />}
+        </Row>
       </Suspense>
     </div>
   );
