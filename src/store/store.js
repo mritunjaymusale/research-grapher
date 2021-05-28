@@ -1,7 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import LoadedPaperSlice from "./LoadedPaperSlice";
 import paperInputSliceReducer from "./paperInputSlice";
-import { onPaperInputChange } from "./StateChangeListeners";
+import {
+  onLoadedPaperChanged,
+  onPaperInputChange,
+} from "./StateChangeListeners";
 
 const ReduxStateChangeListener = require("redux-state-change-listener");
 
@@ -15,6 +18,10 @@ const store = configureStore({
 const stateCallbackManager = new ReduxStateChangeListener(store);
 
 stateCallbackManager.register((state) => state.paperInput, onPaperInputChange);
+stateCallbackManager.register(
+  (state) => state.loadedPaper,
+  onLoadedPaperChanged
+);
 
 stateCallbackManager.start();
 
