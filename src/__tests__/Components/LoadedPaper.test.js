@@ -2,13 +2,13 @@ import LoadPaper from "../../Components/LoadedPaper";
 import { render, screen, waitFor } from "../test-utils";
 import store from "../../store/store";
 import { updatePaper } from "../../store/LoadedPaperSlice";
-import { SampleData } from "../store/SampleData";
+import { Papers } from "../SampleData";
 
 describe("LoadPaper", () => {
   beforeEach(() => {
     render(<LoadPaper />, { store: store });
     store.dispatch(
-      updatePaper({ paper: SampleData.arxiv, success: true, isLoading: false })
+      updatePaper({ paper: Papers.arxiv, success: true, isLoading: false })
     );
   });
   it("should render nothing on null", async () => {
@@ -20,25 +20,25 @@ describe("LoadPaper", () => {
   it("should render paper details", async () => {
     await waitFor(() => {
       screen.getAllByText("Loaded Paper");
-      screen.getAllByText(`Title : ${SampleData.arxiv.title}`);
+      screen.getAllByText(`Title : ${Papers.arxiv.title}`);
       screen.getAllByText(
-        `Authors : ${SampleData.arxiv.authors.map((author) => author.name)}`
+        `Authors : ${Papers.arxiv.authors.map((author) => author.name)}`
       );
-      screen.getAllByText(`Year : ${SampleData.arxiv.year}`);
-      screen.getAllByText(`Abstract : ${SampleData.arxiv.abstract}`);
-      screen.getAllByText(`Venue : ${SampleData.arxiv.venue}`);
+      screen.getAllByText(`Year : ${Papers.arxiv.year}`);
+      screen.getAllByText(`Abstract : ${Papers.arxiv.abstract}`);
+      screen.getAllByText(`Venue : ${Papers.arxiv.venue}`);
       expect(
-        screen.getByText(SampleData.arxiv.arxivId).closest("a")
+        screen.getByText(Papers.arxiv.arxivId).closest("a")
       ).toHaveAttribute(
         "href",
-        `https://arxiv.org/pdf/${SampleData.arxiv.arxivId}.pdf`
+        `https://arxiv.org/pdf/${Papers.arxiv.arxivId}.pdf`
       );
       expect(
-        screen.getByText(SampleData.arxiv.doi).closest("a")
-      ).toHaveAttribute("href", `https://doi.org/${SampleData.arxiv.doi}`);
+        screen.getByText(Papers.arxiv.doi).closest("a")
+      ).toHaveAttribute("href", `https://doi.org/${Papers.arxiv.doi}`);
       expect(
-        screen.getByText(SampleData.arxiv.paperId).closest("a")
-      ).toHaveAttribute("href", SampleData.arxiv.url);
+        screen.getByText(Papers.arxiv.paperId).closest("a")
+      ).toHaveAttribute("href", Papers.arxiv.url);
     });
   });
 });

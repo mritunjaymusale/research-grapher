@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, waitFor, cleanup } from "./test-utils";
 import App from "../App";
 import store from "../store/store";
-import { SampleData } from "./store/SampleData";
+import { Papers } from "./SampleData";
 import { updatePaper } from "../store/LoadedPaperSlice";
 
 describe("App ", () => {
@@ -24,19 +24,19 @@ describe("App ", () => {
 
   it("should show Paper after loadedPaper is available", async () => {
     store.dispatch(
-      updatePaper({ paper: SampleData.arxiv, success: true, isLoading: false })
+      updatePaper({ paper: Papers.arxiv, success: true, isLoading: false })
     );
     // for PDFViewer
     await waitFor(() => screen.getAllByText("Preview"));
 
     store.dispatch(
-      updatePaper({ paper: SampleData.doi, success: true, isLoading: false })
+      updatePaper({ paper: Papers.doi, success: true, isLoading: false })
     );
     await waitFor(() => screen.getAllByText("Preview"));
 
     store.dispatch(
       updatePaper({
-        paper: SampleData.SemanticScholar,
+        paper: Papers.SemanticScholar,
         success: true,
         isLoading: false,
       })
@@ -46,19 +46,19 @@ describe("App ", () => {
 
   it("should show Load Paper Details after loadedPaper is available", async () => {
     store.dispatch(
-      updatePaper({ paper: SampleData.arxiv, success: true, isLoading: false })
+      updatePaper({ paper: Papers.arxiv, success: true, isLoading: false })
     );
     // for PDFViewer
     await waitFor(() => screen.getAllByText("Loaded Paper"));
 
     store.dispatch(
-      updatePaper({ paper: SampleData.doi, success: true, isLoading: false })
+      updatePaper({ paper: Papers.doi, success: true, isLoading: false })
     );
     await waitFor(() => screen.getAllByText("Loaded Paper"));
 
     store.dispatch(
       updatePaper({
-        paper: SampleData.SemanticScholar,
+        paper: Papers.SemanticScholar,
         success: true,
         isLoading: false,
       })

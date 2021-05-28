@@ -2,6 +2,7 @@ import { updatePaper } from "./LoadedPaperSlice";
 import { getPaperFromApi } from "./SemanticScholarAPI";
 import store from "./store";
 import * as M from "materialize-css";
+import { convertPaperToGraph } from "../Components/GraphOperations";
 
 export const onPaperInputChange = (paper, state, oldpaper, oldState) => {
   if (paper.paperId !== oldpaper.paperId) {
@@ -34,9 +35,9 @@ function updateLoadedPaper(response) {
 }
 
 export const onLoadedPaperChanged = (paper, state, oldpaper, oldState) => {
-  
   if (paper.success && paper.paper.abstract) {
-      // graph preparation happens here 
+    // graph preparation happens here
+    var graph = convertPaperToGraph(paper.paper);
     
   }
 };

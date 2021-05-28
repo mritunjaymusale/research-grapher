@@ -1,7 +1,7 @@
 import PDFViewer from "../../Components/PDFViewer";
 import { render, waitFor, screen } from "../test-utils";
 import store from "../../store/store";
-import { SampleData } from "../store/SampleData";
+import { Papers } from "../SampleData";
 import { updatePaper } from "../../store/LoadedPaperSlice";
 
 describe("PDFViewer", () => {
@@ -26,40 +26,40 @@ describe("PDFViewer", () => {
 
   it("should render arxiv paper", () => {
     store.dispatch(
-      updatePaper({ paper: SampleData.arxiv, success: true, isLoading: false })
+      updatePaper({ paper: Papers.arxiv, success: true, isLoading: false })
     );
     screen.getAllByText("Preview");
-    screen.getByText(SampleData.arxiv.arxivId);
-    expect(screen.getByText(SampleData.arxiv.arxivId).href).toBe(
-      `https://arxiv.org/pdf/${SampleData.arxiv.arxivId}.pdf`
+    screen.getByText(Papers.arxiv.arxivId);
+    expect(screen.getByText(Papers.arxiv.arxivId).href).toBe(
+      `https://arxiv.org/pdf/${Papers.arxiv.arxivId}.pdf`
     );
 
     expect(
       document.querySelector("iframe").contentWindow.location.href
-    ).toEqual(`https://arxiv.org/pdf/${SampleData.arxiv.arxivId}.pdf`);
+    ).toEqual(`https://arxiv.org/pdf/${Papers.arxiv.arxivId}.pdf`);
   });
 
   it("should render doi paper", () => {
     store.dispatch(
-      updatePaper({ paper: SampleData.doi, success: true, isLoading: false })
+      updatePaper({ paper: Papers.doi, success: true, isLoading: false })
     );
     screen.getAllByText("Preview");
-    screen.getByText(SampleData.doi.doi);
-    expect(screen.getByText(SampleData.doi.doi).href).toBe(
-      `https://doi.org/${SampleData.doi.doi}`
+    screen.getByText(Papers.doi.doi);
+    expect(screen.getByText(Papers.doi.doi).href).toBe(
+      `https://doi.org/${Papers.doi.doi}`
     );
     expect(document.querySelector("iframe")).not.toBeInTheDocument();
   });
 
   it("should render SemanticScholar paper", () => {
-    const { arxivId, doi, ...paper } = SampleData.SemanticScholar;
+    const { arxivId, doi, ...paper } = Papers.SemanticScholar;
     store.dispatch(
       updatePaper({ paper: paper, success: true, isLoading: false })
     );
     screen.getAllByText("Preview");
-    screen.getByText(SampleData.SemanticScholar.paperId);
-    expect(screen.getByText(SampleData.SemanticScholar.paperId).href).toBe(
-      SampleData.SemanticScholar.url
+    screen.getByText(Papers.SemanticScholar.paperId);
+    expect(screen.getByText(Papers.SemanticScholar.paperId).href).toBe(
+      Papers.SemanticScholar.url
     );
     expect(document.querySelector("iframe")).not.toBeInTheDocument();
   });

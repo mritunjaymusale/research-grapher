@@ -1,6 +1,6 @@
 import { updatePaper, initialState } from "../../store/LoadedPaperSlice";
 import store from "../../store/store";
-import { SampleData } from "./SampleData";
+import { Papers } from "../SampleData";
 
 describe("LoadedPaperSlice ", () => {
   it("should have initialState", () => {
@@ -12,7 +12,7 @@ describe("LoadedPaperSlice ", () => {
   });
   it("should add new paperId", async () => {
     await store.dispatch(
-      updatePaper({ paper: SampleData.arxiv, success: true, isLoading: false })
+      updatePaper({ paper: Papers.arxiv, success: true, isLoading: false })
     );
     expect(store.getState().loadedPaper.paper).not.toBeNull();
     expect(store.getState().loadedPaper.success).toBeTruthy();
@@ -21,20 +21,20 @@ describe("LoadedPaperSlice ", () => {
 
   it("should add an arxiv paper to store", async () => {
     await store.dispatch(
-      updatePaper({ paper: SampleData.arxiv, success: true, isLoading: false })
+      updatePaper({ paper: Papers.arxiv, success: true, isLoading: false })
     );
     expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(
-      SampleData.arxiv.abstract
+      Papers.arxiv.abstract
     );
     expect(store.getState().loadedPaper.success).toBeTruthy();
     expect(store.getState().loadedPaper.isLoading).toBeFalsy();
   });
   it("should add a doi paper to store", async () => {
     await store.dispatch(
-      updatePaper({ paper: SampleData.doi, success: true, isLoading: false })
+      updatePaper({ paper: Papers.doi, success: true, isLoading: false })
     );
     expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(
-      SampleData.doi.abstract
+      Papers.doi.abstract
     );
     expect(store.getState().loadedPaper.success).toBeTruthy();
     expect(store.getState().loadedPaper.isLoading).toBeFalsy();
@@ -42,13 +42,13 @@ describe("LoadedPaperSlice ", () => {
   it("should add a semanticscholar paper to store", async () => {
     await store.dispatch(
       updatePaper({
-        paper: SampleData.SemanticScholar,
+        paper: Papers.SemanticScholar,
         success: true,
         isLoading: false,
       })
     );
     expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(
-      SampleData.SemanticScholar.abstract
+      Papers.SemanticScholar.abstract
     );
     expect(store.getState().loadedPaper.success).toBeTruthy();
     expect(store.getState().loadedPaper.isLoading).toBeFalsy();

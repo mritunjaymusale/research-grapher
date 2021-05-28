@@ -1,15 +1,15 @@
 import { getPaperFromApi } from "../../store/SemanticScholarAPI";
-import { SampleData } from "./SampleData";
+import { Papers } from "../SampleData";
 
 describe("SemanticSholarAPI", () => {
   it("should fetch arxiv paper details from API", async () => {
-    await getPaperFromApi(SampleData.arxiv.arxivId, "ArXiv").then((paper) =>
-      expect(paper.abstract).toStrictEqual(SampleData.arxiv.abstract)
+    await getPaperFromApi(Papers.arxiv.arxivId, "ArXiv").then((paper) =>
+      expect(paper.abstract).toStrictEqual(Papers.arxiv.abstract)
     );
   });
   it("should fetch doi paper details from API", async () => {
-    await getPaperFromApi(SampleData.doi.doi).then((paper) =>
-      expect(paper.abstract).toStrictEqual(SampleData.doi.abstract)
+    await getPaperFromApi(Papers.doi.doi).then((paper) =>
+      expect(paper.abstract).toStrictEqual(Papers.doi.abstract)
     );
   });
   it("should throw error for incorrect IDs", async () => {

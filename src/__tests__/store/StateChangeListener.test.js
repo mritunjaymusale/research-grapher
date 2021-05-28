@@ -1,18 +1,17 @@
-import { cleanup } from "@testing-library/react";
 import { addPaper } from "../../store/paperInputSlice";
 import store from "../../store/store";
-import { SampleData } from "./SampleData";
+import { Papers } from "../SampleData";
 
 describe("StateChangeListener", () => {
   it("should load arxiv paper", async () => {
     const paperType = "arxiv";
     store.dispatch(
-      addPaper({ paperId: SampleData.arxiv.arxivId, paperType: paperType })
+      addPaper({ paperId: Papers.arxiv.arxivId, paperType: paperType })
     );
     // wait till the callbacks are fired
     await new Promise((r) => setTimeout(r, 2000));
     expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(
-      SampleData.arxiv.abstract
+      Papers.arxiv.abstract
     );
     expect(store.getState().loadedPaper.success).toBeTruthy();
     expect(store.getState().loadedPaper.isLoading).toBeFalsy();
@@ -21,12 +20,12 @@ describe("StateChangeListener", () => {
   it("should load doi paper", async () => {
     const paperType = "doi";
     store.dispatch(
-      addPaper({ paperId: SampleData.doi.doi, paperType: paperType })
+      addPaper({ paperId: Papers.doi.doi, paperType: paperType })
     );
     // wait till the callbacks are fired
     await new Promise((r) => setTimeout(r, 2000));
     expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(
-      SampleData.doi.abstract
+      Papers.doi.abstract
     );
     expect(store.getState().loadedPaper.success).toBeTruthy();
     expect(store.getState().loadedPaper.isLoading).toBeFalsy();
@@ -36,14 +35,14 @@ describe("StateChangeListener", () => {
     const paperType = "semanticscholar";
     store.dispatch(
       addPaper({
-        paperId: SampleData.SemanticScholar.paperId,
+        paperId: Papers.SemanticScholar.paperId,
         paperType: paperType,
       })
     );
     // wait till the callbacks are fired
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 3000));
     expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(
-      SampleData.SemanticScholar.abstract
+      Papers.SemanticScholar.abstract
     );
     expect(store.getState().loadedPaper.success).toBeTruthy();
     expect(store.getState().loadedPaper.isLoading).toBeFalsy();
@@ -53,7 +52,7 @@ describe("StateChangeListener", () => {
     const paperType = "arxiv";
     store.dispatch(
       addPaper({
-        paperId: SampleData.arxiv.arxivId + "asdf",
+        paperId: Papers.arxiv.arxivId + "asdf",
         paperType: paperType,
       })
     );
@@ -67,3 +66,5 @@ describe("StateChangeListener", () => {
     );
   });
 });
+
+// TODO: add loadedPaper to graph listener 
