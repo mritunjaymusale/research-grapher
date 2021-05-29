@@ -1,8 +1,8 @@
-import { addPaper } from "../../store/paperInputSlice";
-import store from "../../store/store";
-import { Papers } from "../SampleData";
-
-describe("StateChangeListener", () => {
+import { addPaper } from "../../../store/paperInputSlice";
+import store from "../../../store/store";
+import { Papers } from "../../SampleData";
+describe("StateChangeListener:PaperInputChangeListener", () => {
+ 
   it("should load arxiv paper", async () => {
     const paperType = "arxiv";
     store.dispatch(
@@ -19,9 +19,7 @@ describe("StateChangeListener", () => {
 
   it("should load doi paper", async () => {
     const paperType = "doi";
-    store.dispatch(
-      addPaper({ paperId: Papers.doi.doi, paperType: paperType })
-    );
+    store.dispatch(addPaper({ paperId: Papers.doi.doi, paperType: paperType }));
     // wait till the callbacks are fired
     await new Promise((r) => setTimeout(r, 2000));
     expect(store.getState().loadedPaper.paper.abstract).toStrictEqual(
@@ -66,5 +64,3 @@ describe("StateChangeListener", () => {
     );
   });
 });
-
-// TODO: add loadedPaper to graph listener 

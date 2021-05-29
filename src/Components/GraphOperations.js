@@ -1,8 +1,7 @@
 import { DirectedGraph } from "graphology";
 
-export const convertPaperToGraph = (paper) => {
+export const mergePaperWithGraph = (paper, graph) => {
   const { citations, references, ...stripped_paper } = paper;
-  const graph = new DirectedGraph();
   graph.mergeNode(stripped_paper.title, stripped_paper);
 
   mergeCitationsWithGraph(citations, stripped_paper, graph);

@@ -12,7 +12,7 @@ const GraphSlice = createSlice({
     updateGraph: (state, actions) => {
       return {
         ...state,
-        graph: state.graph.import(actions.payload.graph),
+        graph: actions.payload.graph,
       };
     },
   },
