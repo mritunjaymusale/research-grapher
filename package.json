@@ -7,10 +7,12 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "d3": "5.5.0",
     "graphology": "^0.19.3",
     "materialize-css": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-force-graph": "^1.41.5",
     "react-materialize": "^3.9.8",
     "react-redux": "^7.2.4",
     "react-scripts": "4.0.3",
@@ -32,7 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test  --transformIgnorePatterns \"node_modules/(?!react-force-graph)/\" ",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
