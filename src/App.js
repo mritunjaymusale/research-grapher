@@ -5,6 +5,7 @@ import { Col, Container, ProgressBar, Row } from "react-materialize";
 import { useSelector } from "react-redux";
 import PDFViewer from "./Components/PDFViewer";
 import LoadedPaper from "./Components/LoadedPaper";
+import CitationGraph from "./Components/CitationGraph";
 
 const PaperInput = React.lazy(() => import("./Components/PaperInput"));
 
@@ -19,7 +20,9 @@ function App() {
         <Row>
           {isLoadedPaperReady && (
             <React.Fragment>
-              <Col l={6}></Col>
+              <Col l={6}>
+                <CitationGraph/>
+              </Col>
               <Col l={6}>
                 <LoadedPaper />
                 <PDFViewer />

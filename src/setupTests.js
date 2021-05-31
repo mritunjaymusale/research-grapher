@@ -4,3 +4,8 @@
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
 jest.setTimeout(10000);
+
+// ! cannot test the webgl graphing lib had to mock it
+jest.mock("react-force-graph", () => ({
+  ForceGraph3D: ({ children }) => <>{children}</>,
+}));
