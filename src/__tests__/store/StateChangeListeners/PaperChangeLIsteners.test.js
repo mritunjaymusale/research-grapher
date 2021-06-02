@@ -2,7 +2,6 @@ import { addPaper } from "../../../store/paperInputSlice";
 import store from "../../../store/store";
 import { Papers } from "../../SampleData";
 describe("StateChangeListener:PaperInputChangeListener", () => {
- 
   it("should load arxiv paper", async () => {
     const paperType = "arxiv";
     store.dispatch(
@@ -60,7 +59,7 @@ describe("StateChangeListener:PaperInputChangeListener", () => {
     expect(store.getState().loadedPaper.success).toBeFalsy();
     expect(store.getState().loadedPaper.isLoading).toBeFalsy();
     expect(store.getState().loadedPaper.paper.error).toStrictEqual(
-      "Paper not found"
+      `Paper with id ${"arxiv:"+Papers.arxiv.arxivId + "asdf"} not found`
     );
   });
 });

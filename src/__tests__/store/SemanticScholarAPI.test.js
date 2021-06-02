@@ -14,7 +14,7 @@ describe("SemanticSholarAPI", () => {
   });
   it("should throw error for incorrect IDs", async () => {
     await getPaperFromApi("asdf10.1002/asna.202113881").then((data) =>
-      expect(data.error).toStrictEqual("Paper not found")
+      expect(data.error).toStrictEqual("Paper with id asdf10.1002/asna.202113881 not found")
     );
   });
 });

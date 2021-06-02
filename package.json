@@ -17,6 +17,7 @@
     "react-redux": "^7.2.4",
     "react-scripts": "4.0.3",
     "redux-state-change-listener": "^0.1.6",
+    "three-spritetext": "^1.6.2",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^5.1.3",
     "workbox-broadcast-update": "^5.1.3",
@@ -55,8 +56,8 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}, 
+  "devDependencies": {},
   "resolutions": {
     "bezier-js": "4.0.3"
- }
+  }
 }

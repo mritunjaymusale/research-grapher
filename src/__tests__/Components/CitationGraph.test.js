@@ -11,7 +11,10 @@ describe("CitationGraph", () => {
   it("should render nothing on empty graph", async () => {
     await waitFor(async () => {
       await screen.findAllByText("Citation Graph");
+      await screen.findAllByText("- References");
+      await screen.findAllByText("- Citations");
     });
+    
   });
 });
 

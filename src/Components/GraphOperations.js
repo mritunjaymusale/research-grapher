@@ -26,3 +26,10 @@ const mergeReferencesWithGraph = (references, paper, graph) => {
     });
   });
 };
+
+export const convertToD3Graph = (graph) => {
+  let D3Graph = {}
+  D3Graph.links = graph._edges
+  D3Graph.nodes = graph._nodes
+  return D3Graph
+};

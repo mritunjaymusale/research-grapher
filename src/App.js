@@ -13,26 +13,28 @@ function App() {
   let isLoadedPaperReady = useSelector((state) => state.loadedPaper.success);
 
   return (
-    <div>
+    <React.Fragment>
       <NavBar />
       <Suspense fallback={<ProgressBar />}>
         {!isLoadedPaperReady && <PaperInput />}
-        <Row>
-          {isLoadedPaperReady && (
-            <React.Fragment>
-              <Col l={6}>
-                <CitationGraph/>
-              </Col>
-              <Col l={6}>
-                <LoadedPaper />
-                <PDFViewer />
-              </Col>
-            </React.Fragment>
-          )}
-        </Row>
+        {isLoadedPaperReady && <GraphWithPaperDetails />}
       </Suspense>
-    </div>
+    </React.Fragment>
   );
 }
 
 export default App;
+
+const GraphWithPaperDetails = () => {
+  return (
+    <Row>
+      <Col l={6}>
+        <CitationGraph />
+      </Col>
+      <Col l={6}>
+        <LoadedPaper />
+        <PDFViewer />
+      </Col>
+    </Row>
+  );
+};
