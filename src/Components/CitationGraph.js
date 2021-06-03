@@ -16,19 +16,26 @@ import SpriteText from "three-spritetext";
 import circle_node from "./circle_node.svg";
 import cone_node from "./cone_node.svg";
 import { useSelector } from "react-redux";
-import { convertToD3Graph } from "./GraphOperations";
+import {
+  attachLabelsToEdges,
+  beautifyNodes,
+  convertToD3Graph,
+} from "./GraphOperations";
 
 const Card = React.lazy(() => import("react-materialize/lib/Card"));
 
 const CitationGraph = () => {
   let data;
-  const graph = useSelector((state) => state.graph.graph);
+  let graph = useSelector((state) => state.graph.graph);
   const ref = useRef(null);
   data = convertToD3Graph(graph);
+  data = attachLabelsToEdges(data);
+  data.nodes.map((node) => {
+    return beautifyNodes(node);
+  });
   useEffect(() => {
     addUnrealBloomPass(ref);
     disableDefaultArrowKeysBehaviour();
-   
   }, [ref]);
 
   return (
@@ -111,7 +118,6 @@ const makeCustomNodes = (node) => {
 
 const addUnrealBloomPass = (ref) => {
   if (ref.current !== null) {
-    console.log(ref);
     const fg = ref;
     fg.d3Force("link").distance((link) => 500);
     const bloomPass = new UnrealBloomPass();

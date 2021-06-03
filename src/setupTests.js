@@ -9,4 +9,6 @@ jest.setTimeout(10000);
 jest.mock("react-force-graph", () => ({
   ForceGraph3D: ({ children }) => <>{children}</>,
 }));
+
+
 jest.spyOn(console, 'error').mockImplementation(() => {});
