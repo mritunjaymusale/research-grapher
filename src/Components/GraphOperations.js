@@ -28,8 +28,22 @@ const mergeReferencesWithGraph = (references, paper, graph) => {
 };
 
 export const convertToD3Graph = (graph) => {
-  let D3Graph = {}
-  D3Graph.links = graph._edges
-  D3Graph.nodes = graph._nodes
-  return D3Graph
+  return JSON.parse(
+    JSON.stringify(graph.toJSON())
+      .split('"edges":')
+      .join('"links":')
+      .split('"key":')
+      .join('"id":')
+  );
+};
+
+export const attachLabelsToEdges = (graph) => {
+  graph.links = graph.links.map((link) => {
+    return {
+      source: link.source,
+      target: link.target,
+      label: link.attributes.type,
+    };
+  });
+  return graph;
 };
