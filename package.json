@@ -36,7 +36,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test  --transformIgnorePatterns \"node_modules/(?!react-force-graph)/\" ",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate-test-report": "react-scripts test  --transformIgnorePatterns \"node_modules/(?!react-force-graph)/\"  --coverage --reporters=default --reporters=./node_modules/jest-html-reporters"
   },
   "eslintConfig": {
     "extends": [
@@ -56,7 +57,9 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest-html-reporters": "^2.1.6"
+  },
   "resolutions": {
     "bezier-js": "4.0.3"
   }
