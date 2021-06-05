@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import PDFViewer from "./Components/PDFViewer";
 import LoadedPaper from "./Components/LoadedPaper";
 import CitationGraph from "./Components/CitationGraph";
+import SelectedNode from "./Components/SelectedNode";
 
 const PaperInput = React.lazy(() => import("./Components/PaperInput"));
 
@@ -30,6 +31,7 @@ const GraphWithPaperDetails = () => {
     <Row>
       <Col l={6}>
         <CitationGraph />
+        <SelectedNode />
       </Col>
       <Col l={6}>
         <LoadedPaper />

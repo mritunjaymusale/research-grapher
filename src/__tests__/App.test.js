@@ -4,6 +4,7 @@ import App from "../App";
 import store from "../store/store";
 import { Papers } from "./SampleData";
 import { updatePaper } from "../store/LoadedPaperSlice";
+import { changeSelectedNode } from "../store/GraphSlice";
 
 describe("App ", () => {
   beforeEach(() => {
@@ -64,5 +65,23 @@ describe("App ", () => {
       })
     );
     await waitFor(() => screen.getAllByText("Loaded Paper"));
+  });
+
+  it("should show graph when graph is ready", async () => {
+    store.dispatch(
+      updatePaper({ paper: Papers.arxiv, success: true, isLoading: false })
+    );
+
+    await waitFor(() => screen.getAllByText("Citation Graph"));
+  });
+
+  it("should show graph when graph is ready", async () => {
+    store.dispatch(
+      changeSelectedNode({
+        node: Papers.arxiv,
+      })
+    );
+
+    await waitFor(() => screen.getAllByText("Load Paper"));
   });
 });

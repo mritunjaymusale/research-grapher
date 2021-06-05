@@ -75,7 +75,7 @@ const generateBrightLinks = (link) => {
   return new Line(geometry, material);
 };
 const handleSelectedNode = (node, event) => {
-  store.dispatch(changeSelectedNode({ node: node }));
+  store.dispatch(changeSelectedNode({ node: node.attributes }));
 };
 const makeCustomNodes = (node) => {
   var truncated_id = truncate(node.id, 25);
