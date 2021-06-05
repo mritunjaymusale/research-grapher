@@ -1,24 +1,22 @@
 import React, { Suspense } from "react";
 import { Icon, ProgressBar } from "react-materialize";
 import { useSelector } from "react-redux";
-
+import PaperDetails from "./PaperDetails";
 const Card = React.lazy(() => import("react-materialize/lib/Card"));
 
 const LoadedPaper = () => {
   const paper = useSelector((state) => state.loadedPaper.paper);
   const success = useSelector((state) => state.loadedPaper.success);
   const isLoading = useSelector((state) => state.loadedPaper.isLoading);
-  let PaperDetails = null;
+
   let PaperLinks = null;
   if (success) {
-    PaperDetails = <PaperDetailsComponent paper={paper} />;
     PaperLinks = extractLinksFromPaper(paper);
-  } else {
   }
   return (
     <Suspense fallback={<ProgressBar />}>
       <Card title="Loaded Paper" actions={PaperLinks}>
-        {PaperDetails}
+        {success && <PaperDetails paper={paper} />}
       </Card>
     </Suspense>
   );
@@ -54,18 +52,4 @@ function extractLinksFromPaper(paper) {
       <URLComponent url={paper.url} id={paper.paperId} key={paper.paperId} />
     ),
   ];
-}
-
-function PaperDetailsComponent({ paper }) {
-  return (
-    <div>
-      {paper.title && <p>{"Title : " + paper.title}</p>}
-      {paper.authors && (
-        <p>{"Authors : " + paper.authors.map((author) => author.name)}</p>
-      )}
-      {paper.year && <p>{"Year : " + paper.year}</p>}
-      {paper.abstract && <p>{"Abstract : " + paper.abstract}</p>}
-      {paper.venue && <p>{"Venue : " + paper.venue}</p>}
-    </div>
-  );
 }

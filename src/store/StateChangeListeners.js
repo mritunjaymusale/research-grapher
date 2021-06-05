@@ -31,7 +31,7 @@ function updateLoadedPaper(response) {
     store.dispatch(
       updatePaper({ paper: response, success: false, isLoading: false })
     );
-    M.toast({ html: response.error });
+    M.toast({ html: response.error, displayLength:1000});
   }
 }
 

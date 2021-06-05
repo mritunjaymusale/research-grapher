@@ -21,6 +21,8 @@ import {
   beautifyNodes,
   convertToD3Graph,
 } from "./GraphOperations";
+import store from "../store/store";
+import { changeSelectedNode } from "../store/GraphSlice";
 
 const Card = React.lazy(() => import("react-materialize/lib/Card"));
 
@@ -45,7 +47,7 @@ const CitationGraph = () => {
           ref={addUnrealBloomPass}
           graphData={data}
           nodeThreeObject={makeCustomNodes}
-          onNodeClick={updateCurrentlySelectedNodeInStore}
+          onNodeClick={handleSelectedNode}
           backgroundColor="#101020"
           linkThreeObject={generateBrightLinks}
           cooldownTime={Infinity}
@@ -72,8 +74,8 @@ const generateBrightLinks = (link) => {
 
   return new Line(geometry, material);
 };
-const updateCurrentlySelectedNodeInStore = (node, event) => {
-  // TODO: deal with this when current node component is ready
+const handleSelectedNode = (node, event) => {
+  store.dispatch(changeSelectedNode({ node: node }));
 };
 const makeCustomNodes = (node) => {
   var truncated_id = truncate(node.id, 25);

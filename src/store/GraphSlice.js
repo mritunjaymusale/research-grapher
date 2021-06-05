@@ -3,6 +3,7 @@ import { DirectedGraph } from "graphology";
 
 export const initialState = {
   graph: new DirectedGraph(),
+  selectedNode: null,
 };
 
 const GraphSlice = createSlice({
@@ -15,9 +16,15 @@ const GraphSlice = createSlice({
         graph: actions.payload.graph,
       };
     },
+    changeSelectedNode: (state, actions) => {
+      return {
+        ...state,
+        selectedNode: actions.payload.node,
+      };
+    },
   },
 });
 
-export const { updateGraph } = GraphSlice.actions;
+export const { updateGraph, changeSelectedNode } = GraphSlice.actions;
 
 export default GraphSlice.reducer;
