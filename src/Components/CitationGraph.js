@@ -27,16 +27,13 @@ const Card = React.lazy(() => import("react-materialize/lib/Card"));
 const CitationGraph = () => {
   let data;
   let graph = useSelector((state) => state.graph.graph);
-  const ref = useRef(null);
   data = convertToD3Graph(graph);
   data = attachLabelsToEdges(data);
   data.nodes.map((node) => {
     return beautifyNodes(node);
   });
-  useEffect(() => {
-    addUnrealBloomPass(ref);
-    disableDefaultArrowKeysBehaviour();
-  }, [ref]);
+
+  disableDefaultArrowKeysBehaviour();
 
   return (
     <Suspense fallback={<ProgressBar />}>
@@ -45,7 +42,7 @@ const CitationGraph = () => {
           controlType="fly"
           width={window.innerWidth / 2.2}
           height={window.innerHeight / 2}
-          ref={ref}
+          ref={addUnrealBloomPass}
           graphData={data}
           nodeThreeObject={makeCustomNodes}
           onNodeClick={updateCurrentlySelectedNodeInStore}
@@ -59,33 +56,6 @@ const CitationGraph = () => {
 };
 
 export default CitationGraph;
-
-const Legends = [
-  <Row>
-    <Col>
-      <img src={circle_node} width="20px" alt="" /> - References
-    </Col>
-    <Col>
-      <img src={cone_node} width="20px" alt="" /> - Citations
-    </Col>
-  </Row>,
-  <Row>
-    <Col>
-      <p>
-        <span className="yellow-text"> Yellow </span>and{" "}
-        <span className="green-text">Green</span> denote{" "}
-        <span className="red-text">private </span>access papers.
-      </p>
-    </Col>
-    <Col>
-      <p>
-        <span className="purple-text">Purple </span>and{" "}
-        <span className="blue-text">Blue </span> denote{" "}
-        <span className="orange-text">public </span> access papers.
-      </p>
-    </Col>
-  </Row>,
-];
 
 const generateBrightLinks = (link) => {
   const linkColors = new Float32Array([255, 255, 255]);
@@ -117,17 +87,28 @@ const makeCustomNodes = (node) => {
 };
 
 const addUnrealBloomPass = (ref) => {
-  if (ref.current !== null) {
-    const fg = ref;
-    fg.d3Force("link").distance((link) => 500);
-    const bloomPass = new UnrealBloomPass();
-    bloomPass.strength = 0.3;
-    bloomPass.radius = 0.2;
-    bloomPass.exposure = 1.1;
-    bloomPass.threshold = 0.1;
-    fg.postProcessingComposer().addPass(bloomPass);
+  if (ref !== null) {
+    ref.d3Force("link").distance((link) => 500);
+
+    var bloomPassObject = ref
+      .postProcessingComposer()
+      .passes.find((x) => x instanceof UnrealBloomPass);
+
+    // if the render passes do not contain a bloom object then add it
+    if (!bloomPassObject) {
+      bloomPassObject = new UnrealBloomPass();
+      setBloomParameters(bloomPassObject);
+      ref.postProcessingComposer().addPass(bloomPassObject);
+    }
   }
 };
+
+function setBloomParameters(bloomPassObject) {
+  bloomPassObject.strength = 0.3;
+  bloomPassObject.radius = 0.2;
+  bloomPassObject.exposure = 0.7;
+  bloomPassObject.threshold = 0.1;
+}
 
 function disableDefaultArrowKeysBehaviour() {
   window.addEventListener(
@@ -161,3 +142,29 @@ function generateSpriteText(truncated_id, node) {
 function truncate(str, n) {
   return str.length > n ? str.substr(0, n - 1) + "..." : str;
 }
+const Legends = [
+  <Row>
+    <Col>
+      <img src={circle_node} width="20px" alt="" /> - References
+    </Col>
+    <Col>
+      <img src={cone_node} width="20px" alt="" /> - Citations
+    </Col>
+  </Row>,
+  <Row>
+    <Col>
+      <p>
+        <span className="yellow-text"> Yellow </span>and{" "}
+        <span className="green-text">Green</span> denote{" "}
+        <span className="red-text">private </span>access papers.
+      </p>
+    </Col>
+    <Col>
+      <p>
+        <span className="purple-text">Purple </span>and{" "}
+        <span className="blue-text">Blue </span> denote{" "}
+        <span className="orange-text">public </span> access papers.
+      </p>
+    </Col>
+  </Row>,
+];
