@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import GraphSlice from "./GraphSlice";
 import LoadedPaperSlice from "./LoadedPaperSlice";
 import paperInputSliceReducer from "./paperInputSlice";
@@ -15,12 +15,6 @@ const store = configureStore({
     loadedPaper: LoadedPaperSlice,
     graph: GraphSlice,
   },
-  middleware: getDefaultMiddleware({
-    serializableCheck: {
-      ignoredPaths: ["graph"],
-      ignoredActions: ["Graph/updateGraph"],
-    },
-  }),
 });
 
 const stateCallbackManager = new ReduxStateChangeListener(store);

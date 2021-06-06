@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Col, ProgressBar, Row } from "react-materialize";
 import { ForceGraph3D } from "react-force-graph";
 import {
@@ -15,7 +15,6 @@ import SpriteText from "three-spritetext";
 
 import circle_node from "./circle_node.svg";
 import cone_node from "./cone_node.svg";
-import { useSelector } from "react-redux";
 import {
   attachLabelsToEdges,
   beautifyNodes,
@@ -27,14 +26,14 @@ import { changeSelectedNode } from "../store/GraphSlice";
 const Card = React.lazy(() => import("react-materialize/lib/Card"));
 
 const CitationGraph = () => {
-  let data;
-  let graph = useSelector((state) => state.graph.graph);
-  data = convertToD3Graph(graph);
-  data = attachLabelsToEdges(data);
-  data.nodes.map((node) => {
-    return beautifyNodes(node);
-  });
+  
 
+  const [graph, setGraph] = useState(graphToD3Conversion(store.getState().graph.graph));
+
+  store.subscribe(() => {
+    setGraph(graphToD3Conversion(store.getState().graph.graph));
+    
+  });
   disableDefaultArrowKeysBehaviour();
 
   return (
@@ -45,7 +44,7 @@ const CitationGraph = () => {
           width={window.innerWidth / 2.2}
           height={window.innerHeight / 2}
           ref={addUnrealBloomPass}
-          graphData={data}
+          graphData={graph}
           nodeThreeObject={makeCustomNodes}
           onNodeClick={handleSelectedNode}
           backgroundColor="#101020"
@@ -104,6 +103,15 @@ const addUnrealBloomPass = (ref) => {
     }
   }
 };
+
+function graphToD3Conversion( graph) {
+ var  data = convertToD3Graph(graph);
+  data = attachLabelsToEdges(data);
+  data.nodes.map((node) => {
+    return beautifyNodes(node);
+  });
+  return data;
+}
 
 function setBloomParameters(bloomPassObject) {
   bloomPassObject.strength = 0.3;
