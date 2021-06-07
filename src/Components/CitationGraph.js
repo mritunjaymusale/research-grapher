@@ -1,18 +1,6 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Col, ProgressBar, Row } from "react-materialize";
 import { ForceGraph3D } from "react-force-graph";
-import {
-  Group,
-  Mesh,
-  MeshBasicMaterial,
-  LineBasicMaterial,
-  BufferGeometry,
-  BufferAttribute,
-  Line,
-} from "three";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
-import SpriteText from "three-spritetext";
-
 import circle_node from "./circle_node.svg";
 import cone_node from "./cone_node.svg";
 import {
@@ -22,20 +10,25 @@ import {
 } from "./GraphOperations";
 import store from "../store/store";
 import { changeSelectedNode } from "../store/GraphSlice";
+import { useSelector } from "react-redux";
+import { DirectedGraph } from "graphology";
+import {
+  addUnrealBloomPass,
+  generateBrightLinks,
+  makeCustomNodes,
+} from "./ThreeJsEffects";
 
 const Card = React.lazy(() => import("react-materialize/lib/Card"));
 
 const CitationGraph = () => {
-  
-
-  const [graph, setGraph] = useState(graphToD3Conversion(store.getState().graph.graph));
-
-  store.subscribe(() => {
-    setGraph(graphToD3Conversion(store.getState().graph.graph));
-    
-  });
+  const redux_graph_object = useSelector((state) => state.graph);
+  const [graph, setGraph] = useState(graphToD3Conversion(new DirectedGraph()));
   disableDefaultArrowKeysBehaviour();
-
+  useEffect(() => {
+    if (redux_graph_object.graph.toJSON().nodes.length !== graph.nodes.length) {
+      setGraph(graphToD3Conversion(redux_graph_object.graph));
+    }
+  }, [redux_graph_object, graph]);
   return (
     <Suspense fallback={<ProgressBar />}>
       <Card title="Citation Graph" actions={Legends}>
@@ -58,66 +51,17 @@ const CitationGraph = () => {
 
 export default CitationGraph;
 
-const generateBrightLinks = (link) => {
-  const linkColors = new Float32Array([255, 255, 255]);
-  const material = new LineBasicMaterial({
-    vertexColors: true,
-    transparent: true,
-  });
-  const geometry = new BufferGeometry();
-  geometry.setAttribute(
-    "position",
-    new BufferAttribute(new Float32Array(2 * 3), 3)
-  );
-  geometry.setAttribute("color", new BufferAttribute(linkColors, 3));
-
-  return new Line(geometry, material);
-};
 const handleSelectedNode = (node, event) => {
   store.dispatch(changeSelectedNode({ node: node.attributes }));
 };
-const makeCustomNodes = (node) => {
-  var truncated_id = truncate(node.id, 25);
-  const sprite = generateSpriteText(truncated_id, node);
 
-  const mesh = generateNodeGeometry(node);
-
-  var group = new Group();
-  group.add(sprite, mesh);
-  return group;
-};
-
-const addUnrealBloomPass = (ref) => {
-  if (ref !== null) {
-    ref.d3Force("link").distance((link) => 500);
-
-    var bloomPassObject = ref
-      .postProcessingComposer()
-      .passes.find((x) => x instanceof UnrealBloomPass);
-
-    // if the render passes do not contain a bloom object then add it
-    if (!bloomPassObject) {
-      bloomPassObject = new UnrealBloomPass();
-      setBloomParameters(bloomPassObject);
-      ref.postProcessingComposer().addPass(bloomPassObject);
-    }
-  }
-};
-
-function graphToD3Conversion( graph) {
- var  data = convertToD3Graph(graph);
+function graphToD3Conversion(graph) {
+  var data = convertToD3Graph(graph);
   data = attachLabelsToEdges(data);
   data.nodes.map((node) => {
     return beautifyNodes(node);
   });
   return data;
-}
-
-function setBloomParameters(bloomPassObject) {
-  bloomPassObject.strength = 0.3;
-  bloomPassObject.radius = 0.2;
-  bloomPassObject.exposure = 0.7;
-  bloomPassObject.threshold = 0.1;
 }
 
 function disableDefaultArrowKeysBehaviour() {
@@ -134,24 +78,6 @@ function disableDefaultArrowKeysBehaviour() {
   );
 }
 
-function generateNodeGeometry(node) {
-  const material = new MeshBasicMaterial({ color: node.node_color });
-
-  const mesh = new Mesh(node.geometry, material);
-  return mesh;
-}
-
-function generateSpriteText(truncated_id, node) {
-  const sprite = new SpriteText(truncated_id);
-  sprite.color = node.text_color;
-  sprite.textHeight = 18;
-  sprite.position.y = 11;
-  return sprite;
-}
-
-function truncate(str, n) {
-  return str.length > n ? str.substr(0, n - 1) + "..." : str;
-}
 const Legends = [
   <Row>
     <Col>

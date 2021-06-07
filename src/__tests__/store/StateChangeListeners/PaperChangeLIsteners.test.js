@@ -1,7 +1,7 @@
 import { addPaper } from "../../../store/paperInputSlice";
 import store from "../../../store/store";
 import { Papers } from "../../SampleData";
-describe.skip("StateChangeListener:PaperInputChangeListener", () => {
+describe("StateChangeListener:PaperInputChangeListener", () => {
   it("should load arxiv paper", async () => {
     const paperType = "arxiv";
     store.dispatch(

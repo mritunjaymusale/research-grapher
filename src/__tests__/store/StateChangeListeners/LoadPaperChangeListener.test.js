@@ -1,7 +1,7 @@
 import { addPaper } from "../../../store/paperInputSlice";
 import store from "../../../store/store";
 
-describe.skip("StateChangeListener:LoadedPaperChangeListener", () => {
+describe("StateChangeListener:LoadedPaperChangeListener", () => {
   it("should fire when Loadpaper changes", async () => {
     var paperId = "2105.04906";
     var paperType = "arxiv";
