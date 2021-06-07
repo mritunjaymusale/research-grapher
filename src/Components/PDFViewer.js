@@ -44,8 +44,9 @@ export const CardComponent = ({ url, id }) => {
           <Icon>open_in_new</Icon>
         </a>,
       ]}>
-      {/* TODO: fix the size of the iframe element */}
-      <iframe src={url} frameBorder="0"></iframe>
+      <div className="video-container">
+        <iframe src={url} frameBorder="0"></iframe>
+      </div>
     </Card>
   );
 };
