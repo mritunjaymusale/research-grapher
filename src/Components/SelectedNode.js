@@ -9,6 +9,7 @@ import * as M from "materialize-css";
 
 const PaperDetails = React.lazy(() => import("./PaperDetails"));
 const Card = React.lazy(() => import("react-materialize/lib/Card"));
+
 const SelectedNode = () => {
   const selectedNode = useSelector((state) => state.graph.selectedNode);
   let CardContent, CardActions;

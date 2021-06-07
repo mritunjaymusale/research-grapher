@@ -36,13 +36,23 @@ const GraphWithPaperDetails = () => {
   return (
     <Row>
       <Col l={6}>
-        <CitationGraph />
-        <SelectedNode />
-        <PaperInput />
+        <Suspense fallback={<ProgressBar />}>
+          <CitationGraph />
+        </Suspense>
+        <Suspense fallback={<ProgressBar />}>
+          <SelectedNode />
+        </Suspense>
+        <Suspense fallback={<ProgressBar />}>
+          <PaperInput />
+        </Suspense>
       </Col>
       <Col l={6}>
-        <LoadedPaper />
-        <PDFViewer />
+        <Suspense fallback={<ProgressBar />}>
+          <LoadedPaper />
+        </Suspense>
+        <Suspense fallback={<ProgressBar />}>
+          <PDFViewer />
+        </Suspense>
       </Col>
     </Row>
   );
