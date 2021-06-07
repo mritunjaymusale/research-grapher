@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { ProgressBar } from "react-materialize";
+import ProgressBar from "react-materialize/lib/ProgressBar";
 import { useSelector } from "react-redux";
 const Card = React.lazy(() => import("react-materialize/lib/Card"));
 const Icon = React.lazy(() => import("react-materialize/lib/Icon"));
@@ -14,8 +14,7 @@ const PDFViewer = () => {
       ShowPdf = (
         <CardComponent
           url={`https://arxiv.org/pdf/${paper.arxivId}.pdf`}
-          id={paper.arxivId}
-        ></CardComponent>
+          id={paper.arxivId}></CardComponent>
       );
     } else if (paper.doi) {
       ShowPdf = <DoiCard paper={paper} />;
@@ -44,8 +43,7 @@ export const CardComponent = ({ url, id }) => {
           {id}
           <Icon>open_in_new</Icon>
         </a>,
-      ]}
-    >
+      ]}>
       {/* TODO: fix the size of the iframe element */}
       <iframe src={url} frameBorder="0"></iframe>
     </Card>
@@ -70,8 +68,7 @@ function DoiCard({ paper }) {
         href={`https://doi.org/${paper.doi}`}
         key=""
         target="_blank"
-        rel="noopener noreferrer"
-      >
+        rel="noopener noreferrer">
         {paper.doi}
         <Icon>open_in_new</Icon>
       </a>

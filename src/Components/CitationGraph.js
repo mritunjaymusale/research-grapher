@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
-import { Col, ProgressBar, Row } from "react-materialize";
+import React, { Suspense, useEffect,  useState } from "react";
+import ProgressBar from "react-materialize/lib/ProgressBar";
 import { ForceGraph3D } from "react-force-graph";
 import circle_node from "./circle_node.svg";
 import cone_node from "./cone_node.svg";
@@ -19,6 +19,8 @@ import {
 } from "./ThreeJsEffects";
 
 const Card = React.lazy(() => import("react-materialize/lib/Card"));
+const Col = React.lazy(() => import("react-materialize/lib/Col"));
+const Row = React.lazy(() => import("react-materialize/lib/Row"));
 
 const CitationGraph = () => {
   const redux_graph_object = useSelector((state) => state.graph);

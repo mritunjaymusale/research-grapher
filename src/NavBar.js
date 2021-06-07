@@ -1,19 +1,18 @@
-import React from "react";
-import { Navbar } from "react-materialize";
+import React, { Suspense } from "react";
+import { ProgressBar } from "react-materialize";
 import * as M from "materialize-css";
-
+const Navbar = React.lazy(() => import("react-materialize/lib/Navbar"));
 export const NavBar = () => {
   return (
-    <React.Fragment>
+    <Suspense fallback={<ProgressBar />}>
       <Navbar
         brand={
           <a href="" className="center">
             Research Grapher
           </a>
         }
-        className="black"
-      ></Navbar>
-    </React.Fragment>
+        className="black"></Navbar>
+    </Suspense>
   );
 };
 

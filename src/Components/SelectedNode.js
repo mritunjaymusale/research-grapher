@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Card, ProgressBar } from "react-materialize";
+import ProgressBar from "react-materialize/lib/ProgressBar";
 import { useSelector } from "react-redux";
 import { updatePaper } from "../store/LoadedPaperSlice";
 import { getPaperFromApi } from "../store/SemanticScholarAPI";
@@ -8,7 +8,7 @@ import { PaperLinks } from "./PaperLinks";
 import * as M from "materialize-css";
 
 const PaperDetails = React.lazy(() => import("./PaperDetails"));
-
+const Card = React.lazy(() => import("react-materialize/lib/Card"));
 const SelectedNode = () => {
   const selectedNode = useSelector((state) => state.graph.selectedNode);
   let CardContent, CardActions;

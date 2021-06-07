@@ -1,22 +1,24 @@
 import React, { Suspense } from "react";
-import NavBar from "./NavBar";
 import * as M from "materialize-css";
-import { Col, ProgressBar, Row } from "react-materialize";
+import ProgressBar from "react-materialize/lib/ProgressBar";
 import { useSelector } from "react-redux";
-import PDFViewer from "./Components/PDFViewer";
-import LoadedPaper from "./Components/LoadedPaper";
-import CitationGraph from "./Components/CitationGraph";
-import SelectedNode from "./Components/SelectedNode";
+const NavBar = React.lazy(() => import("./NavBar"));
+const PDFViewer = React.lazy(() => import("./Components/PDFViewer"));
+const LoadedPaper = React.lazy(() => import("./Components/LoadedPaper"));
+const CitationGraph = React.lazy(() => import("./Components/CitationGraph"));
+const SelectedNode = React.lazy(() => import("./Components/SelectedNode"));
 const Container = React.lazy(() => import("react-materialize/lib/Container"));
 const PaperInput = React.lazy(() => import("./Components/PaperInput"));
+const Row = React.lazy(() => import("react-materialize/lib/Row"));
+const Col = React.lazy(() => import("react-materialize/lib/Col"));
 
 function App() {
   let isLoadedPaperReady = useSelector((state) => state.loadedPaper.success);
 
   return (
     <React.Fragment>
-      <NavBar />
       <Suspense fallback={<ProgressBar />}>
+        <NavBar />
         {!isLoadedPaperReady && (
           <Container>
             <PaperInput />

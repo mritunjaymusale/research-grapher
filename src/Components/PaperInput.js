@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from "react";
-import { ProgressBar } from "react-materialize";
+import ProgressBar  from "react-materialize/lib/ProgressBar";
 import { addPaper } from "../store/paperInputSlice";
 import { useDispatch } from "react-redux";
 
