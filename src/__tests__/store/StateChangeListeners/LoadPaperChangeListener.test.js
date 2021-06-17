@@ -12,7 +12,7 @@ describe("StateChangeListener:LoadedPaperChangeListener", () => {
     store.dispatch(addPaper({ paperId: paperId, paperType: paperType }));
     await new Promise((r) => setTimeout(r, 2000));
     expect(store.getState().graph.graph.toJSON().nodes.length).toStrictEqual(
-      108
+      111
     );
   });
 });
