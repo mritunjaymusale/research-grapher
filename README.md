@@ -5,7 +5,15 @@
 
 <br>
 
-The goal here is to provide references and citations in a given paper in a GUI friendly node network for easier access as compared to manually going through each reference and searching for it's citations online.
+## Goal
+
+A user-friendly GUI visualizing a node network <br>
+of references and citations in a given paper.
+
+Alleviating the need to manually check each <br>
+reference and search for it's citation online.
+
+
 
 This should drop the unnecessary visits to mulitple publications by half(hopefully) since the [API](https://api.semanticscholar.org/) being accessed here will give a arxiv link if availabe.
 
